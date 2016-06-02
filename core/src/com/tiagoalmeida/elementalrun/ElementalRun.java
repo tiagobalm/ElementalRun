@@ -1,18 +1,19 @@
 package com.tiagoalmeida.elementalrun;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.tiagoalmeida.elementalrun.Screens.MainMenu;
-import com.tiagoalmeida.elementalrun.Screens.PlayScreen;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.tiagoalmeida.elementalrun.Screens.LoadingScreen;
+import com.tiagoalmeida.elementalrun.Screens.SplashScreen;
 
 public class ElementalRun extends Game {
-	public static final int V_WIDTH = 400;
-	public static final int V_HEIGHT = 208;
+	public static final int V_WIDTH = 480;
+	public static final int V_HEIGHT = 420;
 	public static final float PPM = 100;
 
 	public static final short ORANGE_GROUND_BIT = 1;
@@ -23,44 +24,50 @@ public class ElementalRun extends Game {
 	public static final short PLAYER_BIT = 32;
 	public static final short DESTROY_BIT = 64;
 
+	/* WARNING Using AssetManager in a static way can cause issues, especially on Android.
+		Instead you may want to pass around AssetManager to those class that need it.
+ 	*/
+	private static AssetManager assets;
 	public SpriteBatch batch;
 
-	/* WARNING Using AssetManager in a static way can cause issues, especially on Android.
-	Instead you may want to pass around AssetManager to those class that need it.
-	 */
+	public BitmapFont font24;
+	public static OrthographicCamera camera;
 
-	private static AssetManager assets;
-
-	public BitmapFont font;
+	public LoadingScreen loadingScreen;
+	public SplashScreen splashScreen;
 
 	@Override
 	public void create () {
+
+		//Initalization of Sprite Batch and AssetManager
 		batch = new SpriteBatch();
-		font = new BitmapFont();
-		font.setColor(new Color(0,0,0,1));
-
 		assets = new AssetManager();
-		assets.load("audio/music/mario_music.ogg", Music.class);
-		assets.load("audio/sounds/coin.wav", Sound.class);
-		assets.load("audio/sounds/bump.wav", Sound.class);
-		assets.load("audio/sounds/breakblock.wav", Sound.class);
-		assets.load("audio/sounds/powerup_spawn.wav", Sound.class);
-		assets.load("audio/sounds/powerup.wav", Sound.class);
-		assets.finishLoading();
 
-		setScreen(new MainMenu(this));
+		//Camera Initialization
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, V_WIDTH, V_HEIGHT);
+
+		//Screen Singletons
+		loadingScreen = new LoadingScreen(this);
+		splashScreen = new SplashScreen(this);
+
+		//Initialization of Fonts
+		initFonts();
+
+		setScreen(loadingScreen);
+	}
+
+	private void initFonts() {
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/OpenSans-Regular.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+		parameters.size = 24;
+		parameters.color = Color.BLACK;
+		font24 = generator.generateFont(parameters);
 	}
 
 	public static AssetManager getAssets() {
 		return assets;
-	}
-
-
-	@Override
-	public void dispose() {
-		super.dispose();
-		assets.dispose();
-		batch.dispose();
 	}
 
 	@Override
@@ -68,4 +75,16 @@ public class ElementalRun extends Game {
 		super.render();
 
 	}
+
+	@Override
+	public void dispose() {
+		assets.dispose();
+		batch.dispose();
+		loadingScreen.dispose();
+		splashScreen.dispose();
+		font24.dispose();
+		super.dispose();
+		Gdx.app.log("Disposed", "Main Application");
+	}
+
 }

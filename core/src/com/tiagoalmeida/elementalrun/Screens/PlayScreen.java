@@ -21,9 +21,6 @@ import com.tiagoalmeida.elementalrun.Sprites.Player;
 import com.tiagoalmeida.elementalrun.Tools.B2WorldCreator;
 import com.tiagoalmeida.elementalrun.Tools.WorldContactListener;
 
-/**
- * Created by tiago on 01-06-2016.
- */
 public class PlayScreen implements Screen {
     private ElementalRun game;
     private OrthographicCamera gameCam;
@@ -45,7 +42,6 @@ public class PlayScreen implements Screen {
 
     private TextureAtlas atlas;
 
-    private Music music;
     private boolean debugMode;
 
 
@@ -84,9 +80,6 @@ public class PlayScreen implements Screen {
         player = new Player(this);
 
         world.setContactListener(new WorldContactListener());
-        music = ElementalRun.getAssets().get("audio/music/mario_music.ogg", Music.class);
-        music.setLooping(true);
-        music.play();
         debugMode = false;
 
     }
