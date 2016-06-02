@@ -1,0 +1,47 @@
+
+tiles.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+blackblock
+  rotate: false
+  xy: 1, 1
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+background
+  rotate: false
+  xy: 19, 1
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+blueblock
+  rotate: false
+  xy: 37, 1
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+bluediamond
+  rotate: false
+  xy: 55, 1
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+orangeblock
+  rotate: false
+  xy: 73, 1
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+orangediamond
+  rotate: false
+  xy: 91, 1
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
