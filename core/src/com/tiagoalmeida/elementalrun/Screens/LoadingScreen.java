@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
 import com.tiagoalmeida.elementalrun.ElementalRun;
 
 public class LoadingScreen implements Screen {
@@ -16,9 +18,21 @@ public class LoadingScreen implements Screen {
     private ShapeRenderer shapeRenderer;
     private float progress;
 
+    private Socket socket;
+
     public LoadingScreen(ElementalRun game) {
         this.game = game;
         this.shapeRenderer = new ShapeRenderer();
+        connectSocket();
+    }
+
+    private void connectSocket() {
+        try {
+            socket = IO.socket("http://elementalrun-lpoo.rhcloud.com");
+            socket.connect();
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -89,5 +103,10 @@ public class LoadingScreen implements Screen {
     private void queueAssests() {
         game.getAssets().load("badlogic.jpg", Texture.class);
         game.getAssets().load("UI/uiskin.atlas", TextureAtlas.class);
+        game.getAssets().load("Player/player.png", Texture.class);
+        game.getAssets().load("Player/player.pack", TextureAtlas.class);
+        game.getAssets().load("firesheet.png", Texture.class);
+        game.getAssets().load("watersheet.png", Texture.class);
+        game.getAssets().load("highScores.jpg", Texture.class);
     }
 }

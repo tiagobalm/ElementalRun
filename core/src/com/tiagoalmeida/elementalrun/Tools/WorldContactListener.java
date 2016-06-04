@@ -9,9 +9,7 @@ import com.tiagoalmeida.elementalrun.ElementalRun;
 import com.tiagoalmeida.elementalrun.Sprites.Items.InteractiveTileObject;
 import com.tiagoalmeida.elementalrun.Sprites.Player;
 
-/**
- * Created by tiago on 01-06-2016.
- */
+
 public class WorldContactListener implements ContactListener {
 
     @Override

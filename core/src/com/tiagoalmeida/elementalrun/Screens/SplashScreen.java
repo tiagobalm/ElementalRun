@@ -41,7 +41,7 @@ public class SplashScreen implements Screen {
         splashImage.setPosition(game.V_WIDTH / 2 - splashImage.getWidth() / 2, game.V_HEIGHT / 2 - splashImage.getHeight() / 2);
         splashImage.addAction(Actions.sequence(Actions.alpha(0f),
                 Actions.scaleTo(0.5f, 0.5f),
-                Actions.parallel(Actions.scaleTo(1f, 1f, 1.5f), Actions.alpha(1f, 1.5f)),
+                Actions.parallel(Actions.scaleTo(0.8f, 0.8f, 1.5f), Actions.alpha(1f, 1.5f)),
                 Actions.delay(0.5f),
                 Actions.parallel(Actions.scaleTo(0.5f, 0.5f, 1.5f), Actions.alpha(0f, 1.5f)), Actions.run(transitionRunnable)));
     }

@@ -14,9 +14,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.tiagoalmeida.elementalrun.ElementalRun;
 
-/**
- * Created by tiago on 02-06-2016.
- */
 public class GameOverScreen implements Screen {
     private Viewport viewport;
     private Stage stage;
@@ -55,7 +52,7 @@ public class GameOverScreen implements Screen {
             game.setScreen(new PlayScreen((ElementalRun)game));
             dispose();
         }
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
     }

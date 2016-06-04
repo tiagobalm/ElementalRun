@@ -12,9 +12,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.tiagoalmeida.elementalrun.ElementalRun;
 
-/**
- * Created by tiago on 01-06-2016.
- */
 public class HUD implements Disposable {
     public Stage stage;
     private Viewport viewport;

@@ -1,6 +1,5 @@
 package com.tiagoalmeida.elementalrun.Sprites;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -8,16 +7,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.tiagoalmeida.elementalrun.ElementalRun;
 import com.tiagoalmeida.elementalrun.Screens.PlayScreen;
 
-/**
- * Created by tiago on 01-06-2016.
- */
+
 public class Player extends Sprite {
     public enum State {FALLING, JUMPING, STANDING, RUNNING, DEAD};
     public State currentState;
@@ -25,9 +21,13 @@ public class Player extends Sprite {
     public World world;
     public Body b2Body;
 
-    private TextureRegion marioStand;
-    private Animation marioRun;
-    private TextureRegion marioJump;
+    private TextureRegion firecatStand;
+    private Animation firecat;
+    private Animation firecatJump;
+
+    private TextureRegion watercatStand;
+    private Animation watercat;
+    private Animation watercatJump;
 
     private float stateTimer;
     private boolean runningRight;
@@ -44,17 +44,33 @@ public class Player extends Sprite {
         isDead = false;
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
-        for(int i = 1; i < 4; i++)
-            frames.add(new TextureRegion(screen.getAtlas().findRegion("little_mario"), i * 16, 0, 16, 16));
-        marioRun = new Animation(0.1f, frames);
+        for(int i = 0; i < 5; i++)
+            frames.add(new TextureRegion(screen.getAtlas().findRegion("watercat"), i * 23, 0, 23, 16));
+        watercat = new Animation(0.1f, frames);
         frames.clear();
 
-        marioJump = new TextureRegion(screen.getAtlas().findRegion("little_mario"), 80, 0, 16, 16);
-        marioStand = new TextureRegion(screen.getAtlas().findRegion("little_mario"), 0, 0, 16, 16);
+        for(int i = 5; i < 12; i++)
+            frames.add(new TextureRegion(screen.getAtlas().findRegion("watercat"), i * 23, 0, 23, 16));
+        watercatJump = new Animation(0.1f, frames);
+        frames.clear();
+
+        watercatStand = new TextureRegion(screen.getAtlas().findRegion("watercat"), 0, 0, 23, 16);
+
+        for(int i = 0; i < 5; i++)
+            frames.add(new TextureRegion(screen.getAtlas().findRegion("firecat"), i * 23, 0, 23, 16));
+        firecat = new Animation(0.1f, frames);
+        frames.clear();
+
+        for(int i = 5; i < 12; i++)
+            frames.add(new TextureRegion(screen.getAtlas().findRegion("firecat"), i * 23, 0, 23, 16));
+        firecatJump = new Animation(0.1f, frames);
+        frames.clear();
+
+        firecatStand = new TextureRegion(screen.getAtlas().findRegion("firecat"), 0, 0, 23, 16);
 
         defineMario();
         setBounds(0, 0, 16 / ElementalRun.PPM, 16 / ElementalRun.PPM);
-        setRegion(marioStand);
+        setRegion(firecatStand);
     }
 
     public float getStateTimer() {
@@ -98,15 +114,15 @@ public class Player extends Sprite {
         TextureRegion region;
         switch (currentState) {
             case JUMPING:
-                region = marioJump;
+            case FALLING:
+                region = isOrange() ? firecatJump.getKeyFrame(stateTimer, true) : watercatJump.getKeyFrame(stateTimer, true);
                 break;
             case RUNNING:
-                region =marioRun.getKeyFrame(stateTimer, true);
+                region = isOrange() ? firecat.getKeyFrame(stateTimer, true) : watercat.getKeyFrame(stateTimer, true);
                 break;
-            case FALLING:
             case STANDING:
             default:
-                region = marioStand;
+                region = isOrange() ? firecatStand : watercatStand;
                 break;
         }
 

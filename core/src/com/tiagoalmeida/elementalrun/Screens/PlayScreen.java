@@ -3,9 +3,9 @@ package com.tiagoalmeida.elementalrun.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -51,6 +51,9 @@ public class PlayScreen implements Screen {
         //Creates camera to follow mario
         gameCam = new OrthographicCamera();
 
+        //initially set our gameCam to be centered correctly at the start of the game
+        gameCam.setToOrtho(false, ElementalRun.V_WIDTH / ElementalRun.PPM, ElementalRun.V_HEIGHT / ElementalRun.PPM);
+
         //Creates a FitViewPort to maintain virtual aspect ratio despite window size
         gamePort = new FitViewport(ElementalRun.V_WIDTH / ElementalRun.PPM, ElementalRun.V_HEIGHT / ElementalRun.PPM, gameCam);
 
@@ -62,9 +65,6 @@ public class PlayScreen implements Screen {
         map = mapLoader.load("Map.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 1  / ElementalRun.PPM);
 
-        //initially set our gameCam to be centered correctly at the start of the game
-        gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
-
         //Gravity
         world = new World(new Vector2(0, -10), true);
 
@@ -72,7 +72,7 @@ public class PlayScreen implements Screen {
         b2dr = new Box2DDebugRenderer();
 
         //Sprite sheet
-        atlas = new TextureAtlas("Mario_and_Enemies.pack");
+        atlas = game.getAssets().get("Player/player.pack", TextureAtlas.class);
 
         creator = new B2WorldCreator(this);
 
@@ -133,7 +133,8 @@ public class PlayScreen implements Screen {
 
         hud.update(deltaTime);
 
-        gameCam.position.x = player.b2Body.getPosition().x;
+        //TODO Find out a better way to do this
+        gameCam.position.x = player.b2Body.getPosition().x + gamePort.getWorldWidth() / 2 - 50 / ElementalRun.PPM;
 
         gameCam.update();
         renderer.setView(gameCam);

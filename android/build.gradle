@@ -1,6 +1,6 @@
 android {
     buildToolsVersion "23.0.3"
-    compileSdkVersion 23
+    compileSdkVersion 22
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -17,7 +17,7 @@ android {
     defaultConfig {
         applicationId "com.tiagoalmeida.elementalrun"
         minSdkVersion 8
-        targetSdkVersion 23
+        targetSdkVersion 22
     }
 }
 
