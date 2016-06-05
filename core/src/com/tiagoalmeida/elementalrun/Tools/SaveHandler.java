@@ -1,24 +1,40 @@
 package com.tiagoalmeida.elementalrun.Tools;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 
 public class SaveHandler {
 
     public static GameData gameData;
 
+    public static byte[] serialize(Object obj) throws IOException{
+        ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
+        ObjectOutputStream objectOut = new ObjectOutputStream(byteArrayOut);
+        objectOut.writeObject(obj);
+        return byteArrayOut.toByteArray();
+
+    }
+
+    public static Object deserialize(byte[] objectBytes) throws IOException, ClassNotFoundException {
+        ByteArrayInputStream byteArrayIn = new ByteArrayInputStream(objectBytes);
+        ObjectInputStream objectIn = new ObjectInputStream(byteArrayIn);
+        return objectIn.readObject();
+    }
+
     public static void save(){
         try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    new FileOutputStream("highScores.save")
-            );
-            outputStream.writeObject(gameData);
-            outputStream.close();
+            OutputStream outputStream = null;
+            FileHandle file = Gdx.files.local("highScores.save");
+            file.writeBytes(serialize(gameData), false);
+            if(outputStream != null) outputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
             Gdx.app.exit();
@@ -31,12 +47,11 @@ public class SaveHandler {
                 init();
                 return;
             }
-
-            ObjectInputStream inputStream = new ObjectInputStream(
-                    new FileInputStream("highScores.save")
-            );
-            gameData = (GameData)inputStream.readObject();
-            inputStream.close();
+            System.out.println("loading");
+            InputStream inputStream = null;
+            FileHandle fileHandle = Gdx.files.local("highScores.save");
+            gameData = (GameData)deserialize(fileHandle.readBytes());
+            if(inputStream != null) inputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
             Gdx.app.exit();
@@ -44,7 +59,7 @@ public class SaveHandler {
     }
 
     public static boolean saveFileExists() {
-        File saveFile = new File("highScores.save");
+        FileHandle saveFile = Gdx.files.local("highScores.save");
         return saveFile.exists();
     }
 

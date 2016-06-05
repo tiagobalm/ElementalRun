@@ -1,6 +1,5 @@
 package com.tiagoalmeida.elementalrun.Screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -18,9 +17,9 @@ public class GameOverScreen implements Screen {
     private Viewport viewport;
     private Stage stage;
 
-    private Game game;
+    private ElementalRun game;
 
-    public GameOverScreen(Game game){
+    public GameOverScreen(ElementalRun game){
         this.game = game;
         viewport = new FitViewport(ElementalRun.V_WIDTH, ElementalRun.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, ((ElementalRun)game).batch);
@@ -49,7 +48,7 @@ public class GameOverScreen implements Screen {
     @Override
     public void render(float delta) {
         if(Gdx.input.justTouched()) {
-            game.setScreen(new PlayScreen((ElementalRun)game));
+            game.setScreen(new MainMenuScreen(game));
             dispose();
         }
         Gdx.gl.glClearColor(1, 1, 1, 1);

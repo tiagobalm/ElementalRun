@@ -16,9 +16,6 @@ import com.tiagoalmeida.elementalrun.ElementalRun;
 import com.tiagoalmeida.elementalrun.Screens.PlayScreen;
 import com.tiagoalmeida.elementalrun.Sprites.Player;
 
-/**
- * Created by brentaureli on 8/28/15.
- */
 public abstract class InteractiveTileObject {
     protected World world;
     protected TiledMap map;

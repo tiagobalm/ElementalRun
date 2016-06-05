@@ -7,8 +7,8 @@ import com.tiagoalmeida.elementalrun.ElementalRun;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 480;
-		config.height = 420;
+		config.width = 1980;
+		config.height = 1020;
 		new LwjglApplication(new ElementalRun(), config);
 	}
 }

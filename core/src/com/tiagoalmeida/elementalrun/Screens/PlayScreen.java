@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -22,7 +21,7 @@ import com.tiagoalmeida.elementalrun.Tools.B2WorldCreator;
 import com.tiagoalmeida.elementalrun.Tools.WorldContactListener;
 
 public class PlayScreen implements Screen {
-    private ElementalRun game;
+    public ElementalRun game;
     private OrthographicCamera gameCam;
     private Viewport gamePort;
     private HUD hud;
@@ -44,9 +43,12 @@ public class PlayScreen implements Screen {
 
     private boolean debugMode;
 
+    //Level to play
+    private int level;
 
-    public PlayScreen(ElementalRun game) {
+    public PlayScreen(ElementalRun game, int level) {
         this.game = game;
+        this.level = level;
 
         //Creates camera to follow mario
         gameCam = new OrthographicCamera();
@@ -62,8 +64,9 @@ public class PlayScreen implements Screen {
 
         //Load or map and setup our map renderer
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("Map.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, 1  / ElementalRun.PPM);
+        String s = String.format("Level%d.tmx", level);
+        map = mapLoader.load(s);
+        renderer = new OrthogonalTiledMapRenderer(map, 1 / ElementalRun.PPM);
 
         //Gravity
         world = new World(new Vector2(0, -10), true);
@@ -72,7 +75,7 @@ public class PlayScreen implements Screen {
         b2dr = new Box2DDebugRenderer();
 
         //Sprite sheet
-        atlas = game.getAssets().get("Player/player.pack", TextureAtlas.class);
+        //atlas = game.getAssets().get("Player/player.pack", TextureAtlas.class);
 
         creator = new B2WorldCreator(this);
 
@@ -80,7 +83,7 @@ public class PlayScreen implements Screen {
         player = new Player(this);
 
         world.setContactListener(new WorldContactListener());
-        debugMode = false;
+        debugMode = true;
 
     }
 
@@ -102,7 +105,7 @@ public class PlayScreen implements Screen {
     }
 
     public boolean gameOver(){
-        if(player.currentState == Player.State.DEAD && player.getStateTimer() > 3){
+        if(player.isDead()){
             return true;
         }
         return false;
@@ -110,9 +113,12 @@ public class PlayScreen implements Screen {
 
     public void handleInput(float deltaTime) {
 
+        //KeyBoard Input
         //UP Key Input (Jump)
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
-            player.b2Body.applyLinearImpulse(new Vector2(0, 4f), player.b2Body.getWorldCenter(), true);
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            player.b2Body.setLinearVelocity(new Vector2(4f, 0f));
+            player.b2Body.applyLinearImpulse(new Vector2(0, 6f), player.b2Body.getWorldCenter(), true);
+        }
 
         //Changing color
         if(Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
@@ -120,6 +126,19 @@ public class PlayScreen implements Screen {
                 player.setOrange(false);
             else
                 player.setOrange(true);
+        }
+
+        //Touch Input
+        if(Gdx.input.isTouched()) {
+            if(Gdx.input.getX()< Gdx.graphics.getWidth() / 2) {
+                if(player.isOrange())
+                    player.setOrange(false);
+                else
+                    player.setOrange(true);
+            } else {
+                player.b2Body.setLinearVelocity(new Vector2(4f, 0f));
+                player.b2Body.applyLinearImpulse(new Vector2(0, 6f), player.b2Body.getWorldCenter(), true);
+            }
         }
     }
 
@@ -134,7 +153,7 @@ public class PlayScreen implements Screen {
         hud.update(deltaTime);
 
         //TODO Find out a better way to do this
-        gameCam.position.x = player.b2Body.getPosition().x + gamePort.getWorldWidth() / 2 - 50 / ElementalRun.PPM;
+        gameCam.position.x = player.b2Body.getPosition().x + game.V_WIDTH / 4 / ElementalRun.PPM;
 
         gameCam.update();
         renderer.setView(gameCam);
@@ -145,7 +164,7 @@ public class PlayScreen implements Screen {
         update(delta);
 
         //Clears the screen with black
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //render our game map

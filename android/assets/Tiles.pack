@@ -1,0 +1,33 @@
+
+Tiles.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+FireTile
+  rotate: false
+  xy: 1, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+BlackTile
+  rotate: false
+  xy: 67, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+WaterTile
+  rotate: false
+  xy: 133, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+Background
+  rotate: false
+  xy: 199, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1

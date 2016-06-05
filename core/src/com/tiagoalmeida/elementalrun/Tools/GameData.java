@@ -10,10 +10,12 @@ public class GameData implements Serializable {
 
     private final int MAX_SCORES = 3;
     private int[] highScores;
+    private int currentLevel;
 
     private int testHighScore;
 
     public GameData() {
+        currentLevel = 1;
         highScores = new int[MAX_SCORES];
     }
 
@@ -24,6 +26,8 @@ public class GameData implements Serializable {
     }
 
     public int[] getHighScores() { return highScores; }
+
+    public int getCurrentLevel() { return currentLevel; }
 
     public int getTestHighScore() { return testHighScore; }
     public void setTestHighScore(int score) { this.testHighScore = score;}

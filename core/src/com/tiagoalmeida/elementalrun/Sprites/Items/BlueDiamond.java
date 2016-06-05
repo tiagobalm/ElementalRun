@@ -6,9 +6,7 @@ import com.tiagoalmeida.elementalrun.ElementalRun;
 import com.tiagoalmeida.elementalrun.Scenes.HUD;
 import com.tiagoalmeida.elementalrun.Screens.PlayScreen;
 
-/**
- * Created by brentaureli on 8/28/15.
- */
+
 public class BlueDiamond extends InteractiveTileObject {
     private static TiledMapTileSet tileSet;
 

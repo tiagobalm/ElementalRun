@@ -25,14 +25,14 @@ public class SplashScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        Texture splashTexture = game.getAssets().get("badlogic.jpg", Texture.class);
+        Texture splashTexture = game.getAssets().get("TariLogo.png", Texture.class);
         splashImage = new Image(splashTexture);
         splashImage.setOrigin(splashTexture.getWidth() / 2, splashTexture.getHeight() / 2);
 
         Runnable transitionRunnable = new Runnable() {
             @Override
             public void run() {
-                game.setScreen(new MainMenu(game));
+                game.setScreen(new MainMenuScreen(game));
             }
         };
 

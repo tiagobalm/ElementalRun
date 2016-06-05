@@ -41,10 +41,10 @@ public class HUD implements Disposable {
 
         countDownLabel = new Label(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         scoreLabel = new Label(String.format("%06d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        timeLabel = new Label("Time", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        levelLabel = new Label("1-1", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        worldLabel = new Label("World", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        marioLabel = new Label("Player", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        timeLabel = new Label("Time", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        levelLabel = new Label("1-1", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        worldLabel = new Label("World", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        marioLabel = new Label("Player", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
 
         table.add(marioLabel).expandX().padTop(10);
         table.add(worldLabel).expandX().padTop(10);

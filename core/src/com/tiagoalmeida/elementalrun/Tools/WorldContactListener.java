@@ -33,20 +33,6 @@ public class WorldContactListener implements ContactListener {
                 else
                     ((InteractiveTileObject)fixB.getUserData()).use();
                 break;
-
-            case ElementalRun.PLAYER_BIT | ElementalRun.ORANGE_GROUND_BIT:
-                if(fixA.getFilterData().categoryBits == ElementalRun.PLAYER_BIT && !((Player)fixA.getUserData()).isOrange())
-                    ((Player)fixA.getUserData()).setDead(true);
-                if(fixB.getFilterData().categoryBits == ElementalRun.PLAYER_BIT && !((Player)fixB.getUserData()).isOrange())
-                    ((Player)fixB.getUserData()).setDead(true);
-                break;
-
-            case ElementalRun.PLAYER_BIT | ElementalRun.BLUE_GROUND_BIT:
-                if(fixA.getFilterData().categoryBits == ElementalRun.PLAYER_BIT && ((Player)fixA.getUserData()).isOrange())
-                    ((Player)fixA.getUserData()).setDead(true);
-                if(fixB.getFilterData().categoryBits == ElementalRun.PLAYER_BIT && ((Player)fixB.getUserData()).isOrange())
-                    ((Player)fixB.getUserData()).setDead(true);
-                break;
         }
     }
 

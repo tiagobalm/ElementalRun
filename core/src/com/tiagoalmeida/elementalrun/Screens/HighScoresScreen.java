@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.tiagoalmeida.elementalrun.ElementalRun;
 import com.tiagoalmeida.elementalrun.Tools.SaveHandler;
 
-public class HighScoresScreen implements Screen {
+public class HighScoresScreen implements Screen  {
 
     private ElementalRun game;
     private int[] highScores;
@@ -64,7 +64,7 @@ public class HighScoresScreen implements Screen {
 
     private void handleInput() {
         if(Gdx.input.isTouched()) {
-            game.setScreen(new MainMenu(game));
+            game.setScreen(new MainMenuScreen(game));
             dispose();
         }
     }

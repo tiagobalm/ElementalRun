@@ -1,8 +1,6 @@
 package com.tiagoalmeida.elementalrun.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -27,14 +25,13 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.tiagoalmeida.elementalrun.ElementalRun;
 import com.tiagoalmeida.elementalrun.Tools.AnimatedImage;
 
-public class MainMenu implements Screen {
+public class MainMenuScreen implements Screen {
     private final ElementalRun game;
     private Stage stage;
     private OrthographicCamera camera;
-    private Skin titleSkin, clickContinueSkin;
-    private Table table, clickContinueTable;
-    private Label title, clickContinue;
-    private BitmapFont font24, font36;
+    private Table table;
+    private Label title, clickContinue, clickExit;
+    private BitmapFont font120, font180;
 
     private TextureRegion[] fireTextureRegion;
     private AnimatedImage fireSprite;
@@ -46,22 +43,15 @@ public class MainMenu implements Screen {
     private TextureRegionDrawable highScoresTexture;
     private ImageButton highScores;
 
-    private boolean goPlayScreen, goHighScoreScreen;
-
-    public MainMenu(ElementalRun game) {
+    public MainMenuScreen(ElementalRun game) {
         this.game = game;
         this.camera = game.camera;
-        this.goPlayScreen = false;
-        this.goHighScoreScreen = false;
         this.stage = new Stage(new FitViewport(game.V_WIDTH, game.V_HEIGHT, camera));
         Gdx.input.setInputProcessor(stage);
 
         this.table = new Table();
         this.table.setBounds(0, 0, game.V_WIDTH, game.V_HEIGHT);
         this.table.debug();
-
-        this.clickContinueTable = new Table();
-        this.clickContinueTable.debug();
 
         this.fireTextureRegion = TextureRegion.split(game.getAssets().get("firesheet.png", Texture.class), 77, 156)[0];
         this.fireSprite = new AnimatedImage(new Animation(0.15f, fireTextureRegion));
@@ -74,16 +64,14 @@ public class MainMenu implements Screen {
         this.waterSprite = new AnimatedImage(new Animation(0.1f, waterTextureRegion));
 
         highScoresTexture = new TextureRegionDrawable(
-                new TextureRegion(game.getAssets().get("highScores.jpg", Texture.class)));
+                new TextureRegion(game.getAssets().get("highScores.png", Texture.class)));
         this.highScores = new ImageButton(highScoresTexture);
-        highScores.addListener(
-                new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        //TODO Figure out why is it not being called!!!
-                        goHighScoreScreen = true;
-                    }
-                }
+        highScores.addListener(new ClickListener() {
+           @Override
+           public void clicked(InputEvent event, float x, float y) {
+              setHighScores();
+           }
+       }
         );
         initFonts();
         initLayers();
@@ -93,47 +81,55 @@ public class MainMenu implements Screen {
         game.setScreen(new HighScoresScreen(game));
         dispose();
     }
-    private void setPlayScreen() {
-        game.setScreen(new PlayScreen(game));
+    private void setLevelsScreen() {
+        game.setScreen(new LevelScreen(game));
         dispose();
     }
 
     private void initFonts() {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/OpenSans-Regular.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/OpenSans-Light.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        parameters.size = 24;
+        parameters.size = 120;
         parameters.color = Color.BLACK;
-        font24 = generator.generateFont(parameters);
+        parameters.minFilter = Texture.TextureFilter.Linear;
+        parameters.magFilter = Texture.TextureFilter.Linear;
+        font120 = generator.generateFont(parameters);
 
-        parameters.size = 36;
+        parameters.size = 180;
         parameters.color = Color.BLACK;
-        font36 = generator.generateFont(parameters);
+        parameters.minFilter = Texture.TextureFilter.Linear;
+        parameters.magFilter = Texture.TextureFilter.Linear;
+        font180 = generator.generateFont(parameters);
     }
 
     private void initLayers() {
-        this.titleSkin = new Skin();
-        this.titleSkin.addRegions(game.getAssets().get("UI/uiskin.atlas", TextureAtlas.class));
-        this.titleSkin.add("default-font", font36);
-        this.titleSkin.load(Gdx.files.internal("UI/uiskin.json"));
+        title = new Label("Elemental Run", new Label.LabelStyle(font180, Color.BLACK));
+        table.add(title).expandX().center().colspan(2).row();
 
-        title = new Label("Elemental Run", titleSkin);
-        table.add(title).colspan(2).expandX().center().row();
-
-        this.clickContinueSkin = new Skin();
-        this.clickContinueSkin.addRegions(game.getAssets().get("UI/uiskin.atlas", TextureAtlas.class));
-        this.clickContinueSkin.add("default-font", font24);
-        this.clickContinueSkin.load(Gdx.files.internal("UI/uiskin.json"));
-
-        clickContinue = new Label("Tap to begin", clickContinueSkin);
-        clickContinueTable.setTransform(true);
-        clickContinueTable.add(clickContinue);
-        clickContinueTable.setOrigin(clickContinue.getWidth() / 2, clickContinue.getHeight() / 2);
-        clickContinueTable.addAction(Actions.forever(Actions.sequence(Actions.parallel(Actions.moveBy(0f, 10f, 1f), Actions.alpha(0.5f, 1f)),
+        clickContinue = new Label("Start", new Label.LabelStyle(font120, Color.BLACK));
+        clickContinue.addAction(Actions.forever(Actions.sequence(Actions.parallel(Actions.moveBy(0f, 10f, 1f), Actions.alpha(0.5f, 1f)),
                 Actions.parallel(Actions.moveBy(0f, -10f, 1f), Actions.alpha(1f, 1f)))));
-        table.add(clickContinueTable).colspan(2).expandY().row();
+        clickContinue.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                setLevelsScreen();
+            }
+        });
+        table.add(clickContinue).expandY();
 
-        table.add(highScores).width(100).height(100).colspan(2).right();
+        clickExit = new Label("Exit", new Label.LabelStyle(font120, Color.BLACK));
+        clickExit.addAction(Actions.forever(Actions.sequence(Actions.parallel(Actions.moveBy(0f, 10f, 1f), Actions.alpha(0.5f, 1f)),
+                Actions.parallel(Actions.moveBy(0f, -10f, 1f), Actions.alpha(1f, 1f)))));
+        clickExit.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
+        table.add(clickExit).expandY().row();
+
+        table.add(highScores).width(game.V_WIDTH / 4).height(game.V_HEIGHT / 4).colspan(2).right();
         stage.addActor(table);
     }
 
@@ -148,33 +144,14 @@ public class MainMenu implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         update(delta);
-        game.batch.begin();
-        game.batch.draw(fireSprite.getTexture(), game.V_WIDTH / 3 - fireSprite.getWidth() / 2, game.V_HEIGHT / 2);
-        game.batch.draw(waterSprite.getTexture(), 2 * game.V_WIDTH / 3 - waterSprite.getWidth() / 2, game.V_HEIGHT / 2);
-        game.batch.end();
         stage.draw();
 
-        if(goHighScoreScreen) {
-            System.out.println("Setting high score screen");
-            setHighScores();
-        }
-        else if(!goHighScoreScreen && goPlayScreen) {
-            System.out.println("Setting play score screen");
-            setPlayScreen();
-        }
     }
 
     private void update(float delta) {
         stage.act(delta);
         fireSprite.act(delta);
         waterSprite.act(delta);
-        handleInputs();
-    }
-
-    private void handleInputs() {
-        if(Gdx.input.isTouched()) {
-            //goPlayScreen = true;
-        }
     }
 
     @Override
@@ -200,8 +177,6 @@ public class MainMenu implements Screen {
     @Override
     public void dispose() {
         this.stage.dispose();
-        this.titleSkin.dispose();
-        this.clickContinueSkin.dispose();
         Gdx.app.log("Disposed", "Main Menu");
     }
 }

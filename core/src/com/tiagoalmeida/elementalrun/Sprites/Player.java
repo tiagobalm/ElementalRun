@@ -1,15 +1,16 @@
 package com.tiagoalmeida.elementalrun.Sprites;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
 import com.tiagoalmeida.elementalrun.ElementalRun;
 import com.tiagoalmeida.elementalrun.Screens.PlayScreen;
 
@@ -21,13 +22,14 @@ public class Player extends Sprite {
     public World world;
     public Body b2Body;
 
-    private TextureRegion firecatStand;
-    private Animation firecat;
-    private Animation firecatJump;
+    private Texture playerTexture;
+    private TextureRegion[] playerTextureRegion;
 
-    private TextureRegion watercatStand;
-    private Animation watercat;
-    private Animation watercatJump;
+    private Animation firePlayer;
+    private TextureRegion firePlayerJump;
+
+    private Animation waterPlayer;
+    private TextureRegion waterPlayerJump;
 
     private float stateTimer;
     private boolean runningRight;
@@ -43,34 +45,19 @@ public class Player extends Sprite {
         isOrange = true;
         isDead = false;
 
-        Array<TextureRegion> frames = new Array<TextureRegion>();
-        for(int i = 0; i < 5; i++)
-            frames.add(new TextureRegion(screen.getAtlas().findRegion("watercat"), i * 23, 0, 23, 16));
-        watercat = new Animation(0.1f, frames);
-        frames.clear();
+        playerTexture = screen.game.getAssets().get("Player/player.png", Texture.class);
+        playerTextureRegion = new TextureRegion(playerTexture).split(130, 172)[1];
 
-        for(int i = 5; i < 12; i++)
-            frames.add(new TextureRegion(screen.getAtlas().findRegion("watercat"), i * 23, 0, 23, 16));
-        watercatJump = new Animation(0.1f, frames);
-        frames.clear();
+        waterPlayer = new Animation(0.08f, playerTextureRegion);
+        waterPlayerJump = playerTextureRegion[playerTextureRegion.length - 1];
 
-        watercatStand = new TextureRegion(screen.getAtlas().findRegion("watercat"), 0, 0, 23, 16);
+        playerTextureRegion = new TextureRegion(playerTexture).split(130, 172)[0];
+        firePlayer = new Animation(0.08f, playerTextureRegion);
+        firePlayerJump = playerTextureRegion[playerTextureRegion.length - 1];
 
-        for(int i = 0; i < 5; i++)
-            frames.add(new TextureRegion(screen.getAtlas().findRegion("firecat"), i * 23, 0, 23, 16));
-        firecat = new Animation(0.1f, frames);
-        frames.clear();
-
-        for(int i = 5; i < 12; i++)
-            frames.add(new TextureRegion(screen.getAtlas().findRegion("firecat"), i * 23, 0, 23, 16));
-        firecatJump = new Animation(0.1f, frames);
-        frames.clear();
-
-        firecatStand = new TextureRegion(screen.getAtlas().findRegion("firecat"), 0, 0, 23, 16);
-
-        defineMario();
-        setBounds(0, 0, 16 / ElementalRun.PPM, 16 / ElementalRun.PPM);
-        setRegion(firecatStand);
+        definePlayer();
+        setBounds(0, 0, 130  / ElementalRun.PPM, 172 / ElementalRun.PPM);
+        setRegion(waterPlayer.getKeyFrame(0));
     }
 
     public float getStateTimer() {
@@ -100,7 +87,7 @@ public class Player extends Sprite {
             return State.DEAD;
         else if(b2Body.getLinearVelocity().y > 0)
             return State.JUMPING;
-        else if(b2Body.getLinearVelocity().y < 0 && previousState == State.JUMPING)
+        else if(b2Body.getLinearVelocity().y < 0 && (previousState == State.JUMPING || previousState == State.FALLING))
             return State.FALLING;
         else if(b2Body.getLinearVelocity().x != 0)
             return State.RUNNING;
@@ -115,14 +102,14 @@ public class Player extends Sprite {
         switch (currentState) {
             case JUMPING:
             case FALLING:
-                region = isOrange() ? firecatJump.getKeyFrame(stateTimer, true) : watercatJump.getKeyFrame(stateTimer, true);
+                region = isOrange() ? firePlayerJump : waterPlayerJump;
                 break;
             case RUNNING:
-                region = isOrange() ? firecat.getKeyFrame(stateTimer, true) : watercat.getKeyFrame(stateTimer, true);
+                region = isOrange() ? firePlayer.getKeyFrame(stateTimer, true) : waterPlayer.getKeyFrame(stateTimer, true);
                 break;
             case STANDING:
             default:
-                region = isOrange() ? firecatStand : watercatStand;
+                region = isOrange() ? firePlayer.getKeyFrame(stateTimer, true) : waterPlayer.getKeyFrame(stateTimer, true);
                 break;
         }
 
@@ -141,19 +128,19 @@ public class Player extends Sprite {
         return region;
     }
 
-    public void defineMario() {
+    public void definePlayer() {
 
         BodyDef bdef = new BodyDef();
-        bdef.position.set(32 / ElementalRun.PPM, 100 / ElementalRun.PPM);
+        bdef.position.set(32 / ElementalRun.PPM, 1000 / ElementalRun.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2Body = world.createBody(bdef);
-        b2Body.setLinearVelocity(new Vector2(1f, 0));
+        b2Body.setLinearVelocity(new Vector2(5f, 0));
 
         FixtureDef fdef = new FixtureDef();
-        CircleShape shape = new CircleShape();
-        shape.setRadius(6 / ElementalRun.PPM);
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(130 / ElementalRun.PPM / 2, 172 / ElementalRun.PPM / 2);
         fdef.filter.categoryBits = ElementalRun.PLAYER_BIT;
-        fdef.filter.maskBits = ElementalRun.ORANGE_GROUND_BIT| ElementalRun.BLUE_GROUND_BIT | ElementalRun.BLACK_GROUND_BIT
+        fdef.filter.maskBits = ElementalRun.ORANGE_GROUND_BIT | ElementalRun.BLACK_GROUND_BIT
                                 | ElementalRun.ORANGE_DIAMOND_BIT | ElementalRun.BLUE_DIAMOND_BIT;
 
         fdef.shape = shape;
@@ -163,6 +150,21 @@ public class Player extends Sprite {
     }
 
     public void update(float deltaTime) {
+        if(isOrange()) {
+            Filter filter = new Filter();
+            filter.categoryBits = ElementalRun.PLAYER_BIT;
+            filter.maskBits = ElementalRun.ORANGE_GROUND_BIT | ElementalRun.BLACK_GROUND_BIT
+                    | ElementalRun.ORANGE_DIAMOND_BIT | ElementalRun.BLUE_DIAMOND_BIT;
+            b2Body.getFixtureList().first().setFilterData(filter);
+        } else {
+            Filter filter = new Filter();
+            filter.categoryBits = ElementalRun.PLAYER_BIT;
+            filter.maskBits = ElementalRun.BLUE_GROUND_BIT | ElementalRun.BLACK_GROUND_BIT
+                    | ElementalRun.ORANGE_DIAMOND_BIT | ElementalRun.BLUE_DIAMOND_BIT;
+            b2Body.getFixtureList().first().setFilterData(filter);
+        }
+        if(getY() < 0)
+            isDead = true;
         setPosition(b2Body.getPosition().x - getWidth() / 2, b2Body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(deltaTime));
     }

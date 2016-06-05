@@ -10,11 +10,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.tiagoalmeida.elementalrun.Screens.LoadingScreen;
 import com.tiagoalmeida.elementalrun.Screens.SplashScreen;
+import com.tiagoalmeida.elementalrun.Tools.GameData;
 
 public class ElementalRun extends Game {
-	public static final int V_WIDTH = 480;
-	public static final int V_HEIGHT = 420;
-	public static final int SCALE = 1;
+	public static final int V_WIDTH = 1920;
+	public static final int V_HEIGHT = 1080;
 	public static final float PPM = 100;
 
 	public static final short ORANGE_GROUND_BIT = 1;
@@ -36,6 +36,8 @@ public class ElementalRun extends Game {
 
 	public LoadingScreen loadingScreen;
 	public SplashScreen splashScreen;
+
+	public GameData gameData;
 
 	@Override
 	public void create () {
