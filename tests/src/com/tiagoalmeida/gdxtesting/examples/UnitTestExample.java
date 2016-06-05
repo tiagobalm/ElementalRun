@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 
-package de.tomgrill.gdxtesting.examples;
+package com.tiagoalmeida.gdxtesting.examples;
 
 import static org.junit.Assert.assertEquals;
 
@@ -26,5 +26,4 @@ public class UnitTestExample {
 	public void oneEqualsOne() {
 		assertEquals(1, 1);
 	}
-
 }
