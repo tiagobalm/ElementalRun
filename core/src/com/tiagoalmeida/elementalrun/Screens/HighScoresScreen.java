@@ -12,7 +12,7 @@ import com.tiagoalmeida.elementalrun.Tools.SaveHandler;
 public class HighScoresScreen implements Screen  {
 
     private ElementalRun game;
-    private int[] highScores;
+    private Integer[] highScores;
     private BitmapFont font;
 
     public HighScoresScreen(ElementalRun game) {

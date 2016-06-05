@@ -16,7 +16,7 @@ import com.tiagoalmeida.elementalrun.Screens.PlayScreen;
 
 
 public class Player extends Sprite {
-    public enum State {FALLING, JUMPING, STANDING, RUNNING, DEAD};
+    public enum State {FALLING, JUMPING, STANDING, RUNNING};
     public State currentState;
     public State previousState;
     public World world;
@@ -33,8 +33,9 @@ public class Player extends Sprite {
 
     private float stateTimer;
     private boolean runningRight;
-    private boolean isOrange;
-    private boolean isDead;
+    private boolean fire;
+    private boolean winner;
+    private boolean gameOver;
 
     public Player(PlayScreen screen) {
         this.world = screen.getWorld();
@@ -42,8 +43,9 @@ public class Player extends Sprite {
         previousState = State.STANDING;
         stateTimer = 0;
         runningRight = true;
-        isOrange = true;
-        isDead = false;
+        fire = true;
+        winner = false;
+        gameOver = false;
 
         playerTexture = screen.game.getAssets().get("Player/player.png", Texture.class);
         playerTextureRegion = new TextureRegion(playerTexture).split(130, 172)[1];
@@ -64,28 +66,31 @@ public class Player extends Sprite {
         return stateTimer;
     }
 
-    public boolean isOrange() {
-        return isOrange;
+    public boolean isFire() {
+        return fire;
     }
 
-    public boolean isDead() {
-        return isDead;
+    public boolean isWinner() {
+        return winner;
     }
 
-    public void setDead(boolean dead) {
-        b2Body.setLinearVelocity(new Vector2(0, 0));
-        isDead = dead;
+    public boolean isGameOver() {
+        return gameOver;
     }
 
-    public void setOrange(boolean orange) {
-        isOrange = orange;
+    public void setGameOver(boolean winner) {
+        System.out.println("Setting gameover");
+        this.winner = winner;
+        gameOver = true;
+    }
+
+    public void setFire(boolean fire) {
+        this.fire = fire;
     }
 
     public State getState() {
-
-        if(isDead)
-            return State.DEAD;
-        else if(b2Body.getLinearVelocity().y > 0)
+        
+        if(b2Body.getLinearVelocity().y > 0)
             return State.JUMPING;
         else if(b2Body.getLinearVelocity().y < 0 && (previousState == State.JUMPING || previousState == State.FALLING))
             return State.FALLING;
@@ -102,14 +107,14 @@ public class Player extends Sprite {
         switch (currentState) {
             case JUMPING:
             case FALLING:
-                region = isOrange() ? firePlayerJump : waterPlayerJump;
+                region = isFire() ? firePlayerJump : waterPlayerJump;
                 break;
             case RUNNING:
-                region = isOrange() ? firePlayer.getKeyFrame(stateTimer, true) : waterPlayer.getKeyFrame(stateTimer, true);
+                region = isFire() ? firePlayer.getKeyFrame(stateTimer, true) : waterPlayer.getKeyFrame(stateTimer, true);
                 break;
             case STANDING:
             default:
-                region = isOrange() ? firePlayer.getKeyFrame(stateTimer, true) : waterPlayer.getKeyFrame(stateTimer, true);
+                region = isFire() ? firePlayer.getKeyFrame(stateTimer, true) : waterPlayer.getKeyFrame(stateTimer, true);
                 break;
         }
 
@@ -131,7 +136,7 @@ public class Player extends Sprite {
     public void definePlayer() {
 
         BodyDef bdef = new BodyDef();
-        bdef.position.set(32 / ElementalRun.PPM, 1000 / ElementalRun.PPM);
+        bdef.position.set(32 / ElementalRun.PPM, 600 / ElementalRun.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2Body = world.createBody(bdef);
         b2Body.setLinearVelocity(new Vector2(5f, 0));
@@ -141,7 +146,8 @@ public class Player extends Sprite {
         shape.setAsBox(130 / ElementalRun.PPM / 2, 172 / ElementalRun.PPM / 2);
         fdef.filter.categoryBits = ElementalRun.PLAYER_BIT;
         fdef.filter.maskBits = ElementalRun.ORANGE_GROUND_BIT | ElementalRun.BLACK_GROUND_BIT
-                                | ElementalRun.ORANGE_DIAMOND_BIT | ElementalRun.BLUE_DIAMOND_BIT;
+                                | ElementalRun.ORANGE_DIAMOND_BIT | ElementalRun.BLUE_DIAMOND_BIT
+                                | ElementalRun.PORTAL_BIT;
 
         fdef.shape = shape;
         fdef.restitution = 0;
@@ -150,21 +156,21 @@ public class Player extends Sprite {
     }
 
     public void update(float deltaTime) {
-        if(isOrange()) {
-            Filter filter = new Filter();
-            filter.categoryBits = ElementalRun.PLAYER_BIT;
-            filter.maskBits = ElementalRun.ORANGE_GROUND_BIT | ElementalRun.BLACK_GROUND_BIT
-                    | ElementalRun.ORANGE_DIAMOND_BIT | ElementalRun.BLUE_DIAMOND_BIT;
+        if(isFire()) {
+            Filter filter = b2Body.getFixtureList().first().getFilterData();
+            filter.maskBits &= ~ElementalRun.BLUE_GROUND_BIT;
+            filter.maskBits |= ElementalRun.ORANGE_GROUND_BIT;
             b2Body.getFixtureList().first().setFilterData(filter);
         } else {
-            Filter filter = new Filter();
-            filter.categoryBits = ElementalRun.PLAYER_BIT;
-            filter.maskBits = ElementalRun.BLUE_GROUND_BIT | ElementalRun.BLACK_GROUND_BIT
-                    | ElementalRun.ORANGE_DIAMOND_BIT | ElementalRun.BLUE_DIAMOND_BIT;
+            Filter filter = b2Body.getFixtureList().first().getFilterData();
+            filter.maskBits &= ~ElementalRun.ORANGE_GROUND_BIT;
+            filter.maskBits |= ElementalRun.BLUE_GROUND_BIT;
             b2Body.getFixtureList().first().setFilterData(filter);
         }
-        if(getY() < 0)
-            isDead = true;
+        if(getY() < 0) {
+            gameOver = true;
+            winner = false;
+        }
         setPosition(b2Body.getPosition().x - getWidth() / 2, b2Body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(deltaTime));
     }

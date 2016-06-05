@@ -12,17 +12,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.tiagoalmeida.elementalrun.ElementalRun;
+import com.tiagoalmeida.elementalrun.Tools.SaveHandler;
 
 public class WinnerScreen implements Screen {
     private Viewport viewport;
     private Stage stage;
 
     private ElementalRun game;
+    private Integer score;
 
-    public WinnerScreen(ElementalRun game){
+    public WinnerScreen(ElementalRun game, Integer score, int level){
         this.game = game;
+        this.score = score;
         viewport = new FitViewport(ElementalRun.V_WIDTH, ElementalRun.V_HEIGHT, new OrthographicCamera());
-        stage = new Stage(viewport, ((ElementalRun)game).batch);
+        stage = new Stage(viewport, game.batch);
 
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
 
@@ -31,13 +34,17 @@ public class WinnerScreen implements Screen {
         table.setFillParent(true);
 
         Label gameOverLabel = new Label("YOU WON", font);
-        Label playAgainLabel = new Label("Click to Play Again", font);
+        Label playAgainLabel = new Label("Click to Main Menu", font);
 
         table.add(gameOverLabel).expandX();
         table.row();
         table.add(playAgainLabel).expandX().padTop(10f);
 
         stage.addActor(table);
+
+        SaveHandler.gameData.addHighScore(score);
+        SaveHandler.gameData.setCurrentLevel(level + 1);
+        SaveHandler.save();
     }
 
     @Override
@@ -47,6 +54,7 @@ public class WinnerScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
         if(Gdx.input.justTouched()) {
             game.setScreen(new MainMenuScreen(game));
             dispose();

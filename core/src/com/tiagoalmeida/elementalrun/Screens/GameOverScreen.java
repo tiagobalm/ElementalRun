@@ -22,7 +22,7 @@ public class GameOverScreen implements Screen {
     public GameOverScreen(ElementalRun game){
         this.game = game;
         viewport = new FitViewport(ElementalRun.V_WIDTH, ElementalRun.V_HEIGHT, new OrthographicCamera());
-        stage = new Stage(viewport, ((ElementalRun)game).batch);
+        stage = new Stage(viewport, game.batch);
 
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
 
@@ -31,7 +31,7 @@ public class GameOverScreen implements Screen {
         table.setFillParent(true);
 
         Label gameOverLabel = new Label("GAME OVER", font);
-        Label playAgainLabel = new Label("Click to Play Again", font);
+        Label playAgainLabel = new Label("Click to Main Menu", font);
 
         table.add(gameOverLabel).expandX();
         table.row();

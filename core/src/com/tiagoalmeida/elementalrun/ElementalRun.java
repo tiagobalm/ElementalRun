@@ -24,6 +24,7 @@ public class ElementalRun extends Game {
 	public static final short ORANGE_DIAMOND_BIT = 16;
 	public static final short PLAYER_BIT = 32;
 	public static final short DESTROY_BIT = 64;
+	public static final short PORTAL_BIT  = 128;
 
 	/* WARNING Using AssetManager in a static way can cause issues, especially on Android.
 		Instead you may want to pass around AssetManager to those class that need it.
@@ -36,8 +37,6 @@ public class ElementalRun extends Game {
 
 	public LoadingScreen loadingScreen;
 	public SplashScreen splashScreen;
-
-	public GameData gameData;
 
 	@Override
 	public void create () {

@@ -33,6 +33,13 @@ public class WorldContactListener implements ContactListener {
                 else
                     ((InteractiveTileObject)fixB.getUserData()).use();
                 break;
+
+            case ElementalRun.PLAYER_BIT | ElementalRun.PORTAL_BIT:
+                if(fixA.getFilterData().categoryBits == ElementalRun.PLAYER_BIT)
+                    ((Player)fixA.getUserData()).setGameOver(true);
+                else
+                    ((Player)fixB.getUserData()).setGameOver(true);
+                break;
         }
     }
 

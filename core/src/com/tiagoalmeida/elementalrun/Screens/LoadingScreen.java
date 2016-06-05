@@ -22,7 +22,6 @@ public class LoadingScreen implements Screen {
         this.game = game;
         this.shapeRenderer = new ShapeRenderer();
         SaveHandler.load();
-        game.gameData = SaveHandler.gameData;
     }
 
     @Override
@@ -95,7 +94,7 @@ public class LoadingScreen implements Screen {
         game.getAssets().load("firesheet.png", Texture.class);
         game.getAssets().load("watersheet.png", Texture.class);
         game.getAssets().load("highScores.png", Texture.class);
-        game.getAssets().load("Levels/Unlocked/LevelsUnlocked.pack", TextureAtlas.class);
-        game.getAssets().load("Levels/Locked/LevelsLocked.pack", TextureAtlas.class);
+        game.getAssets().load("Levels/Unlocked/levels_unlocked.pack", TextureAtlas.class);
+        game.getAssets().load("Levels/Locked/levels_locked.pack", TextureAtlas.class);
     }
 }

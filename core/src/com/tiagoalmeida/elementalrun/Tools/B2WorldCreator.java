@@ -28,7 +28,7 @@ public class B2WorldCreator {
         map = screen.getMap();
 
         //create Black Ground bodies/fixtures
-        for(MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
+        for(MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
@@ -45,7 +45,7 @@ public class B2WorldCreator {
         }
 
         //create Orange Ground bodies/fixtures
-        for(MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)) {
+        for(MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
@@ -62,7 +62,7 @@ public class B2WorldCreator {
         }
 
         //create Blue Ground bodies/fixtures
-        for(MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) {
+        for(MapObject object : map.getLayers().get(8).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
@@ -78,11 +78,28 @@ public class B2WorldCreator {
             body.createFixture(fdef);
         }
 
-        /*//create Orange diamonds bodies/fixtures
-        for(MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)) {
-            new OrangeDiamond(screen, object);
+        //create Portal bodies/fixtures
+        for(MapObject object : map.getLayers().get(9).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / ElementalRun.PPM, (rect.getY() + rect.getHeight() / 2) / ElementalRun.PPM);
+
+            body = world.createBody(bdef);
+
+            shape.setAsBox(rect.getWidth() / 2 / ElementalRun.PPM, rect.getHeight() / 2 / ElementalRun.PPM);
+            fdef.shape = shape;
+            fdef.filter.categoryBits = ElementalRun.PORTAL_BIT;
+            fdef.friction = 0;
+            fdef.restitution = 0;
+            body.createFixture(fdef);
         }
 
+        //create Orange diamonds bodies/fixtures
+        for(MapObject object : map.getLayers().get(10).getObjects().getByType(RectangleMapObject.class)) {
+            new OrangeDiamond(screen, object);
+        }
+        /*
         //create Blue diamonds bodies/fixtures
         for(MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) {
             new BlueDiamond(screen, object);

@@ -58,6 +58,8 @@ public class HUD implements Disposable {
 
     }
 
+    public Integer getScore() { return score; }
+
     public void update(float deltaTime) {
         timeCount += deltaTime;
 

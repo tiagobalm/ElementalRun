@@ -9,14 +9,14 @@ public class GameData implements Serializable {
     private static final long serialVersionUID = 1;
 
     private final int MAX_SCORES = 3;
-    private int[] highScores;
+    private Integer[] highScores;
     private int currentLevel;
 
     private int testHighScore;
 
     public GameData() {
         currentLevel = 1;
-        highScores = new int[MAX_SCORES];
+        highScores = new Integer[MAX_SCORES];
     }
 
     //Empty scores table
@@ -25,12 +25,11 @@ public class GameData implements Serializable {
             highScores[i] = 0;
     }
 
-    public int[] getHighScores() { return highScores; }
+    public Integer[] getHighScores() { return highScores; }
 
     public int getCurrentLevel() { return currentLevel; }
 
-    public int getTestHighScore() { return testHighScore; }
-    public void setTestHighScore(int score) { this.testHighScore = score;}
+    public void setCurrentLevel(int level) { this.currentLevel = level;}
 
     public boolean isHighScore(int score) { return score > highScores[MAX_SCORES - 1]; }
 

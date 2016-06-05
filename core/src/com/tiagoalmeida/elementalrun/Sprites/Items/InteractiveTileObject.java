@@ -51,9 +51,9 @@ public abstract class InteractiveTileObject {
     public abstract void use();
 
     public TiledMapTileLayer.Cell getCell() {
-        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(1);
-        return layer.getCell((int)(body.getPosition().x * ElementalRun.PPM / 16),
-                (int)(body.getPosition().y * ElementalRun.PPM / 16));
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(5);
+        return layer.getCell((int)(body.getPosition().x * ElementalRun.PPM / 64),
+                (int)(body.getPosition().y * ElementalRun.PPM / 64));
     }
 
     public void setCategoryFilter(short filterBit){

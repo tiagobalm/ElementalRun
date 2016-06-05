@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -18,6 +17,7 @@ import com.tiagoalmeida.elementalrun.ElementalRun;
 import com.tiagoalmeida.elementalrun.Scenes.HUD;
 import com.tiagoalmeida.elementalrun.Sprites.Player;
 import com.tiagoalmeida.elementalrun.Tools.B2WorldCreator;
+import com.tiagoalmeida.elementalrun.Tools.SaveHandler;
 import com.tiagoalmeida.elementalrun.Tools.WorldContactListener;
 
 public class PlayScreen implements Screen {
@@ -38,8 +38,6 @@ public class PlayScreen implements Screen {
 
     //Sprites
     private Player player;
-
-    private TextureAtlas atlas;
 
     private boolean debugMode;
 
@@ -64,7 +62,7 @@ public class PlayScreen implements Screen {
 
         //Load or map and setup our map renderer
         mapLoader = new TmxMapLoader();
-        String s = String.format("Level%d.tmx", level);
+        String s = String.format("level%d.tmx", level);
         map = mapLoader.load(s);
         renderer = new OrthogonalTiledMapRenderer(map, 1 / ElementalRun.PPM);
 
@@ -74,9 +72,6 @@ public class PlayScreen implements Screen {
         //Allows for debug lines
         b2dr = new Box2DDebugRenderer();
 
-        //Sprite sheet
-        //atlas = game.getAssets().get("Player/player.pack", TextureAtlas.class);
-
         creator = new B2WorldCreator(this);
 
         //Creates the player
@@ -85,10 +80,6 @@ public class PlayScreen implements Screen {
         world.setContactListener(new WorldContactListener());
         debugMode = true;
 
-    }
-
-    public TextureAtlas getAtlas() {
-        return atlas;
     }
 
     public TiledMap getMap() {
@@ -104,13 +95,6 @@ public class PlayScreen implements Screen {
 
     }
 
-    public boolean gameOver(){
-        if(player.isDead()){
-            return true;
-        }
-        return false;
-    }
-
     public void handleInput(float deltaTime) {
 
         //KeyBoard Input
@@ -122,19 +106,19 @@ public class PlayScreen implements Screen {
 
         //Changing color
         if(Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
-            if(player.isOrange())
-                player.setOrange(false);
+            if(player.isFire())
+                player.setFire(false);
             else
-                player.setOrange(true);
+                player.setFire(true);
         }
 
         //Touch Input
         if(Gdx.input.isTouched()) {
             if(Gdx.input.getX()< Gdx.graphics.getWidth() / 2) {
-                if(player.isOrange())
-                    player.setOrange(false);
+                if(player.isFire())
+                    player.setFire(false);
                 else
-                    player.setOrange(true);
+                    player.setFire(true);
             } else {
                 player.b2Body.setLinearVelocity(new Vector2(4f, 0f));
                 player.b2Body.applyLinearImpulse(new Vector2(0, 6f), player.b2Body.getWorldCenter(), true);
@@ -152,7 +136,6 @@ public class PlayScreen implements Screen {
 
         hud.update(deltaTime);
 
-        //TODO Find out a better way to do this
         gameCam.position.x = player.b2Body.getPosition().x + game.V_WIDTH / 4 / ElementalRun.PPM;
 
         gameCam.update();
@@ -183,9 +166,14 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
 
-        if(gameOver()){
-            game.setScreen(new GameOverScreen(game));
-            dispose();
+        if(player.isGameOver()){
+            if(player.isWinner()) {
+                game.setScreen(new WinnerScreen(game, hud.getScore(), level));
+                dispose();
+            } else {
+                game.setScreen(new GameOverScreen(game));
+                dispose();
+            }
         }
     }
 

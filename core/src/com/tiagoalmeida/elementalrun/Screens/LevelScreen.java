@@ -15,6 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.tiagoalmeida.elementalrun.ElementalRun;
+import com.tiagoalmeida.elementalrun.Tools.SaveHandler;
+
 import java.util.Map;
 
 public class LevelScreen implements Screen {
@@ -43,13 +45,14 @@ public class LevelScreen implements Screen {
 
         for(int i = 1; i < 26; i++) {
             s = String.format("Level%d", i);
-            levelsUnlocked.add(game.getAssets().get("Levels/Unlocked/LevelsUnlocked.pack", TextureAtlas.class).findRegion(s));
+            levelsUnlocked.add(game.getAssets().get("Levels/Unlocked/levels_unlocked.pack", TextureAtlas.class).findRegion(s));
 
             s = String.format("Level%dLocked", i);
-            levelsLocked.add(game.getAssets().get("Levels/Locked/LevelsLocked.pack", TextureAtlas.class).findRegion(s));
+            levelsLocked.add(game.getAssets().get("Levels/Locked/levels_locked.pack", TextureAtlas.class).findRegion(s));
         }
 
-        int currentLevel = game.gameData.getCurrentLevel();
+        int currentLevel = SaveHandler.gameData.getCurrentLevel();
+        System.out.println(currentLevel);
         int changeRow = 0;
 
         for(int i = 0; i < currentLevel; i++) {

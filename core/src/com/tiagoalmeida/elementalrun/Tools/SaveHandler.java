@@ -20,7 +20,6 @@ public class SaveHandler {
         ObjectOutputStream objectOut = new ObjectOutputStream(byteArrayOut);
         objectOut.writeObject(obj);
         return byteArrayOut.toByteArray();
-
     }
 
     public static Object deserialize(byte[] objectBytes) throws IOException, ClassNotFoundException {
@@ -47,11 +46,9 @@ public class SaveHandler {
                 init();
                 return;
             }
-            System.out.println("loading");
             InputStream inputStream = null;
             FileHandle fileHandle = Gdx.files.local("highScores.save");
             gameData = (GameData)deserialize(fileHandle.readBytes());
-            if(inputStream != null) inputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
             Gdx.app.exit();
@@ -64,6 +61,7 @@ public class SaveHandler {
     }
 
     public static void init() {
+        System.out.println("Creating new game data");
         gameData = new GameData();
         gameData.init();
         save();
