@@ -3,12 +3,18 @@ package com.tiagoalmeida.elementalrun;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.tiagoalmeida.elementalrun.Screens.LoadingScreen;
+import com.tiagoalmeida.elementalrun.Screens.MainMenuScreen;
 import com.tiagoalmeida.elementalrun.Screens.SplashScreen;
 import com.tiagoalmeida.elementalrun.Tools.GameData;
 
@@ -35,8 +41,9 @@ public class ElementalRun extends Game {
 	public BitmapFont font24;
 	public static OrthographicCamera camera;
 
-	public LoadingScreen loadingScreen;
+	//public LoadingScreen loadingScreen;
 	public SplashScreen splashScreen;
+	public MainMenuScreen mainMenuScreen;
 
 	@Override
 	public void create () {
@@ -45,18 +52,24 @@ public class ElementalRun extends Game {
 		batch = new SpriteBatch();
 		assets = new AssetManager();
 
+		// set the loaders for the generator and the fonts themselves
+		FileHandleResolver resolver = new InternalFileHandleResolver();
+		assets.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+		assets.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+
 		//Camera Initialization
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, V_WIDTH, V_HEIGHT);
 
 		//Screen Singletons
-		loadingScreen = new LoadingScreen(this);
+		//loadingScreen = new LoadingScreen(this);
 		splashScreen = new SplashScreen(this);
+		mainMenuScreen = new MainMenuScreen(this);
 
 		//Initialization of Fonts
 		initFonts();
 
-		setScreen(loadingScreen);
+		setScreen(splashScreen);
 	}
 
 	private void initFonts() {
@@ -81,11 +94,10 @@ public class ElementalRun extends Game {
 	public void dispose() {
 		assets.dispose();
 		batch.dispose();
-		loadingScreen.dispose();
 		splashScreen.dispose();
+		mainMenuScreen.dispose();
 		font24.dispose();
 		super.dispose();
-		Gdx.app.log("Disposed", "Main Application");
 	}
 
 }

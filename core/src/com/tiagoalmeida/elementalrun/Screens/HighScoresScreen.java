@@ -5,7 +5,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.tiagoalmeida.elementalrun.ElementalRun;
 import com.tiagoalmeida.elementalrun.Tools.SaveHandler;
 
@@ -13,20 +16,40 @@ public class HighScoresScreen implements Screen  {
 
     private ElementalRun game;
     private Integer[] highScores;
-    private BitmapFont font;
+    private Table table;
+    private Stage stage;
+    private Label title, firstScore, secondScore, thirdScore;
 
     public HighScoresScreen(ElementalRun game) {
-        font = new BitmapFont();
-        font.setColor(Color.BLACK);
         this.game = game;
+
+        stage = new Stage(new FitViewport(game.V_WIDTH, game.V_HEIGHT, game.camera));
+        Gdx.input.setInputProcessor(stage);
+        table = new Table();
+        table.debug();
+        table.setBounds(0, 0, game.V_WIDTH, game.V_HEIGHT);
+        title = new Label("High Scores", new Label.LabelStyle(
+                game.getAssets().get("size180.ttf", BitmapFont.class), Color.BLACK));
 
         SaveHandler.load();
         highScores = SaveHandler.gameData.getHighScores();
+
+        firstScore = new Label(String.format("%d", highScores[0]), new Label.LabelStyle(
+                game.getAssets().get("size120.ttf", BitmapFont.class), Color.BLACK));
+        secondScore = new Label(String.format("%d", highScores[1]), new Label.LabelStyle(
+                game.getAssets().get("size120.ttf", BitmapFont.class), Color.BLACK));
+        thirdScore = new Label(String.format("%d", highScores[2]), new Label.LabelStyle(
+                game.getAssets().get("size120.ttf", BitmapFont.class), Color.BLACK));
     }
 
     @Override
     public void show() {
-
+        table.add(title).expandX().row();
+        table.add().row();
+        table.add(firstScore).center().row();
+        table.add(secondScore).center().row();
+        table.add(thirdScore).center().row();
+        stage.addActor(table);
     }
 
     @Override
@@ -36,30 +59,12 @@ public class HighScoresScreen implements Screen  {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         update(delta);
-
-        game.batch.setProjectionMatrix(game.camera.combined);
-        game.batch.begin();
-
-        String s;
-        GlyphLayout g = new GlyphLayout();
-
-        s = "High Scores";
-        g.setText(font, s);
-
-        font.draw(game.batch, g, game.V_WIDTH / 2 - g.width / 2, game.V_HEIGHT - g.height /2);
-
-        for(int i = 0; i < highScores.length; i++) {
-            s = String.format("%06d", highScores[i]);
-            g.setText(font, s);
-
-            font.draw(game.batch, g, game.V_WIDTH / 2 - g.width / 2,
-                    game.V_HEIGHT - ((i + 2) * game.V_HEIGHT / 6) - g.height / 2);
-        }
-        game.batch.end();
+        stage.draw();
     }
 
     public void update(float delta) {
         handleInput();
+        stage.act();
     }
 
     private void handleInput() {
@@ -91,6 +96,7 @@ public class HighScoresScreen implements Screen  {
 
     @Override
     public void dispose() {
-        font.dispose();
+        System.out.println("Disposing High Scores Screen");
+        stage.dispose();
     }
 }

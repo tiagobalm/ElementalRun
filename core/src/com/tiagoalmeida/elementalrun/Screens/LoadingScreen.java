@@ -85,7 +85,6 @@ public class LoadingScreen implements Screen {
     @Override
     public void dispose() {
         shapeRenderer.dispose();
-        Gdx.app.log("Disposed", "Loading Screen");
     }
 
     private void queueAssests() {
