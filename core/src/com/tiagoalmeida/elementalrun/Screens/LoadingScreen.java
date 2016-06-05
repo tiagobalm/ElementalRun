@@ -21,7 +21,7 @@ public class LoadingScreen implements Screen {
     public LoadingScreen(ElementalRun game) {
         this.game = game;
         this.shapeRenderer = new ShapeRenderer();
-        SaveHandler.load();
+
     }
 
     @Override

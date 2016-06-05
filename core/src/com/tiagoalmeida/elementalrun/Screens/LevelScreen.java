@@ -38,6 +38,7 @@ public class LevelScreen implements Screen {
 
         table = new Table();
         this.table.setBounds(0, 0, game.V_WIDTH, game.V_HEIGHT);
+        table.pad(10);
         table.debug();
 
         stage = new Stage(new FitViewport(game.V_WIDTH, game.V_HEIGHT, camera));

@@ -17,6 +17,7 @@ import com.tiagoalmeida.elementalrun.Screens.LoadingScreen;
 import com.tiagoalmeida.elementalrun.Screens.MainMenuScreen;
 import com.tiagoalmeida.elementalrun.Screens.SplashScreen;
 import com.tiagoalmeida.elementalrun.Tools.GameData;
+import com.tiagoalmeida.elementalrun.Tools.SaveHandler;
 
 public class ElementalRun extends Game {
 	public static final int V_WIDTH = 1920;
@@ -68,6 +69,8 @@ public class ElementalRun extends Game {
 
 		//Initialization of Fonts
 		initFonts();
+
+		SaveHandler.load();
 
 		setScreen(splashScreen);
 	}
