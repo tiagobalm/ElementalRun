@@ -78,7 +78,7 @@ public class PlayScreen implements Screen {
         player = new Player(this);
 
         world.setContactListener(new WorldContactListener());
-        debugMode = false;
+        debugMode = true;
 
     }
 
@@ -100,10 +100,8 @@ public class PlayScreen implements Screen {
         //KeyBoard Input
         //UP Key Input (Jump)
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            if(player.getState() != Player.State.JUMPING && player.getState() != Player.State.FALLING) {
-                player.b2Body.setLinearVelocity(new Vector2(4f, 0f));
+            if(player.getState() != Player.State.JUMPING && player.getState() != Player.State.FALLING)
                 player.b2Body.applyLinearImpulse(new Vector2(0, 6f), player.b2Body.getWorldCenter(), true);
-            }
         }
 
         //Changing color

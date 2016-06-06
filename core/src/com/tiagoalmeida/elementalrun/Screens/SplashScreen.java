@@ -46,7 +46,8 @@ public class SplashScreen implements Screen {
     }
 
     private void queueAssets() {
-        game.getAssets().load("Player/player.png", Texture.class);
+        game.getAssets().load("Player/PlayerBlue.pack", TextureAtlas.class);
+        game.getAssets().load("Player/PlayerOrange.pack", TextureAtlas.class);
         game.getAssets().load("UI/cup.png", Texture.class);
         game.getAssets().load("Levels/Unlocked/levels_unlocked.pack", TextureAtlas.class);
         game.getAssets().load("Levels/Locked/levels_locked.pack", TextureAtlas.class);

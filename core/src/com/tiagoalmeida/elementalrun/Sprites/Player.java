@@ -1,16 +1,17 @@
 package com.tiagoalmeida.elementalrun.Sprites;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.tiagoalmeida.elementalrun.ElementalRun;
 import com.tiagoalmeida.elementalrun.Screens.PlayScreen;
 
@@ -22,14 +23,11 @@ public class Player extends Sprite {
     public World world;
     public Body b2Body;
 
-    private Texture playerTexture;
-    private TextureRegion[] playerTextureRegion;
+    private Array<TextureRegion> playerBlueTexture;
+    private Array<TextureRegion> playerOrangeTexture;
 
     private Animation firePlayer;
-    private TextureRegion firePlayerJump;
-
     private Animation waterPlayer;
-    private TextureRegion waterPlayerJump;
 
     private float stateTimer;
     private boolean runningRight;
@@ -47,23 +45,23 @@ public class Player extends Sprite {
         winner = false;
         gameOver = false;
 
-        playerTexture = screen.game.getAssets().get("Player/player.png", Texture.class);
-        playerTextureRegion = new TextureRegion(playerTexture).split(130, 172)[1];
+        playerBlueTexture = new Array<TextureRegion>();
+        playerOrangeTexture = new Array<TextureRegion>();
+        String s;
 
-        waterPlayer = new Animation(0.08f, playerTextureRegion);
-        waterPlayerJump = playerTextureRegion[playerTextureRegion.length - 1];
+        for(int i = 1; i < 37 ; i++) {
+            s = String.format("player%d",i);
+            playerBlueTexture.add(screen.game.getAssets().get("Player/PlayerBlue.pack", TextureAtlas.class).findRegion(s));
+            playerOrangeTexture.add(screen.game.getAssets().get("Player/PlayerOrange.pack", TextureAtlas.class).findRegion(s));
 
-        playerTextureRegion = new TextureRegion(playerTexture).split(130, 172)[0];
-        firePlayer = new Animation(0.08f, playerTextureRegion);
-        firePlayerJump = playerTextureRegion[playerTextureRegion.length - 1];
+        }
+
+        waterPlayer = new Animation(0.01f, playerBlueTexture);
+        firePlayer = new Animation(0.01f, playerOrangeTexture);
 
         definePlayer();
-        setBounds(0, 0, 130  / ElementalRun.PPM, 172 / ElementalRun.PPM);
+        setBounds(0, 0, 128  / ElementalRun.PPM, 128 / ElementalRun.PPM);
         setRegion(waterPlayer.getKeyFrame(0));
-    }
-
-    public float getStateTimer() {
-        return stateTimer;
     }
 
     public boolean isFire() {
@@ -107,11 +105,7 @@ public class Player extends Sprite {
         switch (currentState) {
             case JUMPING:
             case FALLING:
-                region = isFire() ? firePlayerJump : waterPlayerJump;
-                break;
             case RUNNING:
-                region = isFire() ? firePlayer.getKeyFrame(stateTimer, true) : waterPlayer.getKeyFrame(stateTimer, true);
-                break;
             case STANDING:
             default:
                 region = isFire() ? firePlayer.getKeyFrame(stateTimer, true) : waterPlayer.getKeyFrame(stateTimer, true);
@@ -139,11 +133,11 @@ public class Player extends Sprite {
         bdef.position.set(32 / ElementalRun.PPM, 600 / ElementalRun.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2Body = world.createBody(bdef);
-        b2Body.setLinearVelocity(new Vector2(5f, 0));
+        b2Body.setLinearVelocity(new Vector2(7f, 0));
 
         FixtureDef fdef = new FixtureDef();
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(130 / ElementalRun.PPM / 2, 172 / ElementalRun.PPM / 2);
+        CircleShape shape = new CircleShape();
+        shape.setRadius(64 / ElementalRun.PPM);
         fdef.filter.categoryBits = ElementalRun.PLAYER_BIT;
         fdef.filter.maskBits = ElementalRun.ORANGE_GROUND_BIT | ElementalRun.BLACK_GROUND_BIT
                                 | ElementalRun.ORANGE_DIAMOND_BIT | ElementalRun.BLUE_DIAMOND_BIT
