@@ -34,7 +34,7 @@ public class HighScoresScreen implements Screen  {
         if(debug)
             table.debug();
         table.setBounds(0, 0, game.V_WIDTH, game.V_HEIGHT);
-        title = new Image(game.getAssets().get("highScores.png", Texture.class));
+        title = new Image(game.getAssets().get("UI/highScores.png", Texture.class));
 
         SaveHandler.load();
         highScores = SaveHandler.gameData.getHighScores();
@@ -49,11 +49,11 @@ public class HighScoresScreen implements Screen  {
 
     @Override
     public void show() {
-        table.add(title).expandX().row();
+        table.add(title).expandX().top().row();
         table.add().row();
-        table.add(firstScore).center().expandY().row();
-        table.add(secondScore).center().expandY().row();
-        table.add(thirdScore).center().expandY().row();
+        table.add(firstScore).center().pad(200, 0, 50, 0).row();
+        table.add(secondScore).center().pad(50, 0, 50, 0).row();
+        table.add(thirdScore).center().pad(50, 0, 50, 0).row();
         stage.addActor(table);
     }
 

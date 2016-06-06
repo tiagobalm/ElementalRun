@@ -62,7 +62,7 @@ public class PlayScreen implements Screen {
 
         //Load or map and setup our map renderer
         mapLoader = new TmxMapLoader();
-        String s = String.format("level%d.tmx", level);
+        String s = String.format("Map/level%d.tmx", level);
         map = mapLoader.load(s);
         renderer = new OrthogonalTiledMapRenderer(map, 1 / ElementalRun.PPM);
 
@@ -100,8 +100,10 @@ public class PlayScreen implements Screen {
         //KeyBoard Input
         //UP Key Input (Jump)
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            player.b2Body.setLinearVelocity(new Vector2(4f, 0f));
-            player.b2Body.applyLinearImpulse(new Vector2(0, 6f), player.b2Body.getWorldCenter(), true);
+            if(player.getState() != Player.State.JUMPING && player.getState() != Player.State.FALLING) {
+                player.b2Body.setLinearVelocity(new Vector2(4f, 0f));
+                player.b2Body.applyLinearImpulse(new Vector2(0, 6f), player.b2Body.getWorldCenter(), true);
+            }
         }
 
         //Changing color

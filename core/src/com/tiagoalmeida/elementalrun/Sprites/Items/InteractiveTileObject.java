@@ -50,8 +50,14 @@ public abstract class InteractiveTileObject {
 
     public abstract void use();
 
-    public TiledMapTileLayer.Cell getCell() {
+    public TiledMapTileLayer.Cell getOrangeCell() {
         TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(5);
+        return layer.getCell((int)(body.getPosition().x * ElementalRun.PPM / 64),
+                (int)(body.getPosition().y * ElementalRun.PPM / 64));
+    }
+
+    public TiledMapTileLayer.Cell getBlueCell() {
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(6);
         return layer.getCell((int)(body.getPosition().x * ElementalRun.PPM / 64),
                 (int)(body.getPosition().y * ElementalRun.PPM / 64));
     }

@@ -20,7 +20,7 @@ public class BlueDiamond extends InteractiveTileObject {
     @Override
     public void use() {
         setCategoryFilter(ElementalRun.DESTROY_BIT);
-        getCell().setTile(null);
+        getBlueCell().setTile(null);
         HUD.addScore(100);
     }
 }

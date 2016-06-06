@@ -19,7 +19,7 @@ public class OrangeDiamond extends InteractiveTileObject {
     @Override
     public void use() {
         setCategoryFilter(ElementalRun.DESTROY_BIT);
-        getCell().setTile(null);
+        getOrangeCell().setTile(null);
         HUD.addScore(100);
     }
 }

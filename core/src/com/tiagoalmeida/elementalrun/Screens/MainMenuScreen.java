@@ -41,34 +41,33 @@ public class MainMenuScreen implements Screen {
 
         highScoresTexture = new TextureRegionDrawable();
         this.highScores = new ImageButton(highScoresTexture);
-        highScores.addListener(new ClickListener() {
-           @Override
-           public void clicked(InputEvent event, float x, float y) {
-              setHighScores();
-           }
-       });
+
     }
 
     private void setHighScores() {
         game.setScreen(new HighScoresScreen(game));
     }
-    private void setLevelsScreen() {
-        game.setScreen(new LevelScreen(game));
-    }
+    private void setLevelsScreen() { game.setScreen(new LevelScreen(game)); }
 
     @Override
     public void show() {
-        highScoresTexture.setRegion(new TextureRegion(game.getAssets().get("cup.png", Texture.class)));
+        highScoresTexture.setRegion(new TextureRegion(game.getAssets().get("UI/cup.png", Texture.class)));
+        highScores.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                setHighScores();
+            }
+        });
 
-        game.getAssets().get("Title.png", Texture.class).setFilter(
+        game.getAssets().get("UI/Title.png", Texture.class).setFilter(
                 Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        title = new Image(game.getAssets().get("Title.png", Texture.class));
+        title = new Image(game.getAssets().get("UI/Title.png", Texture.class));
         table.add(title).expandX().expandY().center().colspan(2).row();
 
         //Play button
-        game.getAssets().get("Buttons/playbutton.png", Texture.class).setFilter(
+        game.getAssets().get("UI/playbutton.png", Texture.class).setFilter(
                 Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        clickContinue = new ImageButton(new TextureRegionDrawable(new TextureRegion(game.getAssets().get("Buttons/playbutton.png", Texture.class))));
+        clickContinue = new ImageButton(new TextureRegionDrawable(new TextureRegion(game.getAssets().get("UI/playbutton.png", Texture.class))));
         clickContinue.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -85,9 +84,9 @@ public class MainMenuScreen implements Screen {
         table.add(insideTable).expandX();
 
         //Exit Button
-        game.getAssets().get("Buttons/exitbutton.png", Texture.class).setFilter(
+        game.getAssets().get("UI/exitbutton.png", Texture.class).setFilter(
                 Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        clickExit = new ImageButton(new TextureRegionDrawable(new TextureRegion(game.getAssets().get("Buttons/exitbutton.png", Texture.class))));
+        clickExit = new ImageButton(new TextureRegionDrawable(new TextureRegion(game.getAssets().get("UI/exitbutton.png", Texture.class))));
         clickExit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

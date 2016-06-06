@@ -5,10 +5,17 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.tiagoalmeida.elementalrun.ElementalRun;
@@ -16,31 +23,33 @@ import com.tiagoalmeida.elementalrun.Tools.SaveHandler;
 
 public class WinnerScreen implements Screen {
     private Viewport viewport;
-    private Stage stage;
 
     private ElementalRun game;
+    private int level;
     private Integer score;
+    private Image win;
+    private ImageButton replay, mainmenu;
+    private Label scoreLabel;
+    private Table table;
+    private Stage stage;
+
+    private boolean debug;
 
     public WinnerScreen(ElementalRun game, Integer score, int level){
         this.game = game;
         this.score = score;
+        this.level = level;
         viewport = new FitViewport(ElementalRun.V_WIDTH, ElementalRun.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, game.batch);
+        Gdx.input.setInputProcessor(stage);
 
-        Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
+        this.debug = false;
 
-        Table table = new Table();
+        table = new Table();
+        this.table.setBounds(0, 0, game.V_WIDTH, game.V_HEIGHT);
         table.center();
-        table.setFillParent(true);
-
-        Label gameOverLabel = new Label("YOU WON", font);
-        Label playAgainLabel = new Label("Click to Main Menu", font);
-
-        table.add(gameOverLabel).expandX();
-        table.row();
-        table.add(playAgainLabel).expandX().padTop(10f);
-
-        stage.addActor(table);
+        if(debug)
+            table.debug();
 
         SaveHandler.gameData.addHighScore(score);
         SaveHandler.gameData.setCurrentLevel(level + 1);
@@ -50,18 +59,70 @@ public class WinnerScreen implements Screen {
     @Override
     public void show() {
 
+        //You win Image
+        game.getAssets().get("UI/win.png", Texture.class).setFilter(
+                Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        win = new Image(game.getAssets().get("UI/win.png", Texture.class));
+        table.add(win).expandX().center().colspan(4).row();
+
+        //Score label
+        scoreLabel = new Label(score + "", new Label.LabelStyle(
+                game.getAssets().get("size100.ttf", BitmapFont.class), Color.BLACK));
+        table.add(scoreLabel).expandX().center().colspan(4).row();
+
+        //Replay Button
+        game.getAssets().get("UI/replay.png", Texture.class).setFilter(
+                Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        replay = new ImageButton(new TextureRegionDrawable(new TextureRegion(game.getAssets().get("UI/replay.png", Texture.class))));
+        replay.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                setPlayScreen();
+            }
+        });
+        table.add(replay);
+        table.add();
+
+        //Main Menu Button
+        game.getAssets().get("UI/mainmenu.png", Texture.class).setFilter(
+                Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        mainmenu = new ImageButton(new TextureRegionDrawable(new TextureRegion(game.getAssets().get("UI/mainmenu.png", Texture.class))));
+        mainmenu.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                setMainMenuScreen();
+            }
+        });
+        table.add();
+        table.add(mainmenu);
+
+        stage.addActor(table);
+
+    }
+
+    private void setMainMenuScreen() {
+        game.setScreen(new MainMenuScreen(game));
+        dispose();
+    }
+
+    private void setPlayScreen() {
+        game.setScreen(new PlayScreen(game, level));
+        dispose();
     }
 
     @Override
     public void render(float delta) {
-
-        if(Gdx.input.justTouched()) {
-            game.setScreen(new MainMenuScreen(game));
-            dispose();
-        }
+        //Background color white
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        update(delta);
+
         stage.draw();
+    }
+
+    private void update(float delta) {
+        stage.act();
     }
 
     @Override

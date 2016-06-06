@@ -40,7 +40,6 @@ public class ElementalRun extends Game {
 	public static OrthographicCamera camera;
 
 	public SplashScreen splashScreen;
-	public MainMenuScreen mainMenuScreen;
 
 	@Override
 	public void create () {
@@ -60,7 +59,6 @@ public class ElementalRun extends Game {
 
 		//Screen Singletons
 		splashScreen = new SplashScreen(this);
-		mainMenuScreen = new MainMenuScreen(this);
 
 		//Initialization of Fonts
 		initFonts();
@@ -94,7 +92,6 @@ public class ElementalRun extends Game {
 		assets.dispose();
 		batch.dispose();
 		splashScreen.dispose();
-		mainMenuScreen.dispose();
 		font24.dispose();
 		super.dispose();
 	}

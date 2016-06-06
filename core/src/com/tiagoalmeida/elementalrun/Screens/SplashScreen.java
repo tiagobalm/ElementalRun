@@ -36,9 +36,9 @@ public class SplashScreen implements Screen {
                 setMainMenuScreenMethod();
             }
         };
-        game.getAssets().load("TariLogo.png", Texture.class);
-        game.getAssets().finishLoadingAsset("TariLogo.png");
-        splashImage = new Image(game.getAssets().get("TariLogo.png", Texture.class));
+        game.getAssets().load("UI/TariLogo.png", Texture.class);
+        game.getAssets().finishLoadingAsset("UI/TariLogo.png");
+        splashImage = new Image(game.getAssets().get("UI/TariLogo.png", Texture.class));
     }
 
     private void setMainMenuScreenMethod() {
@@ -47,15 +47,17 @@ public class SplashScreen implements Screen {
 
     private void queueAssets() {
         game.getAssets().load("Player/player.png", Texture.class);
-        game.getAssets().load("firesheet.png", Texture.class);
-        game.getAssets().load("watersheet.png", Texture.class);
-        game.getAssets().load("cup.png", Texture.class);
+        game.getAssets().load("UI/cup.png", Texture.class);
         game.getAssets().load("Levels/Unlocked/levels_unlocked.pack", TextureAtlas.class);
         game.getAssets().load("Levels/Locked/levels_locked.pack", TextureAtlas.class);
-        game.getAssets().load("Title.png", Texture.class);
-        game.getAssets().load("Buttons/exitbutton.png", Texture.class);
-        game.getAssets().load("Buttons/playbutton.png", Texture.class);
-        game.getAssets().load("highScores.png", Texture.class);
+        game.getAssets().load("UI/Title.png", Texture.class);
+        game.getAssets().load("UI/exitbutton.png", Texture.class);
+        game.getAssets().load("UI/playbutton.png", Texture.class);
+        game.getAssets().load("UI/highScores.png", Texture.class);
+        game.getAssets().load("UI/win.png", Texture.class);
+        game.getAssets().load("UI/gameover.png", Texture.class);
+        game.getAssets().load("UI/replay.png", Texture.class);
+        game.getAssets().load("UI/mainmenu.png", Texture.class);
 
         FreetypeFontLoader.FreeTypeFontLoaderParameter parameters = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         parameters.fontFileName = "Fonts/ethnocentric.ttf";
@@ -72,6 +74,13 @@ public class SplashScreen implements Screen {
         parameters.fontParameters.magFilter = Texture.TextureFilter.Linear;
         game.getAssets().load("size60.ttf", BitmapFont.class, parameters);
 
+        parameters.fontFileName = "Fonts/ethnocentric.ttf";
+        parameters.fontParameters.size = 100;
+        parameters.fontParameters.color = Color.BLACK;
+        parameters.fontParameters.minFilter = Texture.TextureFilter.Linear;
+        parameters.fontParameters.magFilter = Texture.TextureFilter.Linear;
+        game.getAssets().load("size100.ttf", BitmapFont.class, parameters);
+
         game.getAssets().finishLoading();
     }
 
@@ -79,8 +88,7 @@ public class SplashScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        splashImage.setOrigin(game.getAssets().get("TariLogo.png", Texture.class).getWidth() / 2,
-                game.getAssets().get("TariLogo.png", Texture.class).getHeight() / 2);
+        splashImage.setOrigin(splashImage.getWidth() / 2, splashImage.getHeight() / 2);
 
         stage.addActor(splashImage);
 
