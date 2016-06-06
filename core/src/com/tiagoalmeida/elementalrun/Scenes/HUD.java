@@ -3,56 +3,49 @@ package com.tiagoalmeida.elementalrun.Scenes;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.tiagoalmeida.elementalrun.ElementalRun;
 
 public class HUD implements Disposable {
+    private ElementalRun game;
     public Stage stage;
-    private Viewport viewport;
 
     private Integer worldTimer;
     private float timeCount;
     private static Integer score;
 
-    Label countDownLabel;
-    static Label scoreLabel;
-    Label timeLabel;
-    Label levelLabel;
-    Label worldLabel;
-    Label marioLabel;
+    private static Label scoreLabel;
+    private Label timeLabel, timeTextLabel, scoreTextLabel;
 
-    public HUD(SpriteBatch sb) {
-        worldTimer = 300;
+    public HUD(ElementalRun game) {
+        this.game = game;
+        worldTimer = 0;
         timeCount = 0;
         score = 0;
 
-        viewport = new FitViewport(ElementalRun.V_WIDTH, ElementalRun.V_HEIGHT, new OrthographicCamera());
-        stage = new Stage(viewport, sb);
+        stage = new Stage(new FitViewport(ElementalRun.V_WIDTH, ElementalRun.V_HEIGHT, new OrthographicCamera()));
 
         Table table = new Table();
         table.top();
         table.setFillParent(true);
 
-        countDownLabel = new Label(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        scoreLabel = new Label(String.format("%06d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        timeLabel = new Label("Time", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        levelLabel = new Label("1-1", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        worldLabel = new Label("World", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        marioLabel = new Label("Player", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        scoreTextLabel = new Label("Score", new Label.LabelStyle(
+                game.getAssets().get("size60.ttf", BitmapFont.class), Color.BLACK));
+        timeTextLabel = new Label("Time", new Label.LabelStyle(
+                game.getAssets().get("size60.ttf", BitmapFont.class), Color.BLACK));
+        scoreLabel = new Label(String.format("%d", score), new Label.LabelStyle(
+                game.getAssets().get("size60.ttf", BitmapFont.class), Color.BLACK));
+        timeLabel = new Label(String.format("%d", worldTimer), new Label.LabelStyle(
+                game.getAssets().get("size60.ttf", BitmapFont.class), Color.BLACK));
 
-        table.add(marioLabel).expandX().padTop(10);
-        table.add(worldLabel).expandX().padTop(10);
+        table.add(timeTextLabel).expandX().padTop(10);
+        table.add(scoreTextLabel).expandX().row();
         table.add(timeLabel).expandX().padTop(10);
-        table.row();
         table.add(scoreLabel).expandX();
-        table.add(levelLabel).expandX();
-        table.add(countDownLabel).expandX();
 
         stage.addActor(table);
 
@@ -64,15 +57,15 @@ public class HUD implements Disposable {
         timeCount += deltaTime;
 
         if(timeCount >= 1) {
-            worldTimer--;
-            countDownLabel.setText(String.format("%03d", worldTimer));
+            worldTimer++;
+            timeLabel.setText(String.format("%d", worldTimer));
             timeCount = 0;
         }
     }
 
     public static void addScore(int value) {
         score += value;
-        scoreLabel.setText(String.format("%06d", score));
+        scoreLabel.setText(String.format("%d", score));
     }
 
     @Override

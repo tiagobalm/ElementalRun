@@ -26,6 +26,7 @@ public class LevelScreen implements Screen {
     private Stage stage;
     private Table table;
     private Array<ImageButton> imageButtonsArray;
+    private boolean debug;
 
     public LevelScreen(ElementalRun game) {
         this.game = game;
@@ -34,9 +35,12 @@ public class LevelScreen implements Screen {
         levelsLocked = new Array<TextureRegion>();
         levelsUnlocked = new Array<TextureRegion>();
 
+        debug = false;
+
         table = new Table();
         this.table.setBounds(0, 0, game.V_WIDTH, game.V_HEIGHT);
-        table.debug();
+        if(debug)
+            table.debug();
 
         stage = new Stage(new FitViewport(game.V_WIDTH, game.V_HEIGHT, game.camera));
         String s;

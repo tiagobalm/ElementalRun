@@ -58,7 +58,7 @@ public class PlayScreen implements Screen {
         gamePort = new FitViewport(ElementalRun.V_WIDTH / ElementalRun.PPM, ElementalRun.V_HEIGHT / ElementalRun.PPM, gameCam);
 
         //Creates game HUD
-        hud = new HUD(game.batch);
+        hud = new HUD(game);
 
         //Load or map and setup our map renderer
         mapLoader = new TmxMapLoader();
@@ -78,7 +78,7 @@ public class PlayScreen implements Screen {
         player = new Player(this);
 
         world.setContactListener(new WorldContactListener());
-        debugMode = true;
+        debugMode = false;
 
     }
 
@@ -171,7 +171,7 @@ public class PlayScreen implements Screen {
                 game.setScreen(new WinnerScreen(game, hud.getScore(), level));
                 dispose();
             } else {
-                game.setScreen(new GameOverScreen(game));
+                game.setScreen(new GameOverScreen(game, level));
                 dispose();
             }
         }

@@ -25,14 +25,19 @@ public class MainMenuScreen implements Screen {
     private TextureRegionDrawable highScoresTexture;
     private ImageButton highScores, clickContinue, clickExit;
 
+    private boolean debug;
+
     public MainMenuScreen(ElementalRun game) {
         this.game = game;
         this.stage = new Stage(new FitViewport(game.V_WIDTH, game.V_HEIGHT, game.camera));
         Gdx.input.setInputProcessor(stage);
 
+        debug = false;
+
         this.table = new Table();
         this.table.setBounds(0, 0, game.V_WIDTH, game.V_HEIGHT);
-        //this.table.debug();
+        if(debug)
+            this.table.debug();
 
         highScoresTexture = new TextureRegionDrawable();
         this.highScores = new ImageButton(highScoresTexture);
@@ -71,10 +76,11 @@ public class MainMenuScreen implements Screen {
             }
         });
         Table insideTable = new Table();
-        insideTable.debug();
+        if(debug)
+            insideTable.debug();
         insideTable.setTransform(true);
         insideTable.setOrigin(clickContinue.getWidth() / 2, clickContinue.getHeight() / 2);
-        insideTable.addAction(Actions.forever(Actions.sequence(Actions.delay(7f),Actions.rotateBy(360f, 0.4f))));
+        insideTable.addAction(Actions.forever(Actions.sequence(Actions.delay(5f),Actions.rotateBy(360f, 0.4f))));
         insideTable.add(clickContinue);
         table.add(insideTable).expandX();
 
@@ -89,10 +95,11 @@ public class MainMenuScreen implements Screen {
             }
         });
         insideTable = new Table();
-        insideTable.debug();
+        if(debug)
+            insideTable.debug();
         insideTable.setTransform(true);
         insideTable.setOrigin(clickExit.getWidth() / 2, clickExit.getHeight() / 2);
-        insideTable.addAction(Actions.forever(Actions.sequence(Actions.delay(7f), Actions.rotateBy(360f, 0.4f))));
+        insideTable.addAction(Actions.forever(Actions.sequence(Actions.delay(5f), Actions.rotateBy(360f, 0.4f))));
         insideTable.add(clickExit);
         table.add(insideTable).expandX().row();
 

@@ -19,7 +19,7 @@ public class GameOverScreen implements Screen {
 
     private ElementalRun game;
 
-    public GameOverScreen(ElementalRun game){
+    public GameOverScreen(ElementalRun game, int level){
         this.game = game;
         viewport = new FitViewport(ElementalRun.V_WIDTH, ElementalRun.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, game.batch);

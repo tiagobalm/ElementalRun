@@ -58,19 +58,20 @@ public class SplashScreen implements Screen {
         game.getAssets().load("highScores.png", Texture.class);
 
         FreetypeFontLoader.FreeTypeFontLoaderParameter parameters = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        parameters.fontFileName = "Fonts/OpenSans-Light.ttf";
+        parameters.fontFileName = "Fonts/ethnocentric.ttf";
         parameters.fontParameters.size = 120;
         parameters.fontParameters.color = Color.BLACK;
         parameters.fontParameters.minFilter = Texture.TextureFilter.Linear;
         parameters.fontParameters.magFilter = Texture.TextureFilter.Linear;
         game.getAssets().load("size120.ttf", BitmapFont.class, parameters);
 
-        parameters.fontFileName = "Fonts/OpenSans-Light.ttf";
-        parameters.fontParameters.size = 180;
+        parameters.fontFileName = "Fonts/ethnocentric.ttf";
+        parameters.fontParameters.size = 60;
         parameters.fontParameters.color = Color.BLACK;
         parameters.fontParameters.minFilter = Texture.TextureFilter.Linear;
         parameters.fontParameters.magFilter = Texture.TextureFilter.Linear;
-        game.getAssets().load("size180.ttf", BitmapFont.class, parameters);
+        game.getAssets().load("size60.ttf", BitmapFont.class, parameters);
+
         game.getAssets().finishLoading();
     }
 

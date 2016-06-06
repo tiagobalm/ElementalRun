@@ -23,13 +23,16 @@ public class HighScoresScreen implements Screen  {
     private Image title;
     private Label firstScore, secondScore, thirdScore;
 
+    public boolean debug;
+
     public HighScoresScreen(ElementalRun game) {
         this.game = game;
 
         stage = new Stage(new FitViewport(game.V_WIDTH, game.V_HEIGHT, game.camera));
         Gdx.input.setInputProcessor(stage);
         table = new Table();
-        table.debug();
+        if(debug)
+            table.debug();
         table.setBounds(0, 0, game.V_WIDTH, game.V_HEIGHT);
         title = new Image(game.getAssets().get("highScores.png", Texture.class));
 
@@ -48,9 +51,9 @@ public class HighScoresScreen implements Screen  {
     public void show() {
         table.add(title).expandX().row();
         table.add().row();
-        table.add(firstScore).center().row();
-        table.add(secondScore).center().row();
-        table.add(thirdScore).center().row();
+        table.add(firstScore).center().expandY().row();
+        table.add(secondScore).center().expandY().row();
+        table.add(thirdScore).center().expandY().row();
         stage.addActor(table);
     }
 
