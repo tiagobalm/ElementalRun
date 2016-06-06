@@ -7,16 +7,13 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
-import com.tiagoalmeida.elementalrun.Screens.LoadingScreen;
 import com.tiagoalmeida.elementalrun.Screens.MainMenuScreen;
 import com.tiagoalmeida.elementalrun.Screens.SplashScreen;
-import com.tiagoalmeida.elementalrun.Tools.GameData;
 import com.tiagoalmeida.elementalrun.Tools.SaveHandler;
 
 public class ElementalRun extends Game {
@@ -93,6 +90,7 @@ public class ElementalRun extends Game {
 
 	@Override
 	public void dispose() {
+		System.out.println("Disposing Elemental Run");
 		assets.dispose();
 		batch.dispose();
 		splashScreen.dispose();

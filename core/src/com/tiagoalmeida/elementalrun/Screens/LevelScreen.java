@@ -25,12 +25,10 @@ public class LevelScreen implements Screen {
     private Array<TextureRegion> levelsLocked, levelsUnlocked;
     private Stage stage;
     private Table table;
-    private OrthographicCamera camera;
     private Array<ImageButton> imageButtonsArray;
 
     public LevelScreen(ElementalRun game) {
         this.game = game;
-        this.camera = game.camera;
         imageButtonsArray = new Array<ImageButton>();
 
         levelsLocked = new Array<TextureRegion>();
@@ -38,10 +36,9 @@ public class LevelScreen implements Screen {
 
         table = new Table();
         this.table.setBounds(0, 0, game.V_WIDTH, game.V_HEIGHT);
-        table.pad(10);
         table.debug();
 
-        stage = new Stage(new FitViewport(game.V_WIDTH, game.V_HEIGHT, camera));
+        stage = new Stage(new FitViewport(game.V_WIDTH, game.V_HEIGHT, game.camera));
         String s;
 
         for(int i = 1; i < 26; i++) {
@@ -53,7 +50,6 @@ public class LevelScreen implements Screen {
         }
 
         int currentLevel = SaveHandler.gameData.getCurrentLevel();
-        System.out.println(currentLevel);
         int changeRow = 0;
 
         for(int i = 0; i < currentLevel; i++) {
@@ -64,7 +60,7 @@ public class LevelScreen implements Screen {
                     setPlayScreen(event);
                 }
             });
-            table.add(imageButtonsArray.get(i));
+            table.add(imageButtonsArray.get(i)).pad(10, 80, 10, 80);
             changeRow++;
             if(changeRow == 5) {
                 table.row();
@@ -73,7 +69,7 @@ public class LevelScreen implements Screen {
         }
 
         for(int i = currentLevel; i < 25; i++) {
-            table.add(new ImageButton(new TextureRegionDrawable(levelsLocked.get(i))));
+            table.add(new ImageButton(new TextureRegionDrawable(levelsLocked.get(i)))).pad(10, 80, 10, 80);
             changeRow++;
             if(changeRow == 5) {
                 table.row();

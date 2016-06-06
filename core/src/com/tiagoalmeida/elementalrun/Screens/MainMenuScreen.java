@@ -53,7 +53,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-        highScoresTexture.setRegion(new TextureRegion(game.getAssets().get("highScores.png", Texture.class)));
+        highScoresTexture.setRegion(new TextureRegion(game.getAssets().get("cup.png", Texture.class)));
 
         game.getAssets().get("Title.png", Texture.class).setFilter(
                 Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);

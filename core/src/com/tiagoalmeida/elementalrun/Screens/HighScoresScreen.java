@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -18,7 +20,8 @@ public class HighScoresScreen implements Screen  {
     private Integer[] highScores;
     private Table table;
     private Stage stage;
-    private Label title, firstScore, secondScore, thirdScore;
+    private Image title;
+    private Label firstScore, secondScore, thirdScore;
 
     public HighScoresScreen(ElementalRun game) {
         this.game = game;
@@ -28,8 +31,7 @@ public class HighScoresScreen implements Screen  {
         table = new Table();
         table.debug();
         table.setBounds(0, 0, game.V_WIDTH, game.V_HEIGHT);
-        title = new Label("High Scores", new Label.LabelStyle(
-                game.getAssets().get("size180.ttf", BitmapFont.class), Color.BLACK));
+        title = new Image(game.getAssets().get("highScores.png", Texture.class));
 
         SaveHandler.load();
         highScores = SaveHandler.gameData.getHighScores();
