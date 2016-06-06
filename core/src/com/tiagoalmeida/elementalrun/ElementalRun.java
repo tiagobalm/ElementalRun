@@ -42,7 +42,6 @@ public class ElementalRun extends Game {
 	public BitmapFont font24;
 	public static OrthographicCamera camera;
 
-	//public LoadingScreen loadingScreen;
 	public SplashScreen splashScreen;
 	public MainMenuScreen mainMenuScreen;
 
@@ -63,7 +62,6 @@ public class ElementalRun extends Game {
 		camera.setToOrtho(false, V_WIDTH, V_HEIGHT);
 
 		//Screen Singletons
-		//loadingScreen = new LoadingScreen(this);
 		splashScreen = new SplashScreen(this);
 		mainMenuScreen = new MainMenuScreen(this);
 

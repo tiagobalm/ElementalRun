@@ -2,16 +2,14 @@ package com.tiagoalmeida.elementalrun.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -22,10 +20,10 @@ public class MainMenuScreen implements Screen {
     private final ElementalRun game;
     private Stage stage;
     private Table table;
-    private Label title, clickContinue, clickExit;
+    private Image title;
 
     private TextureRegionDrawable highScoresTexture;
-    private ImageButton highScores;
+    private ImageButton highScores, clickContinue, clickExit;
 
     public MainMenuScreen(ElementalRun game) {
         this.game = game;
@@ -34,7 +32,7 @@ public class MainMenuScreen implements Screen {
 
         this.table = new Table();
         this.table.setBounds(0, 0, game.V_WIDTH, game.V_HEIGHT);
-        this.table.debug();
+        //this.table.debug();
 
         highScoresTexture = new TextureRegionDrawable();
         this.highScores = new ImageButton(highScoresTexture);
@@ -57,33 +55,46 @@ public class MainMenuScreen implements Screen {
     public void show() {
         highScoresTexture.setRegion(new TextureRegion(game.getAssets().get("highScores.png", Texture.class)));
 
-        title = new Label("Elemental Run", new Label.LabelStyle(
-                game.getAssets().get("size180.ttf", BitmapFont.class), Color.BLACK));
-        table.add(title).expandX().center().colspan(2).row();
+        game.getAssets().get("Title.png", Texture.class).setFilter(
+                Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        title = new Image(game.getAssets().get("Title.png", Texture.class));
+        table.add(title).expandX().expandY().center().colspan(2).row();
 
-        clickContinue = new Label("Start", new Label.LabelStyle(
-                game.getAssets().get("size120.ttf", BitmapFont.class), Color.BLACK));
-        clickContinue.addAction(Actions.forever(Actions.sequence(Actions.parallel(Actions.moveBy(0f, 10f, 1f), Actions.alpha(0.5f, 1f)),
-                Actions.parallel(Actions.moveBy(0f, -10f, 1f), Actions.alpha(1f, 1f)))));
+        //Play button
+        game.getAssets().get("Buttons/playbutton.png", Texture.class).setFilter(
+                Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        clickContinue = new ImageButton(new TextureRegionDrawable(new TextureRegion(game.getAssets().get("Buttons/playbutton.png", Texture.class))));
         clickContinue.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 setLevelsScreen();
             }
         });
-        table.add(clickContinue).expandY();
+        Table insideTable = new Table();
+        insideTable.debug();
+        insideTable.setTransform(true);
+        insideTable.setOrigin(clickContinue.getWidth() / 2, clickContinue.getHeight() / 2);
+        insideTable.addAction(Actions.forever(Actions.sequence(Actions.delay(7f),Actions.rotateBy(360f, 0.4f))));
+        insideTable.add(clickContinue);
+        table.add(insideTable).expandX();
 
-        clickExit = new Label("Exgt", new Label.LabelStyle(
-                game.getAssets().get("size120.ttf", BitmapFont.class), Color.BLACK));
-        clickExit.addAction(Actions.forever(Actions.sequence(Actions.parallel(Actions.moveBy(0f, 10f, 1f), Actions.alpha(0.5f, 1f)),
-                Actions.parallel(Actions.moveBy(0f, -10f, 1f), Actions.alpha(1f, 1f)))));
+        //Exit Button
+        game.getAssets().get("Buttons/exitbutton.png", Texture.class).setFilter(
+                Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        clickExit = new ImageButton(new TextureRegionDrawable(new TextureRegion(game.getAssets().get("Buttons/exitbutton.png", Texture.class))));
         clickExit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
             }
         });
-        table.add(clickExit).expandY().row();
+        insideTable = new Table();
+        insideTable.debug();
+        insideTable.setTransform(true);
+        insideTable.setOrigin(clickExit.getWidth() / 2, clickExit.getHeight() / 2);
+        insideTable.addAction(Actions.forever(Actions.sequence(Actions.delay(7f), Actions.rotateBy(360f, 0.4f))));
+        insideTable.add(clickExit);
+        table.add(insideTable).expandX().row();
 
         table.add(highScores).width(game.V_WIDTH / 4).height(game.V_HEIGHT / 4).colspan(2).right();
         stage.addActor(table);

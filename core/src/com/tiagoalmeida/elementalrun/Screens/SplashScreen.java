@@ -52,6 +52,9 @@ public class SplashScreen implements Screen {
         game.getAssets().load("highScores.png", Texture.class);
         game.getAssets().load("Levels/Unlocked/levels_unlocked.pack", TextureAtlas.class);
         game.getAssets().load("Levels/Locked/levels_locked.pack", TextureAtlas.class);
+        game.getAssets().load("Title.png", Texture.class);
+        game.getAssets().load("Buttons/exitbutton.png", Texture.class);
+        game.getAssets().load("Buttons/playbutton.png", Texture.class);
 
         FreetypeFontLoader.FreeTypeFontLoaderParameter parameters = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         parameters.fontFileName = "Fonts/OpenSans-Light.ttf";
