@@ -44,6 +44,9 @@ public class FutureRun extends Game {
 
 	public boolean withSound;
 
+	/**
+	 * Creates the main game.
+	 */
 	@Override
 	public void create () {
 
@@ -72,15 +75,25 @@ public class FutureRun extends Game {
 		setScreen(splashScreen);
 	}
 
+	/**
+	 *
+	 * @return Assests Manager.
+     */
 	public static AssetManager getAssets() {
 		return assets;
 	}
 
+	/**
+	 * Override of render method. Just calls super.render().
+	 */
 	@Override
 	public void render () {
 		super.render();
 	}
 
+	/**
+	 * Dispose method. Disposes assests manager, spritebatch, splash screen and main application.
+	 */
 	@Override
 	public void dispose() {
 		System.out.println("Disposing Elemental Run");

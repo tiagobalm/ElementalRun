@@ -9,9 +9,15 @@ import com.tiagoalmeida.elementalrun.FutureRun;
 import com.tiagoalmeida.elementalrun.Sprites.Items.InteractiveTileObject;
 import com.tiagoalmeida.elementalrun.Sprites.Player;
 
-
+/**
+ * World contact listener class. This class deals with all collisions.
+ */
 public class WorldContactListener implements ContactListener {
 
+    /**
+     * Override of beginContact method. Checks which collision is happening and deals with it accordingly.
+     * @param contact Contact object containing all the information about the colision.
+     */
     @Override
     public void beginContact(Contact contact) {
         Fixture fixA = contact.getFixtureA();
@@ -50,15 +56,27 @@ public class WorldContactListener implements ContactListener {
         }
     }
 
+    /**
+     * Overrides endContact method. Does nothing.
+     * @param contact
+     */
     @Override
     public void endContact(Contact contact) {
     }
 
+    /**
+     * Overrides preSolve method. Does nothing.
+     * @param contact
+     */
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
 
     }
 
+    /**
+     * Overrides postSolve method. Does nothing.
+     * @param contact
+     */
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
 

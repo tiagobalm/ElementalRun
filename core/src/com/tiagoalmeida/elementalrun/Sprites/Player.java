@@ -37,8 +37,8 @@ public class Player extends Sprite {
 
     public Player(PlayScreen screen) {
         this.world = screen.getWorld();
-        currentState = State.STANDING;
-        previousState = State.STANDING;
+        currentState = State.RUNNING;
+        previousState = State.RUNNING;
         stateTimer = 0;
         runningRight = true;
         fire = true;
@@ -91,7 +91,7 @@ public class Player extends Sprite {
             return State.JUMPING;
         else if(b2Body.getLinearVelocity().y < 0 && (previousState == State.JUMPING || previousState == State.FALLING))
             return State.FALLING;
-        else if(b2Body.getLinearVelocity().x != 0 && b2Body.getLinearVelocity().y == 0)
+        else if(b2Body.getLinearVelocity().y == 0 && previousState != State.JUMPING)
             return State.RUNNING;
         else
             return State.STANDING;
@@ -101,15 +101,7 @@ public class Player extends Sprite {
         currentState = getState();
 
         TextureRegion region;
-        switch (currentState) {
-            case JUMPING:
-            case FALLING:
-            case RUNNING:
-            case STANDING:
-            default:
-                region = isFire() ? firePlayer.getKeyFrame(stateTimer, true) : waterPlayer.getKeyFrame(stateTimer, true);
-                break;
-        }
+        region = isFire() ? firePlayer.getKeyFrame(stateTimer, true) : waterPlayer.getKeyFrame(stateTimer, true);
 
         if((b2Body.getLinearVelocity().x < 0 || !runningRight) && !region.isFlipX()) {
             region.flip(true, false);
@@ -160,6 +152,7 @@ public class Player extends Sprite {
             filter.maskBits |= FutureRun.BLUE_GROUND_BIT;
             b2Body.getFixtureList().first().setFilterData(filter);
         }
+
         if(getState() == State.RUNNING)
             b2Body.setLinearVelocity(new Vector2(7.5f, 0f));
         setPosition(b2Body.getPosition().x - getWidth() / 2, b2Body.getPosition().y - getHeight() / 2);
