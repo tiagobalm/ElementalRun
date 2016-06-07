@@ -149,7 +149,7 @@ public class PlayScreen implements Screen {
         hud.update(deltaTime);
 
         gameCam.position.x = player.b2Body.getPosition().x + game.V_WIDTH / 4 / FutureRun.PPM;
-        gameCam.position.y = player.b2Body.getPosition().y + game.V_HEIGHT / 4 / FutureRun.PPM;
+        gameCam.position.y = player.b2Body.getPosition().y + game.V_HEIGHT / 20 / FutureRun.PPM;
 
         gameCam.update();
         renderer.setView(gameCam);

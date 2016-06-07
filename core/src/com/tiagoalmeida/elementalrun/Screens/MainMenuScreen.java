@@ -71,7 +71,7 @@ public class MainMenuScreen implements Screen {
             playerTexture.add(game.getAssets().get("UI/MainMenuPlayer.pack", TextureAtlas.class).findRegion(s));
         }
         player = new Sprite(playerTexture.get(playerCurrentTexture));
-        player.setPosition(0, 3 * game.V_HEIGHT / 4);
+        player.setPosition(0, 2 * game.V_HEIGHT / 3);
     }
 
     @Override
