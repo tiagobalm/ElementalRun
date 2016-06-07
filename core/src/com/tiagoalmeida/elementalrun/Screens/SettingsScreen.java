@@ -123,7 +123,7 @@ public class SettingsScreen implements Screen  {
     }
 
     private void setMainMenuScreen() {
-        stage.addAction(Actions.sequence(Actions.fadeOut(0.2f), Actions.run(new Runnable() {
+        stage.addAction(Actions.sequence(Actions.fadeOut(0.4f), Actions.run(new Runnable() {
             @Override
             public void run() {
                 game.setScreen(new MainMenuScreen(game));
@@ -135,7 +135,7 @@ public class SettingsScreen implements Screen  {
     @Override
     public void show() {
         constructStage();
-        stage.addAction(Actions.sequence(Actions.alpha(0f), Actions.fadeIn(0.2f)));
+        stage.addAction(Actions.sequence(Actions.alpha(0f), Actions.fadeIn(0.4f)));
     }
 
     @Override

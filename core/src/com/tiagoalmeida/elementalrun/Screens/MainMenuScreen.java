@@ -142,7 +142,7 @@ public class MainMenuScreen implements Screen {
         table.add(highScores).width(game.V_WIDTH / 4).height(game.V_HEIGHT / 4).colspan(2).right();
         stage.addActor(table);
 
-        stage.addAction(Actions.sequence(Actions.alpha(0f), Actions.fadeIn(0.2f)));
+        stage.addAction(Actions.sequence(Actions.alpha(0f), Actions.fadeIn(0.4f)));
         if(game.withSound) {
             game.getAssets().get("Audio/Music/MainMenu.wav", Music.class).setLooping(true);
             game.getAssets().get("Audio/Music/MainMenu.wav", Music.class).play();
@@ -150,7 +150,7 @@ public class MainMenuScreen implements Screen {
     }
 
     private void setHighScores() {
-        stage.addAction(Actions.sequence(Actions.fadeOut(0.2f), Actions.run(new Runnable() {
+        stage.addAction(Actions.sequence(Actions.fadeOut(0.4f), Actions.run(new Runnable() {
             @Override
             public void run() {
                 game.setScreen(new HighScoresScreen(game));
@@ -159,7 +159,7 @@ public class MainMenuScreen implements Screen {
         })));
     }
     private void setLevelsScreen() {
-        stage.addAction(Actions.sequence(Actions.fadeOut(0.2f), Actions.run(new Runnable() {
+        stage.addAction(Actions.sequence(Actions.fadeOut(0.4f), Actions.run(new Runnable() {
             @Override
             public void run() {
                 game.setScreen(new LevelScreen(game));
@@ -169,7 +169,7 @@ public class MainMenuScreen implements Screen {
     }
 
     private void setSettigsScreen() {
-        stage.addAction(Actions.sequence(Actions.fadeOut(0.2f), Actions.run(new Runnable() {
+        stage.addAction(Actions.sequence(Actions.fadeOut(0.4f), Actions.run(new Runnable() {
             @Override
             public void run() {
                 game.setScreen(new SettingsScreen(game));

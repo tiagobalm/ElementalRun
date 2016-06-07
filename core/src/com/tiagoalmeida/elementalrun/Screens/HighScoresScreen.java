@@ -60,7 +60,7 @@ public class HighScoresScreen implements Screen  {
         table.add(thirdScore).center().pad(50, 0, 50, 0).row();
         stage.addActor(table);
 
-        stage.addAction(Actions.sequence(Actions.alpha(0f), Actions.fadeIn(0.2f)));
+        stage.addAction(Actions.sequence(Actions.alpha(0f), Actions.fadeIn(0.4f)));
 
     }
 
@@ -81,7 +81,7 @@ public class HighScoresScreen implements Screen  {
 
     private void handleInput() {
         if(Gdx.input.justTouched()) {
-            stage.addAction(Actions.sequence(Actions.fadeOut(0.2f), Actions.run(new Runnable() {
+            stage.addAction(Actions.sequence(Actions.fadeOut(0.4f), Actions.run(new Runnable() {
                 @Override
                 public void run() {
                     game.setScreen(new MainMenuScreen(game));
