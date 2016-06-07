@@ -65,6 +65,7 @@ public class SplashScreen implements Screen {
         game.getAssets().load("UI/mainmenu.png", Texture.class);
         game.getAssets().load("UI/Back.png", Texture.class);
         game.getAssets().load("UI/Controls.png", Texture.class);
+        game.getAssets().load("UI/nextLevel.png", Texture.class);
         game.getAssets().load("UI/MainMenuPlayer.pack", TextureAtlas.class);
         game.getAssets().load("UI/Background/background1.png", Texture.class);
         game.getAssets().load("UI/Background/background2.png", Texture.class);

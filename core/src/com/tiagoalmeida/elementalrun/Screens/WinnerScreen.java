@@ -29,7 +29,7 @@ public class WinnerScreen implements Screen {
     private int level;
     private Integer score;
     private Image win;
-    private ImageButton replay, mainmenu;
+    private ImageButton replay, mainmenu, nextLevel;
     private Label scoreLabel;
     private Table table;
     private Stage stage;
@@ -64,7 +64,7 @@ public class WinnerScreen implements Screen {
         game.getAssets().get("UI/win.png", Texture.class).setFilter(
                 Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         win = new Image(game.getAssets().get("UI/win.png", Texture.class));
-        table.add(win).expandX().center().colspan(4).row();
+        table.add(win).expandX().center().colspan(3).row();
 
         //Score label
         scoreLabel = new Label(score + "", new Label.LabelStyle(
@@ -78,11 +78,21 @@ public class WinnerScreen implements Screen {
         replay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                setPlayScreen();
+                setPlayScreen(level);
             }
         });
-        table.add(replay);
-        table.add();
+        table.add(replay).expandX();
+
+        game.getAssets().get("UI/nextLevel.png", Texture.class).setFilter(
+                Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        nextLevel = new ImageButton(new TextureRegionDrawable(new TextureRegion(game.getAssets().get("UI/nextLevel.png", Texture.class))));
+        nextLevel.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                setPlayScreen(level + 1);
+            }
+        });
+        table.add(nextLevel).expandX();
 
         //Main Menu Button
         game.getAssets().get("UI/mainmenu.png", Texture.class).setFilter(
@@ -94,8 +104,7 @@ public class WinnerScreen implements Screen {
                 setMainMenuScreen();
             }
         });
-        table.add();
-        table.add(mainmenu);
+        table.add(mainmenu).expandX();
 
         stage.addActor(table);
     }
@@ -105,8 +114,9 @@ public class WinnerScreen implements Screen {
         dispose();
     }
 
-    private void setPlayScreen() {
-        game.setScreen(new PlayScreen(game, level));
+    private void setPlayScreen(int level) {
+        if(level < 4 && level <= SaveHandler.gameData.getCurrentLevel())
+            game.setScreen(new PlayScreen(game, level));
         dispose();
     }
 

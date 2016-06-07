@@ -12,8 +12,6 @@ public class GameData implements Serializable {
     private Integer[] highScores;
     private int currentLevel;
 
-    private int testHighScore;
-
     public GameData() {
         currentLevel = 1;
         highScores = new Integer[MAX_SCORES];
@@ -31,7 +29,15 @@ public class GameData implements Serializable {
 
     public void setCurrentLevel(int level) { this.currentLevel = level;}
 
-    public boolean isHighScore(int score) { return score > highScores[MAX_SCORES - 1]; }
+    public boolean isHighScore(int score) {
+        boolean isPresent = false;
+
+        for(Integer i : highScores)
+            if(score == i)
+                isPresent = true;
+
+        return !isPresent && score > highScores[MAX_SCORES - 1];
+    }
 
     public void addHighScore(int score) {
         if(isHighScore(score)) {
