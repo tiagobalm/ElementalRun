@@ -10,6 +10,9 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.tiagoalmeida.elementalrun.FutureRun;
 
+/**
+ * Game HUD class.
+ */
 public class HUD implements Disposable {
     private FutureRun game;
     public Stage stage;
@@ -21,6 +24,10 @@ public class HUD implements Disposable {
     private static Label scoreLabel;
     private Label timeLabel, timeTextLabel, scoreTextLabel;
 
+    /**
+     * HUD constructor.
+     * @param game Main game.
+     */
     public HUD(FutureRun game) {
         this.game = game;
         worldTimer = 0;
@@ -51,8 +58,16 @@ public class HUD implements Disposable {
 
     }
 
+    /**
+     *
+     * @return the score of the player.
+     */
     public Integer getScore() { return score; }
 
+    /**
+     * Updates the stage labels.
+     * @param deltaTime Time passed since last call.
+     */
     public void update(float deltaTime) {
         timeCount += deltaTime;
 
@@ -63,11 +78,18 @@ public class HUD implements Disposable {
         }
     }
 
+    /**
+     * Adds to the score the value passed as argument.
+     * @param value Value to add to the score.
+     */
     public static void addScore(int value) {
         score += value;
         scoreLabel.setText(String.format("%d", score));
     }
 
+    /**
+     * Override of dispose method. Disposed the stage.
+     */
     @Override
     public void dispose() {
         stage.dispose();

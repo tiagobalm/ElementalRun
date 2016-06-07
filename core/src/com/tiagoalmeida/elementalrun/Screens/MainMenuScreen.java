@@ -20,6 +20,9 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.tiagoalmeida.elementalrun.FutureRun;
 
+/**
+ * Main menu Screen.
+ */
 public class MainMenuScreen implements Screen {
     private final FutureRun game;
     private Stage stage;
@@ -38,6 +41,10 @@ public class MainMenuScreen implements Screen {
 
     private boolean debug;
 
+    /**
+     * Main menu constructor.
+     * @param game Main game.
+     */
     public MainMenuScreen(FutureRun game) {
         this.game = game;
         this.stage = new Stage(new FitViewport(game.V_WIDTH, game.V_HEIGHT, game.camera));
@@ -74,6 +81,9 @@ public class MainMenuScreen implements Screen {
         player.setPosition(0, 2 * game.V_HEIGHT / 3);
     }
 
+    /**
+     * Constructs main menu stage.
+     */
     @Override
     public void show() {
         game.getAssets().get("UI/leaderboard.png", Texture.class).setFilter(
@@ -149,6 +159,9 @@ public class MainMenuScreen implements Screen {
         }
     }
 
+    /**
+     * Changes to high scores screen.
+     */
     private void setHighScores() {
         stage.addAction(Actions.sequence(Actions.fadeOut(0.4f), Actions.run(new Runnable() {
             @Override
@@ -158,6 +171,10 @@ public class MainMenuScreen implements Screen {
             }
         })));
     }
+
+    /**
+     * Changes to select leve screen.
+     */
     private void setLevelsScreen() {
         stage.addAction(Actions.sequence(Actions.fadeOut(0.4f), Actions.run(new Runnable() {
             @Override
@@ -168,6 +185,9 @@ public class MainMenuScreen implements Screen {
         })));
     }
 
+    /**
+     * Changes to settings screen.
+     */
     private void setSettigsScreen() {
         stage.addAction(Actions.sequence(Actions.fadeOut(0.4f), Actions.run(new Runnable() {
             @Override
@@ -178,6 +198,10 @@ public class MainMenuScreen implements Screen {
         })));
     }
 
+    /**
+     * Override of render method. Calls update and draws stage to the screen.
+     * @param delta Time pased since last call.
+     */
     @Override
     public void render(float delta) {
         //clears the screen with white
@@ -199,6 +223,10 @@ public class MainMenuScreen implements Screen {
 
     }
 
+    /**
+     * Updates the stage.
+     * @param delta Time passed since last call.
+     */
     private void update(float delta) {
         playerCurrentTexture = ++playerCurrentTexture % playerTexture.size;
         player.setRegion(playerTexture.get(playerCurrentTexture));
@@ -246,9 +274,11 @@ public class MainMenuScreen implements Screen {
 
     }
 
+    /**
+     * Override of dispose method. Disposes stage.
+     */
     @Override
     public void dispose() {
-        System.out.println("Disposing Main Menu Screen");
         this.stage.dispose();
     }
 }

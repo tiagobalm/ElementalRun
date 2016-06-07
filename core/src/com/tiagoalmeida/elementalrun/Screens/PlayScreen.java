@@ -4,14 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.tiagoalmeida.elementalrun.FutureRun;
@@ -20,6 +24,9 @@ import com.tiagoalmeida.elementalrun.Sprites.Player;
 import com.tiagoalmeida.elementalrun.Tools.B2WorldCreator;
 import com.tiagoalmeida.elementalrun.Tools.WorldContactListener;
 
+/**
+ * Play screen class.
+ */
 public class PlayScreen implements Screen {
     public FutureRun game;
     private OrthographicCamera gameCam;
@@ -47,6 +54,11 @@ public class PlayScreen implements Screen {
     private Music playMusic;
     private Sound gameOverSound, portalSound, changeColorSound;
 
+    /**
+     * Play screen constructor
+     * @param game Main game.
+     * @param level Level to be played.
+     */
     public PlayScreen(FutureRun game, int level) {
         this.game = game;
         this.level = level;
@@ -91,46 +103,50 @@ public class PlayScreen implements Screen {
         changeColorSound = game.getAssets().get("Audio/Sounds/ChangingColor.wav", Sound.class);
     }
 
+    /**
+     *
+     * @return Level map.
+     */
     public TiledMap getMap() {
         return map;
     }
 
+    /**
+     *
+     * @return Level world.
+     */
     public World getWorld() {
         return world;
     }
 
+    /**
+     *
+     * @return The camera of the play screen.
+     */
+    public OrthographicCamera getGameCam() { return gameCam; }
+    /**
+     * Start play music.
+     */
     @Override
     public void show() {
         if(game.withSound)
             playMusic.play();
     }
 
+    /**
+     * Handles touch input.
+     * @param deltaTime Time passed since last call.
+     */
     public void handleInput(float deltaTime) {
-
-        //KeyBoard Input
-        //UP Key Input (Jump)
-        /*if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            if(player.getState() != Player.State.JUMPING && player.getState() != Player.State.FALLING)
-                player.b2Body.applyLinearImpulse(new Vector2(0, 8f), player.b2Body.getWorldCenter(), true);
-        }
-
-        //Changing color
-        if(Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
-            if(player.isFire())
-                player.setFire(false);
-            else
-                player.setFire(true);
-        }*/
-
         //Touch Input
         if(Gdx.input.justTouched()) {
             if(Gdx.input.getX()< Gdx.graphics.getWidth() / 2) {
                 if(game.withSound)
                     changeColorSound.play();
-                if(player.isFire())
-                    player.setFire(false);
+                if(player.isOrange())
+                    player.setOrange(false);
                 else
-                    player.setFire(true);
+                    player.setOrange(true);
             } else {
                 if(player.getState() != Player.State.JUMPING && player.getState() != Player.State.FALLING)
                     player.b2Body.applyLinearImpulse(new Vector2(0, 8f), player.b2Body.getWorldCenter(), true);
@@ -138,7 +154,10 @@ public class PlayScreen implements Screen {
         }
     }
 
-
+    /**
+     * Updates the game, i.e, player position, hud, camera position, etc.
+     * @param deltaTime Time passed since last call.
+     */
     public void update(float deltaTime) {
         handleInput(deltaTime);
 
@@ -149,12 +168,17 @@ public class PlayScreen implements Screen {
         hud.update(deltaTime);
 
         gameCam.position.x = player.b2Body.getPosition().x + game.V_WIDTH / 4 / FutureRun.PPM;
-        gameCam.position.y = player.b2Body.getPosition().y + game.V_HEIGHT / 20 / FutureRun.PPM;
+        if(player.isCameraOn())
+            gameCam.position.y = player.b2Body.getPosition().y + game.V_HEIGHT / 20 / FutureRun.PPM;
 
         gameCam.update();
         renderer.setView(gameCam);
     }
 
+    /**
+     * Override of method render. Calls update and draws game to the screen.
+     * @param delta Time passed since last call.
+     */
     @Override
     public void render(float delta) {
         update(delta);
@@ -196,9 +220,13 @@ public class PlayScreen implements Screen {
         }
     }
 
+    /**
+     * Resizes viewport if the windows size is changed.
+     * @param width Window width.
+     * @param height Window height.
+     */
     @Override
     public void resize(int width, int height) {
-        //Updates our game viewport
         gamePort.update(width, height);
     }
 
@@ -217,6 +245,9 @@ public class PlayScreen implements Screen {
 
     }
 
+    /**
+     * Override of dispose method. Disposes map, renderer, world, world debugger and hud.
+     */
     @Override
     public void dispose() {
         map.dispose();

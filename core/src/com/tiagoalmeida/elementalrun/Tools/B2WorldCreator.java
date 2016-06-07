@@ -15,10 +15,17 @@ import com.tiagoalmeida.elementalrun.Sprites.Items.BlueDiamond;
 import com.tiagoalmeida.elementalrun.Sprites.Items.EndOfWorldBlock;
 import com.tiagoalmeida.elementalrun.Sprites.Items.OrangeDiamond;
 
+/**
+ * Class responsible for creating a Box2d world analysing Tiled world data.
+ */
 public class B2WorldCreator {
     private World world;
     private TiledMap map;
 
+    /**
+     * Class constructor.
+     * @param screen Curreent play scree.
+     */
     public B2WorldCreator(PlayScreen screen) {
 
         BodyDef bdef = new BodyDef();

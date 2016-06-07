@@ -15,6 +15,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.tiagoalmeida.elementalrun.FutureRun;
 import com.tiagoalmeida.elementalrun.Tools.SaveHandler;
 
+/**
+ * High scores screen class.
+ */
 public class HighScoresScreen implements Screen  {
 
     private FutureRun game;
@@ -26,6 +29,10 @@ public class HighScoresScreen implements Screen  {
 
     public boolean debug;
 
+    /**
+     * High scores screen constructor.
+     * @param game Main game.
+     */
     public HighScoresScreen(FutureRun game) {
         this.game = game;
 
@@ -51,6 +58,9 @@ public class HighScoresScreen implements Screen  {
                 game.getAssets().get("size120.ttf", BitmapFont.class), Color.BLACK));
     }
 
+    /**
+     * Override of show method. Creates the stage.
+     */
     @Override
     public void show() {
         table.add(title).expandX().top().row();
@@ -64,6 +74,10 @@ public class HighScoresScreen implements Screen  {
 
     }
 
+    /**
+     * Override of render method. Cleears the screen with white, updates and draws the stage to the screen.
+     * @param delta Time passed since last call.
+     */
     @Override
     public void render(float delta) {
         //clears the screen with white
@@ -74,11 +88,18 @@ public class HighScoresScreen implements Screen  {
         stage.draw();
     }
 
+    /**
+     * Updates the stage.
+     * @param delta Time passed since last call.
+     */
     public void update(float delta) {
         handleInput();
         stage.act();
     }
 
+    /**
+     * Handles touch input.
+     */
     private void handleInput() {
         if(Gdx.input.justTouched()) {
             stage.addAction(Actions.sequence(Actions.fadeOut(0.4f), Actions.run(new Runnable() {
@@ -111,9 +132,11 @@ public class HighScoresScreen implements Screen  {
 
     }
 
+    /**
+     * Override of dispose method. Disposes stage.
+     */
     @Override
     public void dispose() {
-        System.out.println("Disposing High Scores Screen");
         stage.dispose();
     }
 }

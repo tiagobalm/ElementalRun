@@ -22,6 +22,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.tiagoalmeida.elementalrun.FutureRun;
 import com.tiagoalmeida.elementalrun.Tools.SaveHandler;
 
+/**
+ * Winner Screen class.
+ */
 public class WinnerScreen implements Screen {
     private Viewport viewport;
 
@@ -36,6 +39,12 @@ public class WinnerScreen implements Screen {
 
     private boolean debug;
 
+    /**
+     * Winner screen constructor.
+     * @param game Main game.
+     * @param score Score obtained by the player in the level.
+     * @param level Level played.
+     */
     public WinnerScreen(FutureRun game, Integer score, int level){
         this.game = game;
         this.score = score;
@@ -57,6 +66,9 @@ public class WinnerScreen implements Screen {
         SaveHandler.save();
     }
 
+    /**
+     * Override of show method. Creates the stage drawn in the screen.
+     */
     @Override
     public void show() {
 
@@ -109,17 +121,29 @@ public class WinnerScreen implements Screen {
         stage.addActor(table);
     }
 
+    /**
+     * Changes to main menu screen.
+     */
     private void setMainMenuScreen() {
         game.setScreen(new MainMenuScreen(game));
         dispose();
     }
 
+    /**
+     * Changes to play screen with specified level.
+     * @param level Level to play.
+     */
     private void setPlayScreen(int level) {
-        if(level < 4 && level <= SaveHandler.gameData.getCurrentLevel())
+        if(level < 4 && level <= SaveHandler.gameData.getCurrentLevel()) {
             game.setScreen(new PlayScreen(game, level));
-        dispose();
+            dispose();
+        }
     }
 
+    /**
+     * Override of render method. Clears the screen with white and draws the stage.
+     * @param delta
+     */
     @Override
     public void render(float delta) {
         //Background color white
@@ -131,6 +155,10 @@ public class WinnerScreen implements Screen {
         stage.draw();
     }
 
+    /**
+     * Updates the stage.
+     * @param delta
+     */
     private void update(float delta) {
         stage.act();
     }
@@ -155,6 +183,9 @@ public class WinnerScreen implements Screen {
 
     }
 
+    /**
+     * Override of dispose method. Disposes the stage.
+     */
     @Override
     public void dispose() {
         stage.dispose();

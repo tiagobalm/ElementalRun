@@ -16,6 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.tiagoalmeida.elementalrun.FutureRun;
 
+/**
+ * Splash screen class.
+ */
 public class SplashScreen implements Screen {
     private FutureRun game;
     private Stage stage;
@@ -23,6 +26,10 @@ public class SplashScreen implements Screen {
     private Image splashImage;
     private Runnable run, setPlayScreen;
 
+    /**
+     * Splash screen constructor.
+     * @param game Main game.
+     */
     public SplashScreen(FutureRun game) {
         this.game = game;
         stage = new Stage(new FitViewport(game.V_WIDTH, game.V_HEIGHT, game.camera));
@@ -45,10 +52,16 @@ public class SplashScreen implements Screen {
         splashImage = new Image(game.getAssets().get("UI/TariLogo.png", Texture.class));
     }
 
+    /**
+     * Changes to main menu.
+     */
     private void setMainMenuScreenMethod() {
         game.setScreen(new MainMenuScreen(game));
     }
 
+    /**
+     * Loads all the assests used by the game.
+     */
     private void queueAssets() {
         game.getAssets().load("Player/PlayerBlue.pack", TextureAtlas.class);
         game.getAssets().load("Player/PlayerOrange.pack", TextureAtlas.class);
@@ -108,6 +121,9 @@ public class SplashScreen implements Screen {
         game.getAssets().finishLoading();
     }
 
+    /**
+     * Creates the splash screen animation.
+     */
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
@@ -127,6 +143,10 @@ public class SplashScreen implements Screen {
                                 Actions.parallel(Actions.scaleTo(0.5f, 0.5f, 1.5f), Actions.alpha(0f, 1.5f))), Actions.run(run)), Actions.run(setPlayScreen)));
     }
 
+    /**
+     * Draws the stage to the screen.
+     * @param delta Time since last call.
+     */
     @Override
     public void render(float delta) {
         //Clears the screen with white
@@ -162,8 +182,10 @@ public class SplashScreen implements Screen {
 
     }
 
+    /**
+     * Override of dispose method. Disposes the stage.
+     */
     @Override
     public void dispose() {
-        System.out.println("Disposing Splash Screen");
         stage.dispose(); }
 }

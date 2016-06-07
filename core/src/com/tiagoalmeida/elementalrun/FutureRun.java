@@ -32,9 +32,6 @@ public class FutureRun extends Game {
 	public static final short PORTAL_BIT  = 128;
 	public static final short END_OF_WORLD = 256;
 
-	/* WARNING Using AssetManager in a static way can cause issues, especially on Android.
-		Instead you may want to pass around AssetManager to those class that need it.
- 	*/
 	private static AssetManager assets;
 	public SpriteBatch batch;
 
@@ -92,7 +89,7 @@ public class FutureRun extends Game {
 	}
 
 	/**
-	 * Dispose method. Disposes assests manager, spritebatch, splash screen and main application.
+	 * Dispose method. Disposes assests manager, sprite batch, splash screen and main application.
 	 */
 	@Override
 	public void dispose() {

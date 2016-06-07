@@ -19,6 +19,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.tiagoalmeida.elementalrun.FutureRun;
 import com.tiagoalmeida.elementalrun.Tools.SaveHandler;
 
+/**
+ * Level screen class.
+ */
 public class LevelScreen implements Screen {
 
     private final FutureRun game;
@@ -30,6 +33,10 @@ public class LevelScreen implements Screen {
 
     private boolean debug;
 
+    /**
+     * Level screen constructor.
+     * @param game Main game.
+     */
     public LevelScreen(FutureRun game) {
         this.game = game;
         imageButtonsArray = new Array<ImageButton>();
@@ -106,6 +113,9 @@ public class LevelScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
     }
 
+    /**
+     * Changes to main menu screen.
+     */
     private void setMainMenuScreen() {
         stage.addAction(Actions.sequence(Actions.fadeOut(0.4f), Actions.run(new Runnable() {
             @Override
@@ -116,6 +126,10 @@ public class LevelScreen implements Screen {
         })));
     }
 
+    /**
+     * Changes to level according to the button pressed.
+     * @param event Event holding the button information.
+     */
     private void setPlayScreen(InputEvent event) {
         int level = 1;
         for (ImageButton img : imageButtonsArray) {
@@ -129,11 +143,18 @@ public class LevelScreen implements Screen {
             game.getAssets().get("Audio/Music/MainMenu.wav", Music.class).stop();
     }
 
+    /**
+     * Override of show method. Shows transition screen animation.
+     */
     @Override
     public void show() {
         stage.addAction(Actions.sequence(Actions.alpha(0f), Actions.fadeIn(0.4f)));
     }
 
+    /**
+     * Override of render method. Clears the screen to white, updates and draws the stage to the screen.
+     * @param delta
+     */
     @Override
     public void render(float delta) {
         //clears the screen with white
@@ -144,6 +165,10 @@ public class LevelScreen implements Screen {
         stage.draw();
     }
 
+    /**
+     * Updates the stage.
+     * @param delta Time passed since last call.
+     */
     private void update(float delta) {
         stage.act();
     }
@@ -168,6 +193,9 @@ public class LevelScreen implements Screen {
 
     }
 
+    /**
+     * Override of dispose method. Disposes stage.
+     */
     @Override
     public void dispose() {
         stage.dispose();

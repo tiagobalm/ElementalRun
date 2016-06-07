@@ -49,9 +49,9 @@ public class WorldContactListener implements ContactListener {
 
             case FutureRun.PLAYER_BIT | FutureRun.END_OF_WORLD:
                 if(fixA.getFilterData().categoryBits == FutureRun.PLAYER_BIT)
-                    ((Player)fixA.getUserData()).setGameOver(false);
+                    ((Player)fixA.getUserData()).turnOffCamera();
                 else
-                    ((Player)fixB.getUserData()).setGameOver(false);
+                    ((Player)fixB.getUserData()).turnOffCamera();
                 break;
         }
     }

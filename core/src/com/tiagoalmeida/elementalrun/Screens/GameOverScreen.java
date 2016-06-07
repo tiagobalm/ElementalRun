@@ -18,6 +18,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.tiagoalmeida.elementalrun.FutureRun;
 
+/**
+ * Game over screen class.
+ */
 public class GameOverScreen implements Screen {
     private Viewport viewport;
 
@@ -31,6 +34,11 @@ public class GameOverScreen implements Screen {
 
     private boolean debug;
 
+    /**
+     * Game over screen constructor.
+     * @param game Main game.
+     * @param level Level played.
+     */
     public GameOverScreen(FutureRun game, int level){
         this.game = game;
         this.level = level;
@@ -48,6 +56,9 @@ public class GameOverScreen implements Screen {
 
     }
 
+    /**
+     * Creates stage of the screen.
+     */
     @Override
     public void show() {
 
@@ -87,16 +98,26 @@ public class GameOverScreen implements Screen {
 
     }
 
+    /**
+     * Changes to main menu screen.
+     */
     private void setMainMenuScreen() {
         game.setScreen(new MainMenuScreen(game));
         dispose();
     }
 
+    /**
+     * Changes to play screen.
+     */
     private void setPlayScreen() {
         game.setScreen(new PlayScreen(game, level));
         dispose();
     }
 
+    /**
+     * Override of render method. Clears the screen to white, updates and draws the stage to the screen.
+     * @param delta Time passed since last call.
+     */
     @Override
     public void render(float delta) {
         //Background color white
@@ -108,6 +129,10 @@ public class GameOverScreen implements Screen {
         stage.draw();
     }
 
+    /**
+     * Updates the stage.
+     * @param delta Time passed since last call.
+     */
     private void update(float delta) {
         stage.act();
     }
@@ -132,6 +157,9 @@ public class GameOverScreen implements Screen {
 
     }
 
+    /**
+     * Override of dispose method. Disposes stage.
+     */
     @Override
     public void dispose() {
         stage.dispose();

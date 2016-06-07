@@ -20,6 +20,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.tiagoalmeida.elementalrun.FutureRun;
 
+/**
+ * Settings screen class.
+ */
 public class SettingsScreen implements Screen  {
 
     private FutureRun game;
@@ -31,6 +34,10 @@ public class SettingsScreen implements Screen  {
 
     public boolean debug;
 
+    /**
+     * Settings screen constructor.
+     * @param game Main game.
+     */
     public SettingsScreen(FutureRun game) {
         this.game = game;
 
@@ -85,6 +92,10 @@ public class SettingsScreen implements Screen  {
         controls = new Image(game.getAssets().get("UI/Controls.png", Texture.class));
     }
 
+    /**
+     * Enables or disables sound according to argument.
+     * @param withSound
+     */
     private void setSound(boolean withSound) {
         table.clearChildren();
         stage.clear();
@@ -113,6 +124,9 @@ public class SettingsScreen implements Screen  {
         constructStage();
     }
 
+    /**
+     * Constructs settings stage.
+     */
     private void constructStage() {
         table.add(back).expandX().top().left().pad(50, 100, 50, 0).row();
         table.add().row();
@@ -122,6 +136,9 @@ public class SettingsScreen implements Screen  {
         stage.addActor(table);
     }
 
+    /**
+     * Changes to main menu screen.
+     */
     private void setMainMenuScreen() {
         stage.addAction(Actions.sequence(Actions.fadeOut(0.4f), Actions.run(new Runnable() {
             @Override
@@ -132,12 +149,19 @@ public class SettingsScreen implements Screen  {
         })));
     }
 
+    /**
+     * Override of show method. Contructs the stage by calling construct stage.
+     */
     @Override
     public void show() {
         constructStage();
         stage.addAction(Actions.sequence(Actions.alpha(0f), Actions.fadeIn(0.4f)));
     }
 
+    /**
+     * Override of render method. Draws the stage to the screen.
+     * @param delta Time passed since last call.
+     */
     @Override
     public void render(float delta) {
         //clears the screen with white
@@ -148,6 +172,10 @@ public class SettingsScreen implements Screen  {
         stage.draw();
     }
 
+    /**
+     * Updates the stage.
+     * @param delta Time passed since last call.
+     */
     public void update(float delta) {
         stage.act();
     }
@@ -172,9 +200,11 @@ public class SettingsScreen implements Screen  {
 
     }
 
+    /**
+     * Override of dispose method. Disposes stage.
+     */
     @Override
     public void dispose() {
-        System.out.println("Disposing Settings Screen");
         stage.dispose();
     }
 }

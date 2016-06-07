@@ -15,6 +15,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.tiagoalmeida.elementalrun.FutureRun;
 import com.tiagoalmeida.elementalrun.Screens.PlayScreen;
 
+/**
+ * Interactive Tile Object abstract class.
+ */
 public abstract class InteractiveTileObject {
     protected World world;
     protected TiledMap map;
@@ -25,6 +28,11 @@ public abstract class InteractiveTileObject {
 
     protected Fixture fixture;
 
+    /**
+     * Interactive Tile Object constructor.
+     * @param screen Current play screen.
+     * @param object Map object holding the object information.
+     */
     public InteractiveTileObject(PlayScreen screen, MapObject object){
         this.object = object;
         this.screen = screen;
@@ -47,20 +55,35 @@ public abstract class InteractiveTileObject {
         fixture = body.createFixture(fdef);
     }
 
+    /**
+     * Abstract method use.
+     */
     public abstract void use();
 
+    /**
+     *
+     * @return the cell of a orange diamond.
+     */
     public TiledMapTileLayer.Cell getOrangeCell() {
         TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(5);
         return layer.getCell((int)(body.getPosition().x * FutureRun.PPM / 64),
                 (int)(body.getPosition().y * FutureRun.PPM / 64));
     }
 
+    /**
+     *
+     * @return the cell of a blue diamond.
+     */
     public TiledMapTileLayer.Cell getBlueCell() {
         TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(6);
         return layer.getCell((int)(body.getPosition().x * FutureRun.PPM / 64),
                 (int)(body.getPosition().y * FutureRun.PPM / 64));
     }
 
+    /**
+     * Sets the category bit mask of the object to the passed argument.
+     * @param filterBit Short representing the category bit mask.
+     */
     public void setCategoryFilter(short filterBit){
         Filter filter = new Filter();
         filter.categoryBits = filterBit;
