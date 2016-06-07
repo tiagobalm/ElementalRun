@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -55,6 +56,9 @@ public class HighScoresScreen implements Screen  {
         table.add(secondScore).center().pad(50, 0, 50, 0).row();
         table.add(thirdScore).center().pad(50, 0, 50, 0).row();
         stage.addActor(table);
+
+        stage.addAction(Actions.sequence(Actions.alpha(0f), Actions.fadeIn(0.2f)));
+
     }
 
     @Override
@@ -74,8 +78,13 @@ public class HighScoresScreen implements Screen  {
 
     private void handleInput() {
         if(Gdx.input.isTouched()) {
-            game.setScreen(new MainMenuScreen(game));
-            dispose();
+            stage.addAction(Actions.sequence(Actions.fadeOut(0.2f), Actions.run(new Runnable() {
+                @Override
+                public void run() {
+                    game.setScreen(new MainMenuScreen(game));
+                    dispose();
+                }
+            })));
         }
     }
 

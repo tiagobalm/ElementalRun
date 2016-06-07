@@ -36,10 +36,11 @@ public class ElementalRun extends Game {
 	private static AssetManager assets;
 	public SpriteBatch batch;
 
-	public BitmapFont font24;
 	public static OrthographicCamera camera;
 
 	public SplashScreen splashScreen;
+
+	public boolean withSound;
 
 	@Override
 	public void create () {
@@ -60,21 +61,13 @@ public class ElementalRun extends Game {
 		//Screen Singletons
 		splashScreen = new SplashScreen(this);
 
-		//Initialization of Fonts
-		initFonts();
-
+		//Load Saved games
 		SaveHandler.load();
 
+		//Setting Sound to true
+		withSound = true;
+
 		setScreen(splashScreen);
-	}
-
-	private void initFonts() {
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/OpenSans-Regular.ttf"));
-		FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-		parameters.size = 24;
-		parameters.color = Color.BLACK;
-		font24 = generator.generateFont(parameters);
 	}
 
 	public static AssetManager getAssets() {
@@ -92,7 +85,6 @@ public class ElementalRun extends Game {
 		assets.dispose();
 		batch.dispose();
 		splashScreen.dispose();
-		font24.dispose();
 		super.dispose();
 	}
 

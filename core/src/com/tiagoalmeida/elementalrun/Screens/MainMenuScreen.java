@@ -3,7 +3,10 @@ package com.tiagoalmeida.elementalrun.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -13,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.tiagoalmeida.elementalrun.ElementalRun;
 
@@ -22,8 +26,15 @@ public class MainMenuScreen implements Screen {
     private Table table;
     private Image title;
 
+    private Image background1, background2;
+
     private TextureRegionDrawable highScoresTexture;
-    private ImageButton highScores, clickContinue, clickExit;
+    private ImageButton highScores, clickContinue, clickExit, settings;
+
+    private Array<TextureRegion> playerTexture;
+    private Sprite player;
+    private int playerCurrentTexture;
+    private boolean jumped, backwards;
 
     private boolean debug;
 
@@ -32,26 +43,37 @@ public class MainMenuScreen implements Screen {
         this.stage = new Stage(new FitViewport(game.V_WIDTH, game.V_HEIGHT, game.camera));
         Gdx.input.setInputProcessor(stage);
 
-        debug = false;
+        debug = true;
+        jumped = false;
+        backwards = false;
 
         this.table = new Table();
         this.table.setBounds(0, 0, game.V_WIDTH, game.V_HEIGHT);
         if(debug)
             this.table.debug();
 
+        background1 = new Image(game.getAssets().get("UI/Background.png", Texture.class));
+        background1.setX(0);
+        background2 = new Image(game.getAssets().get("UI/Background.png", Texture.class));
+        background2.setX(background1.getWidth());
+
         highScoresTexture = new TextureRegionDrawable();
         this.highScores = new ImageButton(highScoresTexture);
+        playerTexture = new Array<TextureRegion>();
+        playerCurrentTexture = 0;
 
+        String s;
+        for(int i = 1; i < 37 ; i++) {
+            s = String.format("player%d",i);
+            playerTexture.add(game.getAssets().get("UI/MainMenuPlayer.pack", TextureAtlas.class).findRegion(s));
+        }
+        player = new Sprite(playerTexture.get(playerCurrentTexture));
+        player.setPosition(0, 3 * game.V_HEIGHT / 4);
     }
-
-    private void setHighScores() {
-        game.setScreen(new HighScoresScreen(game));
-    }
-    private void setLevelsScreen() { game.setScreen(new LevelScreen(game)); }
 
     @Override
     public void show() {
-        highScoresTexture.setRegion(new TextureRegion(game.getAssets().get("UI/cup.png", Texture.class)));
+        highScoresTexture.setRegion(new TextureRegion(game.getAssets().get("UI/leaderboard.png", Texture.class)));
         highScores.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -62,7 +84,7 @@ public class MainMenuScreen implements Screen {
         game.getAssets().get("UI/Title.png", Texture.class).setFilter(
                 Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         title = new Image(game.getAssets().get("UI/Title.png", Texture.class));
-        table.add(title).expandX().expandY().center().colspan(2).row();
+        table.add(title).expandY().center().colspan(2).top().pad(10, 100, 0, 100).row();
 
         //Play button
         game.getAssets().get("UI/playbutton.png", Texture.class).setFilter(
@@ -81,7 +103,7 @@ public class MainMenuScreen implements Screen {
         insideTable.setOrigin(clickContinue.getWidth() / 2, clickContinue.getHeight() / 2);
         insideTable.addAction(Actions.forever(Actions.sequence(Actions.delay(5f),Actions.rotateBy(360f, 0.4f))));
         insideTable.add(clickContinue);
-        table.add(insideTable).expandX();
+        table.add(insideTable).expandX().expandY();
 
         //Exit Button
         game.getAssets().get("UI/exitbutton.png", Texture.class).setFilter(
@@ -102,8 +124,49 @@ public class MainMenuScreen implements Screen {
         insideTable.add(clickExit);
         table.add(insideTable).expandX().row();
 
+        game.getAssets().get("UI/Settings.png", Texture.class).setFilter(
+                Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        settings = new ImageButton(new TextureRegionDrawable(new TextureRegion(game.getAssets().get("UI/Settings.png", Texture.class))));
+        settings.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                setSettigsScreen();
+            }
+        });
+        table.add(settings).bottom().left();
         table.add(highScores).width(game.V_WIDTH / 4).height(game.V_HEIGHT / 4).colspan(2).right();
         stage.addActor(table);
+
+        stage.addAction(Actions.sequence(Actions.alpha(0f), Actions.fadeIn(0.2f)));
+    }
+
+    private void setHighScores() {
+        stage.addAction(Actions.sequence(Actions.fadeOut(0.2f), Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                game.setScreen(new HighScoresScreen(game));
+                dispose();
+            }
+        })));
+    }
+    private void setLevelsScreen() {
+        stage.addAction(Actions.sequence(Actions.fadeOut(0.2f), Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                game.setScreen(new LevelScreen(game));
+                dispose();
+            }
+        })));
+    }
+
+    private void setSettigsScreen() {
+        stage.addAction(Actions.sequence(Actions.fadeOut(0.2f), Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                game.setScreen(new SettingsScreen(game));
+                dispose();
+            }
+        })));
     }
 
     @Override
@@ -113,11 +176,44 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         update(delta);
+
+        game.batch.setProjectionMatrix(game.camera.combined);
+        game.batch.begin();
+        player.draw(game.batch);
+        background1.draw(game.batch, 0.5f);
+        background2.draw(game.batch, 0.5f);
+        game.batch.end();
+
         stage.draw();
 
     }
 
     private void update(float delta) {
+        playerCurrentTexture = ++playerCurrentTexture % playerTexture.size;
+        player.setRegion(playerTexture.get(playerCurrentTexture));
+
+        if (player.getX() < 100 && backwards)
+            backwards = false;
+        if(player.getX() > (game.V_WIDTH - 100 - player.getWidth() / 2) && !backwards)
+            backwards = true;
+
+        if(!backwards) {
+            player.setX(player.getX() + 8);
+        }
+        else {
+            player.flip(true, false);
+            player.setX(player.getX() - 8);
+        }
+
+        if(background1.getX() + background1.getWidth() <= 0)
+            background1.setX(background2.getWidth());
+
+        if(background2.getX() + background2.getWidth() <= 0)
+            background2.setX(background1.getWidth());
+
+        background1.setPosition(background1.getX() - 10, background1.getY());
+        background2.setPosition(background2.getX() - 10, background2.getY());
+
         stage.act(delta);
     }
 

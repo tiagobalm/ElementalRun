@@ -77,7 +77,6 @@ public class Player extends Sprite {
     }
 
     public void setGameOver(boolean winner) {
-        System.out.println("Setting gameover");
         this.winner = winner;
         gameOver = true;
     }
@@ -121,7 +120,7 @@ public class Player extends Sprite {
             runningRight = true;
         }
 
-        stateTimer = currentState == previousState ? stateTimer + deltaTime : 0;
+        stateTimer = stateTimer + deltaTime;
         previousState = currentState;
 
         return region;
@@ -133,11 +132,11 @@ public class Player extends Sprite {
         bdef.position.set(32 / ElementalRun.PPM, 600 / ElementalRun.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2Body = world.createBody(bdef);
-        b2Body.setLinearVelocity(new Vector2(7f, 0));
+        b2Body.setLinearVelocity(new Vector2(7.5f, 0));
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(64 / ElementalRun.PPM);
+        shape.setRadius(60 / ElementalRun.PPM);
         fdef.filter.categoryBits = ElementalRun.PLAYER_BIT;
         fdef.filter.maskBits = ElementalRun.ORANGE_GROUND_BIT | ElementalRun.BLACK_GROUND_BIT
                                 | ElementalRun.ORANGE_DIAMOND_BIT | ElementalRun.BLUE_DIAMOND_BIT

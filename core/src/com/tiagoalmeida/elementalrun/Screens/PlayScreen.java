@@ -3,6 +3,8 @@ package com.tiagoalmeida.elementalrun.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -44,6 +46,9 @@ public class PlayScreen implements Screen {
     //Level to play
     private int level;
 
+    private Music playMusic;
+    private Sound gameOverSound, portalSound, changeColorSound;
+
     public PlayScreen(ElementalRun game, int level) {
         this.game = game;
         this.level = level;
@@ -67,7 +72,7 @@ public class PlayScreen implements Screen {
         renderer = new OrthogonalTiledMapRenderer(map, 1 / ElementalRun.PPM);
 
         //Gravity
-        world = new World(new Vector2(0, -10), true);
+        world = new World(new Vector2(0, -14), true);
 
         //Allows for debug lines
         b2dr = new Box2DDebugRenderer();
@@ -80,6 +85,12 @@ public class PlayScreen implements Screen {
         world.setContactListener(new WorldContactListener());
         debugMode = true;
 
+        playMusic = game.getAssets().get("Audio/Music/PlayMusic.mp3", Music.class);
+        playMusic.setLooping(true);
+
+        gameOverSound = game.getAssets().get("Audio/Sounds/GameOver.mp3", Sound.class);
+        portalSound = game.getAssets().get("Audio/Sounds/Portal.wav", Sound.class);
+        changeColorSound = game.getAssets().get("Audio/Sounds/ChangingColor.wav", Sound.class);
     }
 
     public TiledMap getMap() {
@@ -92,16 +103,17 @@ public class PlayScreen implements Screen {
 
     @Override
     public void show() {
-
+        if(game.withSound)
+            playMusic.play();
     }
 
     public void handleInput(float deltaTime) {
 
         //KeyBoard Input
         //UP Key Input (Jump)
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+        /*if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             if(player.getState() != Player.State.JUMPING && player.getState() != Player.State.FALLING)
-                player.b2Body.applyLinearImpulse(new Vector2(0, 6f), player.b2Body.getWorldCenter(), true);
+                player.b2Body.applyLinearImpulse(new Vector2(0, 8f), player.b2Body.getWorldCenter(), true);
         }
 
         //Changing color
@@ -110,18 +122,20 @@ public class PlayScreen implements Screen {
                 player.setFire(false);
             else
                 player.setFire(true);
-        }
+        }*/
 
         //Touch Input
-        if(Gdx.input.isTouched()) {
+        if(Gdx.input.justTouched()) {
             if(Gdx.input.getX()< Gdx.graphics.getWidth() / 2) {
+                if(game.withSound)
+                    changeColorSound.play();
                 if(player.isFire())
                     player.setFire(false);
                 else
                     player.setFire(true);
             } else {
-                player.b2Body.setLinearVelocity(new Vector2(4f, 0f));
-                player.b2Body.applyLinearImpulse(new Vector2(0, 6f), player.b2Body.getWorldCenter(), true);
+                if(player.getState() != Player.State.JUMPING && player.getState() != Player.State.FALLING)
+                    player.b2Body.applyLinearImpulse(new Vector2(0, 8f), player.b2Body.getWorldCenter(), true);
             }
         }
     }
@@ -168,9 +182,15 @@ public class PlayScreen implements Screen {
 
         if(player.isGameOver()){
             if(player.isWinner()) {
+                if(game.withSound)
+                    portalSound.play();
+                playMusic.stop();
                 game.setScreen(new WinnerScreen(game, hud.getScore(), level));
                 dispose();
             } else {
+                if(game.withSound)
+                    gameOverSound.play();
+                playMusic.stop();
                 game.setScreen(new GameOverScreen(game, level));
                 dispose();
             }

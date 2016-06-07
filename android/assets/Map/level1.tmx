@@ -15,12 +15,12 @@
  </layer>
  <layer name="OrangeGround" width="100" height="16">
   <data encoding="base64" compression="zlib">
-   eJztz6ENADAQxLAjhd1/3eePr1KBLWWAJAAAANBxi23nQY0HAAD+NEoEAf0=
+   eJztzrEJAAAIBDEXcP913cDqQYQErr8qAAAAyOhgV758AgCwGyXwAZQ=
   </data>
  </layer>
  <layer name="BlueGround" width="100" height="16">
   <data encoding="base64" compression="zlib">
-   eJztwQENAAAAwqD3T20PBxQAAAAAAMCXARkAAAE=
+   eJztw7EJAAAIA7Au/v+yVxREEkgCAAAA900hAAB/LT0UAGo=
   </data>
  </layer>
  <layer name="Portal" width="100" height="16">
