@@ -60,7 +60,7 @@ public class Player extends Sprite {
         firePlayer = new Animation(0.01f, playerOrangeTexture);
 
         definePlayer();
-        setBounds(0, 0, 128  / FutureRun.PPM, 128 / FutureRun.PPM);
+        setBounds(0, 0, 96  / FutureRun.PPM, 96 / FutureRun.PPM);
         setRegion(waterPlayer.getKeyFrame(0));
     }
 
@@ -91,7 +91,7 @@ public class Player extends Sprite {
             return State.JUMPING;
         else if(b2Body.getLinearVelocity().y < 0 && (previousState == State.JUMPING || previousState == State.FALLING))
             return State.FALLING;
-        else if(b2Body.getLinearVelocity().x != 0)
+        else if(b2Body.getLinearVelocity().x != 0 && b2Body.getLinearVelocity().y == 0)
             return State.RUNNING;
         else
             return State.STANDING;
@@ -129,14 +129,14 @@ public class Player extends Sprite {
     public void definePlayer() {
 
         BodyDef bdef = new BodyDef();
-        bdef.position.set(32 / FutureRun.PPM, 600 / FutureRun.PPM);
+        bdef.position.set(32 / FutureRun.PPM, 500 / FutureRun.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2Body = world.createBody(bdef);
         b2Body.setLinearVelocity(new Vector2(7.5f, 0));
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(60 / FutureRun.PPM);
+        shape.setRadius(45 / FutureRun.PPM);
         fdef.filter.categoryBits = FutureRun.PLAYER_BIT;
         fdef.filter.maskBits = FutureRun.ORANGE_GROUND_BIT | FutureRun.BLACK_GROUND_BIT
                                 | FutureRun.ORANGE_DIAMOND_BIT | FutureRun.BLUE_DIAMOND_BIT
@@ -160,7 +160,8 @@ public class Player extends Sprite {
             filter.maskBits |= FutureRun.BLUE_GROUND_BIT;
             b2Body.getFixtureList().first().setFilterData(filter);
         }
-
+        if(getState() == State.RUNNING)
+            b2Body.setLinearVelocity(new Vector2(7.5f, 0f));
         setPosition(b2Body.getPosition().x - getWidth() / 2, b2Body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(deltaTime));
     }

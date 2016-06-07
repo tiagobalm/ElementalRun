@@ -2,6 +2,7 @@ package com.tiagoalmeida.elementalrun.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -72,6 +73,10 @@ public class LevelScreen implements Screen {
         int currentLevel = SaveHandler.gameData.getCurrentLevel();
         int changeRow = 0;
 
+        //TODO Delete this if statement
+        if(currentLevel > 3)
+            currentLevel = 3;
+
         for(int i = 0; i < currentLevel; i++) {
             imageButtonsArray.add(new ImageButton(new TextureRegionDrawable(levelsUnlocked.get(i))));
             imageButtonsArray.get(i).addListener(new ClickListener() {
@@ -112,8 +117,6 @@ public class LevelScreen implements Screen {
     }
 
     private void setPlayScreen(InputEvent event) {
-        System.out.println("Set play screen");
-
         int level = 1;
         for (ImageButton img : imageButtonsArray) {
             if (event.getTarget() == img.getImage()) {
@@ -122,6 +125,8 @@ public class LevelScreen implements Screen {
             }
             level++;
         }
+        if(game.withSound)
+            game.getAssets().get("Audio/Music/MainMenu.wav", Music.class).stop();
     }
 
     @Override

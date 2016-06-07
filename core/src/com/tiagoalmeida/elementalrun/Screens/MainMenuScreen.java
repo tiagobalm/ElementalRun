@@ -2,6 +2,7 @@ package com.tiagoalmeida.elementalrun.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -88,7 +89,7 @@ public class MainMenuScreen implements Screen {
         game.getAssets().get("UI/Title.png", Texture.class).setFilter(
                 Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         title = new Image(game.getAssets().get("UI/Title.png", Texture.class));
-        table.add(title).expandY().center().colspan(2).top().pad(10, 100, 0, 100).row();
+        table.add(title).expandY().center().colspan(2).top().pad(100, 100, 0, 100).row();
 
         //Play button
         game.getAssets().get("UI/playbutton.png", Texture.class).setFilter(
@@ -142,6 +143,10 @@ public class MainMenuScreen implements Screen {
         stage.addActor(table);
 
         stage.addAction(Actions.sequence(Actions.alpha(0f), Actions.fadeIn(0.2f)));
+        if(game.withSound) {
+            game.getAssets().get("Audio/Music/MainMenu.wav", Music.class).setLooping(true);
+            game.getAssets().get("Audio/Music/MainMenu.wav", Music.class).play();
+        }
     }
 
     private void setHighScores() {

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="150" height="16" tilewidth="64" tileheight="64" nextobjectid="43">
+ <tileset firstgid="1" name="Tiles" tilewidth="64" tileheight="64" tilecount="16">
+  <image source="Tiles.png" width="512" height="128"/>
+ </tileset>
+ <layer name="Background" width="150" height="16">
+  <data encoding="base64" compression="zlib">
+   eJztw0ENAAAMA6ETUP96p2F/SFg1VVVVVVVVVVVV3w/iInCB
+  </data>
+ </layer>
+ <layer name="BlackGround" width="150" height="16">
+  <data encoding="base64" compression="zlib">
+   eJzt1bEJAAAIA0HB/Xe2txM7vYNsEPgIAAAAAIBfsg0ArurN0z0mfIcN/wE+KQjaADQ=
+  </data>
+ </layer>
+ <layer name="OrangeGround" width="150" height="16">
+  <data encoding="base64" compression="zlib">
+   eJzt1sEJwCAQRUEb2P7bzdVbjPKR6AyI10Xegq0B/FvtHoAj6YoEXZGgKxJ0RYKuSNAVCbriZvXhAOPsE7yzI2uqu70fM3bun/8np3gA+NkC2Q==
+  </data>
+ </layer>
+ <layer name="BlueGround" width="150" height="16">
+  <data encoding="base64" compression="zlib">
+   eJzt1jEKwCAQBEAb///ltEkR1MKYW2bASlBvPcTWAAAA+It++gBE0lfsoK/OSs0/ta4qUvNPrWtVfxk7177vMZqvpuq5VyXdWQVJ2ab3ze560t5M5rjfOaN/hxyfZAXfuQBPywFQ
+  </data>
+ </layer>
+ <layer name="Portal" width="150" height="16">
+  <data encoding="base64" compression="zlib">
+   eJztzrENACAMBLFAB/sPTLZ4KdjS9VcFAAAAAPCH1e30BOOc7qYnAAAAiHlidwAX
+  </data>
+ </layer>
+ <layer name="OrangeStar" width="150" height="16">
+  <data encoding="base64" compression="zlib">
+   eJzt1LEJAEAIBEED+6/Z4Bt4EBRkpoILjo0AAACAJ7cHABymsUzyN4A+LQUA4FcBMe8AEQ==
+  </data>
+ </layer>
+ <layer name="BlueStar" width="150" height="16">
+  <data encoding="base64" compression="zlib">
+   eJzt1MEJADAIA0D/7r+vK/RTVLybIBCSCAAAAAB+ye4AAIf54F30BfPYJQDAmwKTogAt
+  </data>
+ </layer>
+ <objectgroup name="BlackGround">
+  <object id="1" x="0" y="576" width="256" height="64"/>
+  <object id="2" x="8512" y="832" width="256" height="64"/>
+  <object id="3" x="8896" y="768" width="256" height="64"/>
+  <object id="4" x="9280" y="704" width="320" height="64"/>
+ </objectgroup>
+ <objectgroup name="OrangeGround">
+  <object id="5" x="7744" y="896" width="640" height="64"/>
+  <object id="6" x="7232" y="704" width="512" height="64"/>
+  <object id="7" x="6208" y="832" width="320" height="64"/>
+  <object id="11" x="6080" y="832" width="64" height="128"/>
+  <object id="12" x="5760" y="896" width="320" height="64"/>
+  <object id="13" x="3072" y="640" width="704" height="64"/>
+  <object id="14" x="960" y="832" width="448" height="64"/>
+  <object id="15" x="384" y="128" width="64" height="512"/>
+ </objectgroup>
+ <objectgroup name="BlueGround">
+  <object id="16" x="256" y="896" width="576" height="64"/>
+  <object id="17" x="1536" y="768" width="320" height="64"/>
+  <object id="18" x="1984" y="704" width="384" height="64"/>
+  <object id="19" x="2496" y="640" width="384" height="64"/>
+  <object id="21" x="4416" y="512" width="64" height="192"/>
+  <object id="22" x="3968" y="640" width="448" height="64"/>
+  <object id="23" x="4544" y="640" width="448" height="64"/>
+  <object id="24" x="5120" y="768" width="64" height="192"/>
+  <object id="25" x="5184" y="896" width="448" height="64"/>
+  <object id="26" x="6656" y="768" width="448" height="64"/>
+  <object id="27" x="7872" y="320" width="64" height="448"/>
+ </objectgroup>
+ <objectgroup name="Portal">
+  <object id="28" x="9472" y="512" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup name="OrangeStar">
+  <object id="29" x="6080" y="704" width="64" height="64"/>
+  <object id="30" x="3584" y="576" width="64" height="64"/>
+  <object id="31" x="3200" y="512" width="64" height="64"/>
+  <object id="33" x="320" y="384" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="BlueStar">
+  <object id="34" x="640" y="768" width="64" height="64"/>
+  <object id="35" x="4416" y="448" width="64" height="64"/>
+  <object id="36" x="5120" y="640" width="64" height="64"/>
+  <object id="37" x="7808" y="576" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="EndOfMap">
+  <object id="39" x="0" y="960" width="4992"/>
+  <object id="40" x="4992" y="960" width="2496"/>
+  <object id="41" x="7488" y="960" width="2176" height="64"/>
+ </objectgroup>
+</map>

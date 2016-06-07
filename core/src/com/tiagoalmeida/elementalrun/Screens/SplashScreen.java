@@ -64,6 +64,7 @@ public class SplashScreen implements Screen {
         game.getAssets().load("UI/replay.png", Texture.class);
         game.getAssets().load("UI/mainmenu.png", Texture.class);
         game.getAssets().load("UI/Back.png", Texture.class);
+        game.getAssets().load("UI/Controls.png", Texture.class);
         game.getAssets().load("UI/MainMenuPlayer.pack", TextureAtlas.class);
         game.getAssets().load("UI/Background/background1.png", Texture.class);
         game.getAssets().load("UI/Background/background2.png", Texture.class);
@@ -75,9 +76,11 @@ public class SplashScreen implements Screen {
         game.getAssets().load("UI/Sound.png", Texture.class);
         game.getAssets().load("UI/Settings.png", Texture.class);
         game.getAssets().load("Audio/Music/PlayMusic.mp3", Music.class);
+        game.getAssets().load("Audio/Music/MainMenu.wav", Music.class);
         game.getAssets().load("Audio/Sounds/ChangingColor.wav", Sound.class);
         game.getAssets().load("Audio/Sounds/Portal.wav", Sound.class);
         game.getAssets().load("Audio/Sounds/GameOver.mp3", Sound.class);
+        game.getAssets().load("Audio/Sounds/Star.wav", Sound.class);
 
         FreetypeFontLoader.FreeTypeFontLoaderParameter parameters = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         parameters.fontFileName = "Fonts/ethnocentric.ttf";

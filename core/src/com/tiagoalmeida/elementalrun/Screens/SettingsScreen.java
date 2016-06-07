@@ -2,6 +2,7 @@ package com.tiagoalmeida.elementalrun.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -36,6 +37,9 @@ public class SettingsScreen implements Screen  {
         stage = new Stage(new FitViewport(game.V_WIDTH, game.V_HEIGHT, game.camera));
         Gdx.input.setInputProcessor(stage);
         table = new Table();
+
+        debug = false;
+
         if(debug)
             table.debug();
         table.setBounds(0, 0, game.V_WIDTH, game.V_HEIGHT);
@@ -53,29 +57,7 @@ public class SettingsScreen implements Screen  {
         soundLabel = new Label(String.format("Sound"), new Label.LabelStyle(
                 game.getAssets().get("size120.ttf", BitmapFont.class), Color.BLACK));
 
-        sound = new ImageButton(new TextureRegionDrawable(new TextureRegion(game.getAssets().get("UI/Sound.png", Texture.class))));
-        sound.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                setSound(false);
-            }
-        });
-
-        game.getAssets().get("UI/Sound.png", Texture.class).setFilter(
-                Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        game.getAssets().get("UI/NoSound.png", Texture.class).setFilter(
-                Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-
-        controls = new Image();
-    }
-
-    private void setSound(boolean withSound) {
-        table.clearChildren();
-        stage.clear();
-
-        game.withSound = withSound;
-
-        if(withSound) {
+        if(game.withSound) {
             sound = new ImageButton(new TextureRegionDrawable(new TextureRegion(game.getAssets().get("UI/Sound.png", Texture.class))));
             sound.addListener(new ClickListener() {
                 @Override
@@ -92,6 +74,42 @@ public class SettingsScreen implements Screen  {
                 }
             });
         }
+
+        game.getAssets().get("UI/Sound.png", Texture.class).setFilter(
+                Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        game.getAssets().get("UI/NoSound.png", Texture.class).setFilter(
+                Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        game.getAssets().get("UI/Controls.png", Texture.class).setFilter(
+                Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        controls = new Image(game.getAssets().get("UI/Controls.png", Texture.class));
+    }
+
+    private void setSound(boolean withSound) {
+        table.clearChildren();
+        stage.clear();
+
+        game.withSound = withSound;
+
+        if(withSound) {
+            game.getAssets().get("Audio/Music/MainMenu.wav", Music.class).play();
+            sound = new ImageButton(new TextureRegionDrawable(new TextureRegion(game.getAssets().get("UI/Sound.png", Texture.class))));
+            sound.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    setSound(false);
+                }
+            });
+        } else {
+            game.getAssets().get("Audio/Music/MainMenu.wav", Music.class).stop();
+            sound = new ImageButton(new TextureRegionDrawable(new TextureRegion(game.getAssets().get("UI/NoSound.png", Texture.class))));
+            sound.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    setSound(true);
+                }
+            });
+        }
         constructStage();
     }
 
@@ -100,7 +118,7 @@ public class SettingsScreen implements Screen  {
         table.add().row();
         table.add(soundLabel).expandX().right();
         table.add(sound).expandX().left().row();
-        table.add(controls);
+        table.add(controls).expandX().colspan(2).center().pad(100,0,0,0);
         stage.addActor(table);
     }
 

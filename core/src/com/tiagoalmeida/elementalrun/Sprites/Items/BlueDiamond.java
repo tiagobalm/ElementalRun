@@ -1,5 +1,6 @@
 package com.tiagoalmeida.elementalrun.Sprites.Items;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.MapObject;
 import com.tiagoalmeida.elementalrun.FutureRun;
 import com.tiagoalmeida.elementalrun.Scenes.HUD;
@@ -16,6 +17,8 @@ public class BlueDiamond extends InteractiveTileObject {
 
     @Override
     public void use() {
+        if(screen.game.withSound)
+            screen.game.getAssets().get("Audio/Sounds/Star.wav", Sound.class).play();
         setCategoryFilter(FutureRun.DESTROY_BIT);
         getBlueCell().setTile(null);
         HUD.addScore(100);

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="300" height="16" tilewidth="64" tileheight="64" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="300" height="16" tilewidth="64" tileheight="64" nextobjectid="69">
  <tileset firstgid="1" name="Tiles" tilewidth="64" tileheight="64" tilecount="16">
   <image source="Tiles.png" width="512" height="128"/>
  </tileset>
@@ -10,35 +10,99 @@
  </layer>
  <layer name="BlackGround" width="300" height="16">
   <data encoding="base64" compression="zlib">
-   eJztwTEBAAAAwqD1T20LL6AAAAAAAAAAAAAAAAAAAAAAAADgZ0sAAAE=
+   eJzt1jsKACAMREHB+9/ZCyjY+FkyA+kt4tPWAACAk/rrAwBs0isghV4BKfQKSKFXQAq9AlLoFb/qk6E2O0BFsxa6CwDATav/yMkBgKq8mQAAkGEArRgAtQ==
   </data>
  </layer>
  <layer name="OrangeGround" width="300" height="16">
   <data encoding="base64" compression="zlib">
-   eJztwTEBAAAAwqD1T20LL6AAAAAAAAAAAAAAAAAAAAAAAADgZ0sAAAE=
+   eJzt2MEKwCAIANAuO/b/v7sPGJGD5iLfA8+KhEqtAQAAAAAAAKzRJwGQxRwCAHjH/URF1yAg2w5/an/nr2w0i8wj4Guz/bN6D0RyZNYTEe3RTjVXcEqfvRmAJ3sXAABqugGlNQXL
   </data>
  </layer>
  <layer name="BlueGround" width="300" height="16">
   <data encoding="base64" compression="zlib">
-   eJztwTEBAAAAwqD1T20LL6AAAAAAAAAAAAAAAAAAAAAAAADgZ0sAAAE=
+   eJzt1ksOABEQBUCbuf+VXWBYIV6rSuz784TWAAAAAAAAAAAA4C7f4MAO8sZMaj5S637ZaGf2ds7ts0/OR2rdsEvyfa6g2uxnf4hKff55pc+K7A2owDsEAACwRgcm5QGv
   </data>
  </layer>
  <layer name="Portal" width="300" height="16">
   <data encoding="base64" compression="zlib">
-   eJztwTEBAAAAwqD1T20LL6AAAAAAAAAAAAAAAAAAAAAAAADgZ0sAAAE=
+   eJztzrENACAIAEG0w/0HlhGsJCF3yfcfAQAAAAAAAAAAAMA0q9rdEwAPsjrdEwAAAAAAAMB3F8TGABc=
   </data>
  </layer>
  <layer name="OrangeStar" width="300" height="16">
   <data encoding="base64" compression="zlib">
-   eJztwTEBAAAAwqD1T20LL6AAAAAAAAAAAAAAAAAAAAAAAADgZ0sAAAE=
+   eJzt1bENADAIBDEK9p+ZDVKkgZfsCa67KgAAAAAAAAAAAPjX2wEAcETaE9N6ASCN1wIAAAAAvA0afgAR
   </data>
  </layer>
  <layer name="BlueStar" width="300" height="16">
   <data encoding="base64" compression="zlib">
-   eJztwTEBAAAAwqD1T20LL6AAAAAAAAAAAAAAAAAAAAAAAADgZ0sAAAE=
+   eJzt1MEJAAAIAzH/7r+vK/gQFEwmOCg0AgAAAAAAAAAA7sjtAADafPZPdgcAAAAAAAAAJhTmTAAi
   </data>
  </layer>
- <objectgroup name="BlackGround"/>
- <objectgroup name="OrangeGround"/>
- <objectgroup name="BlueGround"/>
+ <objectgroup name="BlackGround">
+  <object id="2" x="0" y="576" width="320" height="64"/>
+  <object id="3" x="1472" y="640" width="384" height="64"/>
+  <object id="4" x="8512" y="128" width="64" height="512"/>
+  <object id="5" x="9536" y="832" width="768" height="64"/>
+  <object id="6" x="17344" y="704" width="1856" height="64"/>
+ </objectgroup>
+ <objectgroup name="OrangeGround">
+  <object id="7" x="512" y="576" width="384" height="64"/>
+  <object id="8" x="1024" y="448" width="384" height="64"/>
+  <object id="9" x="1536" y="384" width="512" height="64"/>
+  <object id="10" x="3328" y="768" width="384" height="64"/>
+  <object id="13" x="6016" y="640" width="448" height="64"/>
+  <object id="14" x="6528" y="768" width="448" height="64"/>
+  <object id="15" x="8256" y="832" width="1088" height="64"/>
+  <object id="16" x="11328" y="704" width="640" height="64"/>
+  <object id="17" x="13120" y="704" width="448" height="64"/>
+  <object id="18" x="13696" y="704" width="576" height="64"/>
+  <object id="19" x="16000" y="704" width="1152" height="64"/>
+  <object id="68" x="3904" y="640" width="512" height="64"/>
+ </objectgroup>
+ <objectgroup name="BlueGround">
+  <object id="20" x="960" y="704" width="384" height="64"/>
+  <object id="21" x="1984" y="640" width="320" height="64"/>
+  <object id="22" x="2368" y="768" width="320" height="64"/>
+  <object id="23" x="2816" y="832" width="384" height="64"/>
+  <object id="24" x="4544" y="640" width="384" height="64"/>
+  <object id="26" x="5056" y="576" width="384" height="64"/>
+  <object id="27" x="5568" y="512" width="384" height="64"/>
+  <object id="28" x="7104" y="704" width="320" height="64"/>
+  <object id="29" x="7552" y="640" width="320" height="64"/>
+  <object id="30" x="8000" y="576" width="384" height="64"/>
+  <object id="31" x="10432" y="704" width="704" height="64"/>
+  <object id="32" x="12096" y="640" width="448" height="64"/>
+  <object id="33" x="12672" y="576" width="384" height="64"/>
+  <object id="34" x="14464" y="704" width="384" height="64"/>
+  <object id="35" x="14976" y="576" width="448" height="64"/>
+  <object id="36" x="15552" y="512" width="384" height="64"/>
+ </objectgroup>
+ <objectgroup name="Portal">
+  <object id="37" x="19008" y="512" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup name="OrangeStar">
+  <object id="64" x="4224" y="512" width="64" height="64"/>
+  <object id="65" x="8832" y="704" width="64" height="64"/>
+  <object id="66" x="14016" y="576" width="64" height="64"/>
+  <object id="67" x="16832" y="576" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="BlueStar">
+  <object id="42" x="1216" y="576" width="64" height="64"/>
+  <object id="43" x="8192" y="448" width="64" height="64"/>
+  <object id="44" x="12352" y="512" width="64" height="64"/>
+  <object id="45" x="12860" y="1728" width="4" height="4"/>
+ </objectgroup>
+ <objectgroup name="EndOfMap">
+  <object id="46" x="0" y="704" width="832" height="64"/>
+  <object id="47" x="832" y="832" width="1408" height="64"/>
+  <object id="48" x="2304" y="896" width="384" height="64"/>
+  <object id="49" x="2688" y="960" width="832" height="64"/>
+  <object id="56" x="3520" y="896" width="2752" height="64"/>
+  <object id="57" x="6272" y="896" width="1984" height="64"/>
+  <object id="58" x="8256" y="960" width="2496" height="64"/>
+  <object id="59" x="10752" y="896" width="1984" height="64"/>
+  <object id="60" x="12736" y="896" width="2368" height="64"/>
+  <object id="61" x="15104" y="832" width="2368" height="64"/>
+  <object id="62" x="17472" y="832" width="1728" height="64"/>
+ </objectgroup>
 </map>
