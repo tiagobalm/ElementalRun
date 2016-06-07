@@ -14,16 +14,16 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.tiagoalmeida.elementalrun.ElementalRun;
+import com.tiagoalmeida.elementalrun.FutureRun;
 
 public class SplashScreen implements Screen {
-    private ElementalRun game;
+    private FutureRun game;
     private Stage stage;
 
     private Image splashImage;
     private Runnable run, setPlayScreen;
 
-    public SplashScreen(ElementalRun game) {
+    public SplashScreen(FutureRun game) {
         this.game = game;
         stage = new Stage(new FitViewport(game.V_WIDTH, game.V_HEIGHT, game.camera));
         run = new Runnable() {
@@ -40,6 +40,8 @@ public class SplashScreen implements Screen {
         };
         game.getAssets().load("UI/TariLogo.png", Texture.class);
         game.getAssets().finishLoadingAsset("UI/TariLogo.png");
+        game.getAssets().get("UI/TariLogo.png", Texture.class).setFilter(
+                Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         splashImage = new Image(game.getAssets().get("UI/TariLogo.png", Texture.class));
     }
 
@@ -63,7 +65,12 @@ public class SplashScreen implements Screen {
         game.getAssets().load("UI/mainmenu.png", Texture.class);
         game.getAssets().load("UI/Back.png", Texture.class);
         game.getAssets().load("UI/MainMenuPlayer.pack", TextureAtlas.class);
-        game.getAssets().load("UI/Background.png", Texture.class);
+        game.getAssets().load("UI/Background/background1.png", Texture.class);
+        game.getAssets().load("UI/Background/background2.png", Texture.class);
+        game.getAssets().load("UI/Background/background3.png", Texture.class);
+        game.getAssets().load("UI/Background/background4.png", Texture.class);
+        game.getAssets().load("UI/Background/background5.png", Texture.class);
+        game.getAssets().load("UI/Background/background6.png", Texture.class);
         game.getAssets().load("UI/NoSound.png", Texture.class);
         game.getAssets().load("UI/Sound.png", Texture.class);
         game.getAssets().load("UI/Settings.png", Texture.class);

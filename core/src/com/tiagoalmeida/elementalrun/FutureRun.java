@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -16,7 +17,7 @@ import com.tiagoalmeida.elementalrun.Screens.MainMenuScreen;
 import com.tiagoalmeida.elementalrun.Screens.SplashScreen;
 import com.tiagoalmeida.elementalrun.Tools.SaveHandler;
 
-public class ElementalRun extends Game {
+public class FutureRun extends Game {
 	public static final int V_WIDTH = 1920;
 	public static final int V_HEIGHT = 1080;
 	public static final float PPM = 100;
@@ -29,6 +30,7 @@ public class ElementalRun extends Game {
 	public static final short PLAYER_BIT = 32;
 	public static final short DESTROY_BIT = 64;
 	public static final short PORTAL_BIT  = 128;
+	public static final short END_OF_WORLD = 256;
 
 	/* WARNING Using AssetManager in a static way can cause issues, especially on Android.
 		Instead you may want to pass around AssetManager to those class that need it.

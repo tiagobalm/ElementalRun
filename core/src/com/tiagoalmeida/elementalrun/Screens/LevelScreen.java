@@ -3,7 +3,6 @@ package com.tiagoalmeida.elementalrun.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -16,14 +15,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.tiagoalmeida.elementalrun.ElementalRun;
+import com.tiagoalmeida.elementalrun.FutureRun;
 import com.tiagoalmeida.elementalrun.Tools.SaveHandler;
-
-import java.util.Map;
 
 public class LevelScreen implements Screen {
 
-    private final ElementalRun game;
+    private final FutureRun game;
     private Array<TextureRegion> levelsLocked, levelsUnlocked;
     private Stage stage;
     private Table table;
@@ -32,7 +29,7 @@ public class LevelScreen implements Screen {
 
     private boolean debug;
 
-    public LevelScreen(ElementalRun game) {
+    public LevelScreen(FutureRun game) {
         this.game = game;
         imageButtonsArray = new Array<ImageButton>();
 
@@ -62,11 +59,14 @@ public class LevelScreen implements Screen {
         String s;
 
         for(int i = 1; i < 26; i++) {
+
             s = String.format("Level%d", i);
             levelsUnlocked.add(game.getAssets().get("Levels/Unlocked/levels_unlocked.pack", TextureAtlas.class).findRegion(s));
+            levelsUnlocked.get(i - 1).getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
             s = String.format("Level%dLocked", i);
             levelsLocked.add(game.getAssets().get("Levels/Locked/levels_locked.pack", TextureAtlas.class).findRegion(s));
+            levelsLocked.get(i - 1).getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
 
         int currentLevel = SaveHandler.gameData.getCurrentLevel();

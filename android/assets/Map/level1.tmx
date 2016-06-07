@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="16" tilewidth="64" tileheight="64" nextobjectid="17">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="16" tilewidth="64" tileheight="64" nextobjectid="22">
  <tileset firstgid="1" name="Tiles" tilewidth="64" tileheight="64" tilecount="16">
   <image source="Tiles.png" width="512" height="128"/>
  </tileset>
@@ -15,7 +15,7 @@
  </layer>
  <layer name="OrangeGround" width="100" height="16">
   <data encoding="base64" compression="zlib">
-   eJztzrEJAAAIBDEXcP913cDqQYQErr8qAAAAyOhgV758AgCwGyXwAZQ=
+   eJzt1MEJADAIBEEbSP/t2kEkDxHDDOz/XhcBAMBPThFAp+qDXpqyZScAAHcJRZoB/A==
   </data>
  </layer>
  <layer name="BlueGround" width="100" height="16">
@@ -45,6 +45,7 @@
  <objectgroup name="OrangeGround">
   <object id="3" x="4480" y="576" width="768" height="64"/>
   <object id="4" x="1344" y="576" width="1216" height="64"/>
+  <object id="21" x="2048" y="384" width="512" height="64"/>
  </objectgroup>
  <objectgroup name="BlueGround">
   <object id="5" x="2816" y="576" width="1344" height="64"/>
@@ -60,5 +61,9 @@
  <objectgroup name="BlueStar">
   <object id="15" x="3072" y="448" width="64" height="64"/>
   <object id="16" x="3648" y="448" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="EndOfMap">
+  <object id="19" x="0" y="960" width="3648" height="64"/>
+  <object id="20" x="3648" y="960" width="2880" height="64"/>
  </objectgroup>
 </map>

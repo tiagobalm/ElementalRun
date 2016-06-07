@@ -18,13 +18,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.tiagoalmeida.elementalrun.ElementalRun;
+import com.tiagoalmeida.elementalrun.FutureRun;
 import com.tiagoalmeida.elementalrun.Tools.SaveHandler;
 
 public class WinnerScreen implements Screen {
     private Viewport viewport;
 
-    private ElementalRun game;
+    private FutureRun game;
     private int level;
     private Integer score;
     private Image win;
@@ -35,11 +35,11 @@ public class WinnerScreen implements Screen {
 
     private boolean debug;
 
-    public WinnerScreen(ElementalRun game, Integer score, int level){
+    public WinnerScreen(FutureRun game, Integer score, int level){
         this.game = game;
         this.score = score;
         this.level = level;
-        viewport = new FitViewport(ElementalRun.V_WIDTH, ElementalRun.V_HEIGHT, new OrthographicCamera());
+        viewport = new FitViewport(FutureRun.V_WIDTH, FutureRun.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, game.batch);
         Gdx.input.setInputProcessor(stage);
 

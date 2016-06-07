@@ -12,7 +12,7 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.tiagoalmeida.elementalrun.ElementalRun;
+import com.tiagoalmeida.elementalrun.FutureRun;
 import com.tiagoalmeida.elementalrun.Screens.PlayScreen;
 
 
@@ -60,7 +60,7 @@ public class Player extends Sprite {
         firePlayer = new Animation(0.01f, playerOrangeTexture);
 
         definePlayer();
-        setBounds(0, 0, 128  / ElementalRun.PPM, 128 / ElementalRun.PPM);
+        setBounds(0, 0, 128  / FutureRun.PPM, 128 / FutureRun.PPM);
         setRegion(waterPlayer.getKeyFrame(0));
     }
 
@@ -129,18 +129,18 @@ public class Player extends Sprite {
     public void definePlayer() {
 
         BodyDef bdef = new BodyDef();
-        bdef.position.set(32 / ElementalRun.PPM, 600 / ElementalRun.PPM);
+        bdef.position.set(32 / FutureRun.PPM, 600 / FutureRun.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2Body = world.createBody(bdef);
         b2Body.setLinearVelocity(new Vector2(7.5f, 0));
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(60 / ElementalRun.PPM);
-        fdef.filter.categoryBits = ElementalRun.PLAYER_BIT;
-        fdef.filter.maskBits = ElementalRun.ORANGE_GROUND_BIT | ElementalRun.BLACK_GROUND_BIT
-                                | ElementalRun.ORANGE_DIAMOND_BIT | ElementalRun.BLUE_DIAMOND_BIT
-                                | ElementalRun.PORTAL_BIT;
+        shape.setRadius(60 / FutureRun.PPM);
+        fdef.filter.categoryBits = FutureRun.PLAYER_BIT;
+        fdef.filter.maskBits = FutureRun.ORANGE_GROUND_BIT | FutureRun.BLACK_GROUND_BIT
+                                | FutureRun.ORANGE_DIAMOND_BIT | FutureRun.BLUE_DIAMOND_BIT
+                                | FutureRun.PORTAL_BIT | FutureRun.END_OF_WORLD;
 
         fdef.shape = shape;
         fdef.restitution = 0;
@@ -151,19 +151,16 @@ public class Player extends Sprite {
     public void update(float deltaTime) {
         if(isFire()) {
             Filter filter = b2Body.getFixtureList().first().getFilterData();
-            filter.maskBits &= ~ElementalRun.BLUE_GROUND_BIT;
-            filter.maskBits |= ElementalRun.ORANGE_GROUND_BIT;
+            filter.maskBits &= ~FutureRun.BLUE_GROUND_BIT;
+            filter.maskBits |= FutureRun.ORANGE_GROUND_BIT;
             b2Body.getFixtureList().first().setFilterData(filter);
         } else {
             Filter filter = b2Body.getFixtureList().first().getFilterData();
-            filter.maskBits &= ~ElementalRun.ORANGE_GROUND_BIT;
-            filter.maskBits |= ElementalRun.BLUE_GROUND_BIT;
+            filter.maskBits &= ~FutureRun.ORANGE_GROUND_BIT;
+            filter.maskBits |= FutureRun.BLUE_GROUND_BIT;
             b2Body.getFixtureList().first().setFilterData(filter);
         }
-        if(getY() < 0) {
-            gameOver = true;
-            winner = false;
-        }
+
         setPosition(b2Body.getPosition().x - getWidth() / 2, b2Body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(deltaTime));
     }

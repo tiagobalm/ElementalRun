@@ -12,12 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.tiagoalmeida.elementalrun.ElementalRun;
+import com.tiagoalmeida.elementalrun.FutureRun;
 import com.tiagoalmeida.elementalrun.Tools.SaveHandler;
 
 public class HighScoresScreen implements Screen  {
 
-    private ElementalRun game;
+    private FutureRun game;
     private Integer[] highScores;
     private Table table;
     private Stage stage;
@@ -26,11 +26,14 @@ public class HighScoresScreen implements Screen  {
 
     public boolean debug;
 
-    public HighScoresScreen(ElementalRun game) {
+    public HighScoresScreen(FutureRun game) {
         this.game = game;
 
         stage = new Stage(new FitViewport(game.V_WIDTH, game.V_HEIGHT, game.camera));
         Gdx.input.setInputProcessor(stage);
+
+        debug = false;
+
         table = new Table();
         if(debug)
             table.debug();
@@ -77,7 +80,7 @@ public class HighScoresScreen implements Screen  {
     }
 
     private void handleInput() {
-        if(Gdx.input.isTouched()) {
+        if(Gdx.input.justTouched()) {
             stage.addAction(Actions.sequence(Actions.fadeOut(0.2f), Actions.run(new Runnable() {
                 @Override
                 public void run() {

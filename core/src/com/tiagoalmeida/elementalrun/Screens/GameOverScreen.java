@@ -2,11 +2,9 @@ package com.tiagoalmeida.elementalrun.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,13 +16,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.tiagoalmeida.elementalrun.ElementalRun;
-import com.tiagoalmeida.elementalrun.Tools.SaveHandler;
+import com.tiagoalmeida.elementalrun.FutureRun;
 
 public class GameOverScreen implements Screen {
     private Viewport viewport;
 
-    private ElementalRun game;
+    private FutureRun game;
     private int level;
     private Image win;
     private ImageButton replay, mainmenu;
@@ -34,10 +31,10 @@ public class GameOverScreen implements Screen {
 
     private boolean debug;
 
-    public GameOverScreen(ElementalRun game, int level){
+    public GameOverScreen(FutureRun game, int level){
         this.game = game;
         this.level = level;
-        viewport = new FitViewport(ElementalRun.V_WIDTH, ElementalRun.V_HEIGHT, new OrthographicCamera());
+        viewport = new FitViewport(FutureRun.V_WIDTH, FutureRun.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, game.batch);
         Gdx.input.setInputProcessor(stage);
 

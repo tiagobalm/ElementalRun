@@ -17,12 +17,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.tiagoalmeida.elementalrun.ElementalRun;
-import com.tiagoalmeida.elementalrun.Tools.SaveHandler;
+import com.tiagoalmeida.elementalrun.FutureRun;
 
 public class SettingsScreen implements Screen  {
 
-    private ElementalRun game;
+    private FutureRun game;
     private Table table;
     private Stage stage;
     private Image controls;
@@ -31,7 +30,7 @@ public class SettingsScreen implements Screen  {
 
     public boolean debug;
 
-    public SettingsScreen(ElementalRun game) {
+    public SettingsScreen(FutureRun game) {
         this.game = game;
 
         stage = new Stage(new FitViewport(game.V_WIDTH, game.V_HEIGHT, game.camera));

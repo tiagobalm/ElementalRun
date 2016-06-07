@@ -8,10 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.tiagoalmeida.elementalrun.ElementalRun;
+import com.tiagoalmeida.elementalrun.FutureRun;
 
 public class HUD implements Disposable {
-    private ElementalRun game;
+    private FutureRun game;
     public Stage stage;
 
     private Integer worldTimer;
@@ -21,13 +21,13 @@ public class HUD implements Disposable {
     private static Label scoreLabel;
     private Label timeLabel, timeTextLabel, scoreTextLabel;
 
-    public HUD(ElementalRun game) {
+    public HUD(FutureRun game) {
         this.game = game;
         worldTimer = 0;
         timeCount = 0;
         score = 0;
 
-        stage = new Stage(new FitViewport(ElementalRun.V_WIDTH, ElementalRun.V_HEIGHT, new OrthographicCamera()));
+        stage = new Stage(new FitViewport(FutureRun.V_WIDTH, FutureRun.V_HEIGHT, new OrthographicCamera()));
 
         Table table = new Table();
         table.top();

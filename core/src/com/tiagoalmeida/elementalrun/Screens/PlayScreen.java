@@ -1,7 +1,6 @@
 package com.tiagoalmeida.elementalrun.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -15,15 +14,14 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.tiagoalmeida.elementalrun.ElementalRun;
+import com.tiagoalmeida.elementalrun.FutureRun;
 import com.tiagoalmeida.elementalrun.Scenes.HUD;
 import com.tiagoalmeida.elementalrun.Sprites.Player;
 import com.tiagoalmeida.elementalrun.Tools.B2WorldCreator;
-import com.tiagoalmeida.elementalrun.Tools.SaveHandler;
 import com.tiagoalmeida.elementalrun.Tools.WorldContactListener;
 
 public class PlayScreen implements Screen {
-    public ElementalRun game;
+    public FutureRun game;
     private OrthographicCamera gameCam;
     private Viewport gamePort;
     private HUD hud;
@@ -49,7 +47,7 @@ public class PlayScreen implements Screen {
     private Music playMusic;
     private Sound gameOverSound, portalSound, changeColorSound;
 
-    public PlayScreen(ElementalRun game, int level) {
+    public PlayScreen(FutureRun game, int level) {
         this.game = game;
         this.level = level;
 
@@ -57,10 +55,10 @@ public class PlayScreen implements Screen {
         gameCam = new OrthographicCamera();
 
         //initially set our gameCam to be centered correctly at the start of the game
-        gameCam.setToOrtho(false, ElementalRun.V_WIDTH / ElementalRun.PPM, ElementalRun.V_HEIGHT / ElementalRun.PPM);
+        gameCam.setToOrtho(false, FutureRun.V_WIDTH / FutureRun.PPM, FutureRun.V_HEIGHT / FutureRun.PPM);
 
         //Creates a FitViewPort to maintain virtual aspect ratio despite window size
-        gamePort = new FitViewport(ElementalRun.V_WIDTH / ElementalRun.PPM, ElementalRun.V_HEIGHT / ElementalRun.PPM, gameCam);
+        gamePort = new FitViewport(FutureRun.V_WIDTH / FutureRun.PPM, FutureRun.V_HEIGHT / FutureRun.PPM, gameCam);
 
         //Creates game HUD
         hud = new HUD(game);
@@ -69,7 +67,7 @@ public class PlayScreen implements Screen {
         mapLoader = new TmxMapLoader();
         String s = String.format("Map/level%d.tmx", level);
         map = mapLoader.load(s);
-        renderer = new OrthogonalTiledMapRenderer(map, 1 / ElementalRun.PPM);
+        renderer = new OrthogonalTiledMapRenderer(map, 1 / FutureRun.PPM);
 
         //Gravity
         world = new World(new Vector2(0, -14), true);
@@ -83,7 +81,7 @@ public class PlayScreen implements Screen {
         player = new Player(this);
 
         world.setContactListener(new WorldContactListener());
-        debugMode = true;
+        debugMode = false;
 
         playMusic = game.getAssets().get("Audio/Music/PlayMusic.mp3", Music.class);
         playMusic.setLooping(true);
@@ -150,7 +148,8 @@ public class PlayScreen implements Screen {
 
         hud.update(deltaTime);
 
-        gameCam.position.x = player.b2Body.getPosition().x + game.V_WIDTH / 4 / ElementalRun.PPM;
+        gameCam.position.x = player.b2Body.getPosition().x + game.V_WIDTH / 4 / FutureRun.PPM;
+        gameCam.position.y = player.b2Body.getPosition().y + game.V_HEIGHT / 4 / FutureRun.PPM;
 
         gameCam.update();
         renderer.setView(gameCam);

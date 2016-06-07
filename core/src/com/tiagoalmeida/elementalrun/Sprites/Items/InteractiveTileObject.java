@@ -12,9 +12,8 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.tiagoalmeida.elementalrun.ElementalRun;
+import com.tiagoalmeida.elementalrun.FutureRun;
 import com.tiagoalmeida.elementalrun.Screens.PlayScreen;
-import com.tiagoalmeida.elementalrun.Sprites.Player;
 
 public abstract class InteractiveTileObject {
     protected World world;
@@ -38,11 +37,11 @@ public abstract class InteractiveTileObject {
         PolygonShape shape = new PolygonShape();
 
         bdef.type = BodyDef.BodyType.StaticBody;
-        bdef.position.set((bounds.getX() + bounds.getWidth() / 2) / ElementalRun.PPM, (bounds.getY() + bounds.getHeight() / 2) / ElementalRun.PPM);
+        bdef.position.set((bounds.getX() + bounds.getWidth() / 2) / FutureRun.PPM, (bounds.getY() + bounds.getHeight() / 2) / FutureRun.PPM);
 
         body = world.createBody(bdef);
 
-        shape.setAsBox(bounds.getWidth() / 2 / ElementalRun.PPM, bounds.getHeight() / 2 / ElementalRun.PPM);
+        shape.setAsBox(bounds.getWidth() / 2 / FutureRun.PPM, bounds.getHeight() / 2 / FutureRun.PPM);
         fdef.shape = shape;
         fdef.isSensor = true;
         fixture = body.createFixture(fdef);
@@ -52,14 +51,14 @@ public abstract class InteractiveTileObject {
 
     public TiledMapTileLayer.Cell getOrangeCell() {
         TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(5);
-        return layer.getCell((int)(body.getPosition().x * ElementalRun.PPM / 64),
-                (int)(body.getPosition().y * ElementalRun.PPM / 64));
+        return layer.getCell((int)(body.getPosition().x * FutureRun.PPM / 64),
+                (int)(body.getPosition().y * FutureRun.PPM / 64));
     }
 
     public TiledMapTileLayer.Cell getBlueCell() {
         TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(6);
-        return layer.getCell((int)(body.getPosition().x * ElementalRun.PPM / 64),
-                (int)(body.getPosition().y * ElementalRun.PPM / 64));
+        return layer.getCell((int)(body.getPosition().x * FutureRun.PPM / 64),
+                (int)(body.getPosition().y * FutureRun.PPM / 64));
     }
 
     public void setCategoryFilter(short filterBit){

@@ -9,9 +9,10 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.tiagoalmeida.elementalrun.ElementalRun;
+import com.tiagoalmeida.elementalrun.FutureRun;
 import com.tiagoalmeida.elementalrun.Screens.PlayScreen;
 import com.tiagoalmeida.elementalrun.Sprites.Items.BlueDiamond;
+import com.tiagoalmeida.elementalrun.Sprites.Items.EndOfWorldBlock;
 import com.tiagoalmeida.elementalrun.Sprites.Items.OrangeDiamond;
 
 public class B2WorldCreator {
@@ -32,13 +33,13 @@ public class B2WorldCreator {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) / ElementalRun.PPM,(rect.getY() + rect.getHeight() / 2) / ElementalRun.PPM);
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / FutureRun.PPM,(rect.getY() + rect.getHeight() / 2) / FutureRun.PPM);
 
             body = world.createBody(bdef);
 
-            shape.setAsBox(rect.getWidth() / 2 / ElementalRun.PPM, rect.getHeight() / 2 / ElementalRun.PPM);
+            shape.setAsBox(rect.getWidth() / 2 / FutureRun.PPM, rect.getHeight() / 2 / FutureRun.PPM);
             fdef.shape = shape;
-            fdef.filter.categoryBits = ElementalRun.BLACK_GROUND_BIT;
+            fdef.filter.categoryBits = FutureRun.BLACK_GROUND_BIT;
             fdef.friction = 0;
             fdef.restitution = 0;
             body.createFixture(fdef);
@@ -49,13 +50,13 @@ public class B2WorldCreator {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) / ElementalRun.PPM, (rect.getY() + rect.getHeight() / 2) / ElementalRun.PPM);
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / FutureRun.PPM, (rect.getY() + rect.getHeight() / 2) / FutureRun.PPM);
 
             body = world.createBody(bdef);
 
-            shape.setAsBox(rect.getWidth() / 2 / ElementalRun.PPM, rect.getHeight() / 2 / ElementalRun.PPM);
+            shape.setAsBox(rect.getWidth() / 2 / FutureRun.PPM, rect.getHeight() / 2 / FutureRun.PPM);
             fdef.shape = shape;
-            fdef.filter.categoryBits = ElementalRun.ORANGE_GROUND_BIT;
+            fdef.filter.categoryBits = FutureRun.ORANGE_GROUND_BIT;
             fdef.friction = 0;
             fdef.restitution = 0;
             body.createFixture(fdef);
@@ -66,13 +67,13 @@ public class B2WorldCreator {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) / ElementalRun.PPM, (rect.getY() + rect.getHeight() / 2) / ElementalRun.PPM);
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / FutureRun.PPM, (rect.getY() + rect.getHeight() / 2) / FutureRun.PPM);
 
             body = world.createBody(bdef);
 
-            shape.setAsBox(rect.getWidth() / 2 / ElementalRun.PPM, rect.getHeight() / 2 / ElementalRun.PPM);
+            shape.setAsBox(rect.getWidth() / 2 / FutureRun.PPM, rect.getHeight() / 2 / FutureRun.PPM);
             fdef.shape = shape;
-            fdef.filter.categoryBits = ElementalRun.BLUE_GROUND_BIT;
+            fdef.filter.categoryBits = FutureRun.BLUE_GROUND_BIT;
             fdef.friction = 0;
             fdef.restitution = 0;
             body.createFixture(fdef);
@@ -83,13 +84,13 @@ public class B2WorldCreator {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) / ElementalRun.PPM, (rect.getY() + rect.getHeight() / 2) / ElementalRun.PPM);
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / FutureRun.PPM, (rect.getY() + rect.getHeight() / 2) / FutureRun.PPM);
 
             body = world.createBody(bdef);
 
-            shape.setAsBox(rect.getWidth() / 2 / ElementalRun.PPM, rect.getHeight() / 2 / ElementalRun.PPM);
+            shape.setAsBox(rect.getWidth() / 2 / FutureRun.PPM, rect.getHeight() / 2 / FutureRun.PPM);
             fdef.shape = shape;
-            fdef.filter.categoryBits = ElementalRun.PORTAL_BIT;
+            fdef.filter.categoryBits = FutureRun.PORTAL_BIT;
             fdef.friction = 0;
             fdef.restitution = 0;
             body.createFixture(fdef);
@@ -103,6 +104,11 @@ public class B2WorldCreator {
         //create Blue diamonds bodies/fixtures
         for(MapObject object : map.getLayers().get(12).getObjects().getByType(RectangleMapObject.class)) {
             new BlueDiamond(screen, object);
+        }
+
+        //create End Of The World bodies/fixtures
+        for(MapObject object : map.getLayers().get(13).getObjects().getByType(RectangleMapObject.class)) {
+            new EndOfWorldBlock(screen, object);
         }
         shape.dispose();
     }

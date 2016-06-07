@@ -3,7 +3,6 @@ package com.tiagoalmeida.elementalrun.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -18,15 +17,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.tiagoalmeida.elementalrun.ElementalRun;
+import com.tiagoalmeida.elementalrun.FutureRun;
 
 public class MainMenuScreen implements Screen {
-    private final ElementalRun game;
+    private final FutureRun game;
     private Stage stage;
     private Table table;
     private Image title;
 
-    private Image background1, background2;
+    private Array<Image> background;
 
     private TextureRegionDrawable highScoresTexture;
     private ImageButton highScores, clickContinue, clickExit, settings;
@@ -38,12 +37,12 @@ public class MainMenuScreen implements Screen {
 
     private boolean debug;
 
-    public MainMenuScreen(ElementalRun game) {
+    public MainMenuScreen(FutureRun game) {
         this.game = game;
         this.stage = new Stage(new FitViewport(game.V_WIDTH, game.V_HEIGHT, game.camera));
         Gdx.input.setInputProcessor(stage);
 
-        debug = true;
+        debug = false;
         jumped = false;
         backwards = false;
 
@@ -52,17 +51,20 @@ public class MainMenuScreen implements Screen {
         if(debug)
             this.table.debug();
 
-        background1 = new Image(game.getAssets().get("UI/Background.png", Texture.class));
-        background1.setX(0);
-        background2 = new Image(game.getAssets().get("UI/Background.png", Texture.class));
-        background2.setX(background1.getWidth());
+        background = new Array<Image>();
+
+        String s;
+        for(int i = 1; i < 7; i++) {
+            s = String.format("UI/Background/background%d.png", i);
+            background.add(new Image(game.getAssets().get(s, Texture.class)));
+            background.get(i - 1).setX((i - 1) * background.get(i - 1).getWidth());
+        }
 
         highScoresTexture = new TextureRegionDrawable();
         this.highScores = new ImageButton(highScoresTexture);
         playerTexture = new Array<TextureRegion>();
         playerCurrentTexture = 0;
 
-        String s;
         for(int i = 1; i < 37 ; i++) {
             s = String.format("player%d",i);
             playerTexture.add(game.getAssets().get("UI/MainMenuPlayer.pack", TextureAtlas.class).findRegion(s));
@@ -73,6 +75,8 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
+        game.getAssets().get("UI/leaderboard.png", Texture.class).setFilter(
+                Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         highScoresTexture.setRegion(new TextureRegion(game.getAssets().get("UI/leaderboard.png", Texture.class)));
         highScores.addListener(new ClickListener() {
             @Override
@@ -180,8 +184,10 @@ public class MainMenuScreen implements Screen {
         game.batch.setProjectionMatrix(game.camera.combined);
         game.batch.begin();
         player.draw(game.batch);
-        background1.draw(game.batch, 0.5f);
-        background2.draw(game.batch, 0.5f);
+
+        for(int i = 0; i < 6; i++)
+            background.get(i).draw(game.batch, 0.5f);
+
         game.batch.end();
 
         stage.draw();
@@ -205,14 +211,12 @@ public class MainMenuScreen implements Screen {
             player.setX(player.getX() - 8);
         }
 
-        if(background1.getX() + background1.getWidth() <= 0)
-            background1.setX(background2.getWidth());
+        for(int i = 0; i < 6; i++) {
 
-        if(background2.getX() + background2.getWidth() <= 0)
-            background2.setX(background1.getWidth());
-
-        background1.setPosition(background1.getX() - 10, background1.getY());
-        background2.setPosition(background2.getX() - 10, background2.getY());
+            background.get(i).setX(background.get(i).getX() - 10);
+            if(background.get(i).getX() + background.get(i).getWidth() <= 0)
+                background.get(i).setX(background.get(i).getX() + background.size * background.get(i).getWidth());
+        }
 
         stage.act(delta);
     }
